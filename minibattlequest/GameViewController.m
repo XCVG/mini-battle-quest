@@ -98,7 +98,8 @@ GLfloat gCubeVertexData[216] =
 @end
 
 @implementation GameViewController {
-    NSMutableArray *gameObjects;
+    NSMutableArray *_gameObjects;
+    BOOL _running;
     
 }
 
@@ -158,7 +159,7 @@ GLfloat gCubeVertexData[216] =
 {
     NSLog(@"Starting game...");
     
-    gameObjects = [[NSMutableArray alloc]init];
+    _gameObjects = [[NSMutableArray alloc]init];
     
     NSLog(@"..done!");
 }
@@ -217,7 +218,16 @@ GLfloat gCubeVertexData[216] =
     
     //self.timeSinceLastUpdate
     
+    for(id o in _gameObjects)
+    {
+        [o update]; //each gameobject may do something during its update
+        
+        
+    }
     
+    //TODO other functionality
+    
+    //stuff below is for demo, should remove it
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
     GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
     
@@ -248,6 +258,15 @@ GLfloat gCubeVertexData[216] =
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
     //*****this is the "display" part of the loop
+    
+    for(id o in _gameObjects)
+    {
+        [o draw]; //this is the pattern I'm going with for now but I have no idea if it'll work
+        //we may need to change this; object will provide parameters to a draw method implemented here
+        //or we might be able to get away with passing context or even self
+        
+        
+    }
     
     glClearColor(0.65f, 0.65f, 0.65f, 1.0f); //set background color (I remember this from GDX)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear
