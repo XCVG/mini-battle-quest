@@ -127,6 +127,8 @@ GLfloat gCubeVertexData[216] =
 
 - (void)didReceiveMemoryWarning
 {
+    //may need to save state here
+    
     [super didReceiveMemoryWarning];
 
     if ([self isViewLoaded] && ([[self view] window] == nil)) {
@@ -193,6 +195,11 @@ GLfloat gCubeVertexData[216] =
 
 - (void)update
 {
+    //*****this is the "update" part of the loop
+    
+    //self.timeSinceLastUpdate
+    
+    
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
     GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
     
@@ -222,8 +229,10 @@ GLfloat gCubeVertexData[216] =
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //*****this is the "display" part of the loop
+    
+    glClearColor(0.65f, 0.65f, 0.65f, 1.0f); //set background color (I remember this from GDX)
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear
     
     glBindVertexArrayOES(_vertexArray);
     
@@ -233,15 +242,16 @@ GLfloat gCubeVertexData[216] =
     glDrawArrays(GL_TRIANGLES, 0, 36);
     
     // Render the object again with ES2
-    glUseProgram(_program);
+    //glUseProgram(_program);
     
-    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
-    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
+    //glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
+    //glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
     
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    //glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation
+//I have no idea what ANY of this does
 
 - (BOOL)loadShaders
 {
