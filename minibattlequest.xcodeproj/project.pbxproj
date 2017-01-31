@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6D5043FE1E3FE695001F8AE6 /* MainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5043FD1E3FE695001F8AE6 /* MainMenuViewController.m */; };
-		6D5044091E3FE7B2001F8AE6 /* mbq_button_wide_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5043FF1E3FE7B2001F8AE6 /* mbq_button_wide_red.png */; };
 		6D50440A1E3FE7B2001F8AE6 /* mbq_home_bg_ws.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5044001E3FE7B2001F8AE6 /* mbq_home_bg_ws.png */; };
 		6D50440B1E3FE7B2001F8AE6 /* mbq_home_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5044011E3FE7B2001F8AE6 /* mbq_home_bg.png */; };
 		6D50440C1E3FE7B2001F8AE6 /* mbq_icon_bow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5044021E3FE7B2001F8AE6 /* mbq_icon_bow.png */; };
@@ -19,6 +18,7 @@
 		6D5044111E3FE7B2001F8AE6 /* mbq_title_logo_framed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5044071E3FE7B2001F8AE6 /* mbq_title_logo_framed.png */; };
 		6D5044121E3FE7B2001F8AE6 /* mbq_title_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5044081E3FE7B2001F8AE6 /* mbq_title_logo.png */; };
 		6D5044151E3FE90B001F8AE6 /* LeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5044141E3FE90B001F8AE6 /* LeaderboardViewController.m */; };
+		83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F92B901E411D8D0064411B /* mbq_button_wide_red.png */; };
 		C2E9614A1E37D81A0098A95D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E961491E37D81A0098A95D /* main.m */; };
 		C2E9614D1E37D81A0098A95D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E9614C1E37D81A0098A95D /* AppDelegate.m */; };
 		C2E9614F1E37D81A0098A95D /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = C2E9614E1E37D81A0098A95D /* Shader.fsh */; };
@@ -33,18 +33,18 @@
 /* Begin PBXFileReference section */
 		6D5043FC1E3FE614001F8AE6 /* MainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuViewController.h; path = ../MainMenuViewController.h; sourceTree = "<group>"; };
 		6D5043FD1E3FE695001F8AE6 /* MainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuViewController.m; sourceTree = "<group>"; };
-		6D5043FF1E3FE7B2001F8AE6 /* mbq_button_wide_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_button_wide_red.png; path = "../../../../../Volumes/ERICK FDA/_BCIT/_BTech/_Term 2/COMP 8051/Project/2D Assets/PNGs/mbq_button_wide_red.png"; sourceTree = "<group>"; };
-		6D5044001E3FE7B2001F8AE6 /* mbq_home_bg_ws.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_home_bg_ws.png; path = "../../../../../Volumes/ERICK FDA/_BCIT/_BTech/_Term 2/COMP 8051/Project/2D Assets/PNGs/mbq_home_bg_ws.png"; sourceTree = "<group>"; };
-		6D5044011E3FE7B2001F8AE6 /* mbq_home_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_home_bg.png; path = "../../../../../Volumes/ERICK FDA/_BCIT/_BTech/_Term 2/COMP 8051/Project/2D Assets/PNGs/mbq_home_bg.png"; sourceTree = "<group>"; };
-		6D5044021E3FE7B2001F8AE6 /* mbq_icon_bow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_icon_bow.png; path = "../../../../../Volumes/ERICK FDA/_BCIT/_BTech/_Term 2/COMP 8051/Project/2D Assets/PNGs/mbq_icon_bow.png"; sourceTree = "<group>"; };
-		6D5044031E3FE7B2001F8AE6 /* mbq_icon_health.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_icon_health.png; path = "../../../../../Volumes/ERICK FDA/_BCIT/_BTech/_Term 2/COMP 8051/Project/2D Assets/PNGs/mbq_icon_health.png"; sourceTree = "<group>"; };
-		6D5044041E3FE7B2001F8AE6 /* mbq_icon_shield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_icon_shield.png; path = "../../../../../Volumes/ERICK FDA/_BCIT/_BTech/_Term 2/COMP 8051/Project/2D Assets/PNGs/mbq_icon_shield.png"; sourceTree = "<group>"; };
-		6D5044051E3FE7B2001F8AE6 /* mbq_icon_sword.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_icon_sword.png; path = "../../../../../Volumes/ERICK FDA/_BCIT/_BTech/_Term 2/COMP 8051/Project/2D Assets/PNGs/mbq_icon_sword.png"; sourceTree = "<group>"; };
-		6D5044061E3FE7B2001F8AE6 /* mbq_title_logo_clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_title_logo_clear.png; path = "../../../../../Volumes/ERICK FDA/_BCIT/_BTech/_Term 2/COMP 8051/Project/2D Assets/PNGs/mbq_title_logo_clear.png"; sourceTree = "<group>"; };
-		6D5044071E3FE7B2001F8AE6 /* mbq_title_logo_framed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_title_logo_framed.png; path = "../../../../../Volumes/ERICK FDA/_BCIT/_BTech/_Term 2/COMP 8051/Project/2D Assets/PNGs/mbq_title_logo_framed.png"; sourceTree = "<group>"; };
-		6D5044081E3FE7B2001F8AE6 /* mbq_title_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_title_logo.png; path = "../../../../../Volumes/ERICK FDA/_BCIT/_BTech/_Term 2/COMP 8051/Project/2D Assets/PNGs/mbq_title_logo.png"; sourceTree = "<group>"; };
+		6D5044001E3FE7B2001F8AE6 /* mbq_home_bg_ws.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_home_bg_ws.png; path = resources/ui/mbq_home_bg_ws.png; sourceTree = "<group>"; };
+		6D5044011E3FE7B2001F8AE6 /* mbq_home_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_home_bg.png; path = resources/ui/mbq_home_bg.png; sourceTree = "<group>"; };
+		6D5044021E3FE7B2001F8AE6 /* mbq_icon_bow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_icon_bow.png; path = resources/ui/mbq_icon_bow.png; sourceTree = "<group>"; };
+		6D5044031E3FE7B2001F8AE6 /* mbq_icon_health.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_icon_health.png; path = resources/ui/mbq_icon_health.png; sourceTree = "<group>"; };
+		6D5044041E3FE7B2001F8AE6 /* mbq_icon_shield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_icon_shield.png; path = resources/ui/mbq_icon_shield.png; sourceTree = "<group>"; };
+		6D5044051E3FE7B2001F8AE6 /* mbq_icon_sword.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_icon_sword.png; path = resources/ui/mbq_icon_sword.png; sourceTree = "<group>"; };
+		6D5044061E3FE7B2001F8AE6 /* mbq_title_logo_clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_title_logo_clear.png; path = resources/ui/mbq_title_logo_clear.png; sourceTree = "<group>"; };
+		6D5044071E3FE7B2001F8AE6 /* mbq_title_logo_framed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_title_logo_framed.png; path = resources/ui/mbq_title_logo_framed.png; sourceTree = "<group>"; };
+		6D5044081E3FE7B2001F8AE6 /* mbq_title_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_title_logo.png; path = resources/ui/mbq_title_logo.png; sourceTree = "<group>"; };
 		6D5044131E3FE8D3001F8AE6 /* LeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LeaderboardViewController.h; sourceTree = "<group>"; };
 		6D5044141E3FE90B001F8AE6 /* LeaderboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderboardViewController.m; sourceTree = "<group>"; };
+		83F92B901E411D8D0064411B /* mbq_button_wide_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_button_wide_red.png; path = resources/ui/mbq_button_wide_red.png; sourceTree = "<group>"; };
 		C2E961451E37D81A0098A95D /* minibattlequest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minibattlequest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2E961491E37D81A0098A95D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C2E9614B1E37D81A0098A95D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 		6D4444411E3FE3A000B9FC2B /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				6D5043FF1E3FE7B2001F8AE6 /* mbq_button_wide_red.png */,
+				83F92B901E411D8D0064411B /* mbq_button_wide_red.png */,
 				6D5044001E3FE7B2001F8AE6 /* mbq_home_bg_ws.png */,
 				6D5044011E3FE7B2001F8AE6 /* mbq_home_bg.png */,
 				6D5044021E3FE7B2001F8AE6 /* mbq_icon_bow.png */,
@@ -218,10 +218,10 @@
 				C2E961571E37D81A0098A95D /* Main.storyboard in Resources */,
 				6D50440F1E3FE7B2001F8AE6 /* mbq_icon_sword.png in Resources */,
 				C2E961511E37D81A0098A95D /* Shader.vsh in Resources */,
+				83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */,
 				6D50440D1E3FE7B2001F8AE6 /* mbq_icon_health.png in Resources */,
 				6D50440B1E3FE7B2001F8AE6 /* mbq_home_bg.png in Resources */,
 				C2E961591E37D81A0098A95D /* Assets.xcassets in Resources */,
-				6D5044091E3FE7B2001F8AE6 /* mbq_button_wide_red.png in Resources */,
 				6D5044101E3FE7B2001F8AE6 /* mbq_title_logo_clear.png in Resources */,
 				C2E9615C1E37D81A0098A95D /* LaunchScreen.storyboard in Resources */,
 				6D5044111E3FE7B2001F8AE6 /* mbq_title_logo_framed.png in Resources */,

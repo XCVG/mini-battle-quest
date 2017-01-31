@@ -97,7 +97,10 @@ GLfloat gCubeVertexData[216] =
 - (BOOL)validateProgram:(GLuint)prog;
 @end
 
-@implementation GameViewController
+@implementation GameViewController {
+    NSMutableArray *gameObjects;
+    
+}
 
 - (void)viewDidLoad
 {
@@ -112,6 +115,8 @@ GLfloat gCubeVertexData[216] =
     GLKView *view = (GLKView *)self.view;
     view.context = self.context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+    
+    [self setupGame];
     
     [self setupGL];
 }
@@ -149,8 +154,19 @@ GLfloat gCubeVertexData[216] =
     return YES;
 }
 
+- (void)setupGame
+{
+    NSLog(@"Starting game...");
+    
+    gameObjects = [[NSMutableArray alloc]init];
+    
+    NSLog(@"..done!");
+}
+
 - (void)setupGL
 {
+    NSLog(@"Opening GL...");
+    
     [EAGLContext setCurrentContext:self.context];
     
     [self loadShaders];
@@ -174,6 +190,8 @@ GLfloat gCubeVertexData[216] =
     glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
     
     glBindVertexArrayOES(0);
+    
+    NSLog(@"...done!");
 }
 
 - (void)tearDownGL
