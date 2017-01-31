@@ -20,6 +20,8 @@
 		6D5044151E3FE90B001F8AE6 /* LeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5044141E3FE90B001F8AE6 /* LeaderboardViewController.m */; };
 		83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F92B901E411D8D0064411B /* mbq_button_wide_red.png */; };
 		83F92B931E4126AD0064411B /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B921E4126AD0064411B /* GameObject.m */; };
+		83F92B981E412BD40064411B /* PlayerObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B971E412BD40064411B /* PlayerObject.m */; };
+		83F92B9A1E412CF40064411B /* EnemyObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B991E412CF40064411B /* EnemyObject.m */; };
 		C2E9614A1E37D81A0098A95D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E961491E37D81A0098A95D /* main.m */; };
 		C2E9614D1E37D81A0098A95D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E9614C1E37D81A0098A95D /* AppDelegate.m */; };
 		C2E9614F1E37D81A0098A95D /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = C2E9614E1E37D81A0098A95D /* Shader.fsh */; };
@@ -48,6 +50,10 @@
 		83F92B901E411D8D0064411B /* mbq_button_wide_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_button_wide_red.png; path = resources/ui/mbq_button_wide_red.png; sourceTree = "<group>"; };
 		83F92B921E4126AD0064411B /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
 		83F92B941E4126B90064411B /* GameObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
+		83F92B961E412B6F0064411B /* PlayerObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerObject.h; sourceTree = "<group>"; };
+		83F92B971E412BD40064411B /* PlayerObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerObject.m; sourceTree = "<group>"; };
+		83F92B991E412CF40064411B /* EnemyObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnemyObject.m; sourceTree = "<group>"; };
+		83F92B9B1E412CFF0064411B /* EnemyObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnemyObject.h; sourceTree = "<group>"; };
 		C2E961451E37D81A0098A95D /* minibattlequest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minibattlequest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2E961491E37D81A0098A95D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C2E9614B1E37D81A0098A95D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -100,6 +106,19 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		83F92B951E412B4E0064411B /* GameObjects */ = {
+			isa = PBXGroup;
+			children = (
+				83F92B991E412CF40064411B /* EnemyObject.m */,
+				83F92B9B1E412CFF0064411B /* EnemyObject.h */,
+				83F92B961E412B6F0064411B /* PlayerObject.h */,
+				83F92B971E412BD40064411B /* PlayerObject.m */,
+				83F92B921E4126AD0064411B /* GameObject.m */,
+				83F92B941E4126B90064411B /* GameObject.h */,
+			);
+			name = GameObjects;
+			sourceTree = "<group>";
+		};
 		C2E9613C1E37D8190098A95D = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +140,7 @@
 		C2E961471E37D81A0098A95D /* minibattlequest */ = {
 			isa = PBXGroup;
 			children = (
+				83F92B951E412B4E0064411B /* GameObjects */,
 				6D5043FC1E3FE614001F8AE6 /* MainMenuViewController.h */,
 				6D5043FD1E3FE695001F8AE6 /* MainMenuViewController.m */,
 				6D5044131E3FE8D3001F8AE6 /* LeaderboardViewController.h */,
@@ -132,8 +152,6 @@
 				C2E961521E37D81A0098A95D /* GameViewController.h */,
 				C2E961531E37D81A0098A95D /* GameViewController.m */,
 				C2E961551E37D81A0098A95D /* Main.storyboard */,
-				83F92B921E4126AD0064411B /* GameObject.m */,
-				83F92B941E4126B90064411B /* GameObject.h */,
 				C2E961581E37D81A0098A95D /* Assets.xcassets */,
 				C2E9615A1E37D81A0098A95D /* LaunchScreen.storyboard */,
 				C2E9615D1E37D81A0098A95D /* Info.plist */,
@@ -247,7 +265,9 @@
 				C2E9614D1E37D81A0098A95D /* AppDelegate.m in Sources */,
 				C2E961541E37D81A0098A95D /* GameViewController.m in Sources */,
 				83F92B931E4126AD0064411B /* GameObject.m in Sources */,
+				83F92B9A1E412CF40064411B /* EnemyObject.m in Sources */,
 				C2E9614A1E37D81A0098A95D /* main.m in Sources */,
+				83F92B981E412BD40064411B /* PlayerObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
