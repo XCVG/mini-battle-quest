@@ -97,7 +97,11 @@ GLfloat gCubeVertexData[216] =
 - (BOOL)validateProgram:(GLuint)prog;
 @end
 
-@implementation GameViewController
+@implementation GameViewController {
+    NSMutableArray *_gameObjects;
+    BOOL _running;
+    
+}
 
 - (void)viewDidLoad
 {
@@ -113,6 +117,8 @@ GLfloat gCubeVertexData[216] =
     view.context = self.context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
+    [self setupGame];
+    
     [self setupGL];
 }
 
@@ -127,6 +133,8 @@ GLfloat gCubeVertexData[216] =
 
 - (void)didReceiveMemoryWarning
 {
+    //may need to save state here
+    
     [super didReceiveMemoryWarning];
 
     if ([self isViewLoaded] && ([[self view] window] == nil)) {
@@ -147,8 +155,19 @@ GLfloat gCubeVertexData[216] =
     return YES;
 }
 
+- (void)setupGame
+{
+    NSLog(@"Starting game...");
+    
+    _gameObjects = [[NSMutableArray alloc]init];
+    
+    NSLog(@"..done!");
+}
+
 - (void)setupGL
 {
+    NSLog(@"Opening GL...");
+    
     [EAGLContext setCurrentContext:self.context];
     
     [self loadShaders];
@@ -172,6 +191,8 @@ GLfloat gCubeVertexData[216] =
     glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
     
     glBindVertexArrayOES(0);
+    
+    NSLog(@"...done!");
 }
 
 - (void)tearDownGL
@@ -193,6 +214,20 @@ GLfloat gCubeVertexData[216] =
 
 - (void)update
 {
+    //*****this is the "update" part of the loop
+    
+    //self.timeSinceLastUpdate
+    
+    for(id o in _gameObjects)
+    {
+        [o update]; //each gameobject may do something during its update
+        
+        
+    }
+    
+    //TODO other functionality
+    
+    //stuff below is for demo, should remove it
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
     GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
     
@@ -222,8 +257,19 @@ GLfloat gCubeVertexData[216] =
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //*****this is the "display" part of the loop
+    
+    for(id o in _gameObjects)
+    {
+        [o draw]; //this is the pattern I'm going with for now but I have no idea if it'll work
+        //we may need to change this; object will provide parameters to a draw method implemented here
+        //or we might be able to get away with passing context or even self
+        
+        
+    }
+    
+    glClearColor(0.65f, 0.65f, 0.65f, 1.0f); //set background color (I remember this from GDX)
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear
     
     glBindVertexArrayOES(_vertexArray);
     
@@ -233,15 +279,16 @@ GLfloat gCubeVertexData[216] =
     glDrawArrays(GL_TRIANGLES, 0, 36);
     
     // Render the object again with ES2
-    glUseProgram(_program);
+    //glUseProgram(_program);
     
-    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
-    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
+    //glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
+    //glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
     
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    //glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation
+//I have no idea what ANY of this does
 
 - (BOOL)loadShaders
 {
