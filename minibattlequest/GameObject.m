@@ -14,6 +14,8 @@
     
 
 }
+@property GameObjectState state;
+@property id box2dObject;
 -(void)update;
 -(void)display;
 

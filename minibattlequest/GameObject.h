@@ -13,4 +13,13 @@
 
 @end
 
+typedef NS_ENUM(NSInteger, GameObjectState) {
+SPAWNING, DORMANT, IDLING, MOVING, FIRING, DYING, DEAD //from PARROTGAME, we can change this
+};
+
+typedef struct point2D{
+    float x;
+    float y;
+} point2D;
+
 #endif /* GameObject_h */
