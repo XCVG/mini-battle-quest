@@ -47,6 +47,7 @@
 		6D5044081E3FE7B2001F8AE6 /* mbq_title_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_title_logo.png; path = resources/ui/mbq_title_logo.png; sourceTree = "<group>"; };
 		6D5044131E3FE8D3001F8AE6 /* LeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LeaderboardViewController.h; sourceTree = "<group>"; };
 		6D5044141E3FE90B001F8AE6 /* LeaderboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderboardViewController.m; sourceTree = "<group>"; };
+		83DF1F841E43DA790042F3D7 /* GOTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GOTypes.h; sourceTree = "<group>"; };
 		83F92B901E411D8D0064411B /* mbq_button_wide_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_button_wide_red.png; path = resources/ui/mbq_button_wide_red.png; sourceTree = "<group>"; };
 		83F92B921E4126AD0064411B /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
 		83F92B941E4126B90064411B /* GameObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
@@ -109,6 +110,7 @@
 		83F92B951E412B4E0064411B /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
+				83DF1F841E43DA790042F3D7 /* GOTypes.h */,
 				83F92B991E412CF40064411B /* EnemyObject.m */,
 				83F92B9B1E412CFF0064411B /* EnemyObject.h */,
 				83F92B961E412B6F0064411B /* PlayerObject.h */,

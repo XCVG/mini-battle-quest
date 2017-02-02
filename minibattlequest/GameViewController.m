@@ -8,6 +8,9 @@
 
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
+#import "GameObject.h"
+#import "PlayerObject.h"
+#import "EnemyObject.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -95,11 +98,18 @@ GLfloat gCubeVertexData[216] =
 - (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
 - (BOOL)linkProgram:(GLuint)prog;
 - (BOOL)validateProgram:(GLuint)prog;
+
 @end
 
 @implementation GameViewController {
+    
+    //game variables
     NSMutableArray *_gameObjects;
     BOOL _running;
+    PlayerObject *_player;
+    float scrollPos;
+    
+    
     
 }
 
@@ -220,9 +230,17 @@ GLfloat gCubeVertexData[216] =
     
     for(id o in _gameObjects)
     {
+     
+        GameObject *go = (GameObject*)o;
+        
         [o update]; //each gameobject may do something during its update
         
-        
+        //delete unused objects
+        //(may need to move this; don't know if concurrent modification is a thing)
+        if(!go.enabled)
+        {
+            [_gameObjects removeObject:o];
+        }
     }
     
     //TODO other functionality
@@ -259,6 +277,10 @@ GLfloat gCubeVertexData[216] =
 {
     //*****this is the "display" part of the loop
     
+    //clear the display
+    glClearColor(0.65f, 0.65f, 0.65f, 1.0f); //set background color (I remember this from GDX)
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear
+    
     for(id o in _gameObjects)
     {
         [o draw]; //this is the pattern I'm going with for now but I have no idea if it'll work
@@ -268,8 +290,7 @@ GLfloat gCubeVertexData[216] =
         
     }
     
-    glClearColor(0.65f, 0.65f, 0.65f, 1.0f); //set background color (I remember this from GDX)
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear
+    
     
     glBindVertexArrayOES(_vertexArray);
     

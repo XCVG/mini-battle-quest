@@ -9,17 +9,19 @@
 #ifndef GameObject_h
 #define GameObject_h
 
+#import "GOTypes.h"
+
 @interface GameObject : NSObject
+
+@property GameObjectState state;
+@property MBQPoint2D position;
+@property BOOL enabled;
+@property id box2dObject;
+-(void)update;
+-(void)display;
 
 @end
 
-typedef NS_ENUM(NSInteger, GameObjectState) {
-SPAWNING, DORMANT, IDLING, MOVING, FIRING, DYING, DEAD //from PARROTGAME, we can change this
-};
 
-typedef struct point2D{
-    float x;
-    float y;
-} point2D;
 
 #endif /* GameObject_h */

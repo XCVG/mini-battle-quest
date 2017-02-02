@@ -13,6 +13,8 @@
 
 @interface PlayerObject : GameObject
 
+-(void)moveToTarget:(MBQPoint2D)target;
+
 @end
 
 #endif /* PlayerObject_h */
