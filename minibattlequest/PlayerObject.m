@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "PlayerObject.h"
 
+#define TARGET_THRESHOLD 32.0f
+#define DEFAULT_MOVE_SPEED 8.0f
+
 @interface PlayerObject()
 {
     
@@ -18,13 +21,18 @@
 
 @implementation PlayerObject
 {
-    MBQPoint2D target;
+    float _moveSpeed;
+    
+    MBQPoint2D _target;
 }
 
 //we should override these (are they virtual by default like Java or not like C++?)
 -(id)init
 {
     self = [super init];
+    
+    _moveSpeed = DEFAULT_MOVE_SPEED;
+    
     return self;
 }
 
@@ -40,6 +48,52 @@
         case STATE_IDLING:
             break;
         case STATE_MOVING:
+            //TODO "move" to target
+            {
+                BOOL moved = NO;
+                
+                if(_target.x - self.position.x > TARGET_THRESHOLD)
+                {
+                    MBQPoint2D p = self.position;
+                    
+                    p.x += _moveSpeed;
+                    
+                    self.position = p;
+                    moved = YES;
+                }
+                else if(_target.x - self.position.x < TARGET_THRESHOLD)
+                {
+                    MBQPoint2D p = self.position;
+                    
+                    p.x -= _moveSpeed;
+                    
+                    self.position = p;
+                    moved = YES;
+                }
+                
+                if(_target.y - self.position.y > TARGET_THRESHOLD)
+                {
+                    MBQPoint2D p = self.position;
+                    
+                    p.y += _moveSpeed;
+                    
+                    self.position = p;
+                    moved = YES;
+                }
+                else if(_target.y - self.position.y < TARGET_THRESHOLD)
+                {
+                    MBQPoint2D p = self.position;
+                    
+                    p.y -= _moveSpeed;
+                    
+                    self.position = p;
+                    moved = YES;
+                }
+                
+                if(!moved)
+                    self.state = STATE_IDLING;
+            }
+            
             break;
         case STATE_FIRING:
             break;
@@ -63,8 +117,12 @@
 
 -(void)moveToTarget:(MBQPoint2D)newTarget
 {
+    NSString *output = [NSString stringWithFormat:(@"Target at: (%.2f,%.2f)"), newTarget.x, newTarget.y];
+    
+    NSLog(output);
+    
     self.state = STATE_MOVING;
-    self->target = newTarget;
+    self->_target = newTarget;
 }
 
 @end

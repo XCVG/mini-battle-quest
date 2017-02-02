@@ -14,6 +14,9 @@
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
+#define WINDOW_WIDTH 720
+#define WINDOW_HEIGHT 1280
+
 // Uniform index.
 enum
 {
@@ -169,7 +172,12 @@ GLfloat gCubeVertexData[216] =
 {
     NSLog(@"Starting game...");
     
+    NSLog(@"creating gameobjects array");
     _gameObjects = [[NSMutableArray alloc]init];
+    
+    //create and init player
+    NSLog(@"initializing player");
+    _player = [[PlayerObject alloc] init];
     
     NSLog(@"..done!");
 }
