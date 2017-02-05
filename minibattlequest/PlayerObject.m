@@ -42,10 +42,22 @@
     switch(self.state)
     {
         case STATE_SPAWNING:
+            //do any spawning animation etc here
+            
+            //go straight to idle
+            self.state = STATE_IDLING;
             break;
         case STATE_DORMANT:
+            
+            //player cannot be dormant, go straight to idle
+            self.state = STATE_IDLING;
             break;
         case STATE_IDLING:
+            
+            //TODO search for and attack enemies
+            
+            //TODO health check
+            
             break;
         case STATE_MOVING:
             //TODO "move" to target
@@ -90,14 +102,26 @@
                     moved = YES;
                 }
                 
+                //TODO: search for/attack enemies?
+                
                 if(!moved)
                     self.state = STATE_IDLING;
             }
             
             break;
         case STATE_FIRING:
+            //attacking 
+            
+            break;
+        case STATE_PAINING:
+            //yes I know it's an awkward name
+            
+            //TODO any pain animation
+            
             break;
         case STATE_DYING:
+            //TODO death animation
+            
             break;
         case STATE_DEAD:
             self.enabled = false;
@@ -117,6 +141,12 @@
 
 -(void)moveToTarget:(MBQPoint2D)newTarget
 {
+    //state checks
+    if(self.state == STATE_SPAWNING || self.state == STATE_DORMANT || self.state == STATE_DYING || self.state == STATE_DEAD)
+    {
+        return;
+    }
+    
     NSString *output = [NSString stringWithFormat:(@"Target at: (%.2f,%.2f)"), newTarget.x, newTarget.y];
     
     NSLog(output);

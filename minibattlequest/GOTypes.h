@@ -11,7 +11,7 @@
 
 //may move these; I don't know a lot about header files
 typedef NS_ENUM(NSInteger, GameObjectState) {
-    STATE_SPAWNING, STATE_DORMANT, STATE_IDLING, STATE_MOVING, STATE_FIRING, STATE_DYING, STATE_DEAD //from PARROTGAME, we can change this
+    STATE_SPAWNING, STATE_DORMANT, STATE_IDLING, STATE_MOVING, STATE_FIRING, STATE_PAINING, STATE_DYING, STATE_DEAD //from PARROTGAME, we can change this
 };
 
 typedef struct MBQPoint2D{

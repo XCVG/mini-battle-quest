@@ -14,8 +14,8 @@
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
-#define WINDOW_WIDTH 720
-#define WINDOW_HEIGHT 1280
+#define VIEWPORT_WIDTH 720
+#define VIEWPORT_HEIGHT 1280
 
 // Uniform index.
 enum
@@ -178,6 +178,9 @@ GLfloat gCubeVertexData[216] =
     //create and init player
     NSLog(@"initializing player");
     _player = [[PlayerObject alloc] init];
+    [_gameObjects addObject:_player];
+    
+    //TODO create player move touch handler
     
     NSLog(@"..done!");
 }
@@ -251,6 +254,8 @@ GLfloat gCubeVertexData[216] =
         }
     }
     
+    //TODO handle scrolling
+    
     //TODO other functionality
     
     //stuff below is for demo, should remove it
@@ -291,7 +296,7 @@ GLfloat gCubeVertexData[216] =
     
     for(id o in _gameObjects)
     {
-        [o draw]; //this is the pattern I'm going with for now but I have no idea if it'll work
+        [o display]; //this is the pattern I'm going with for now but I have no idea if it'll work
         //we may need to change this; object will provide parameters to a draw method implemented here
         //or we might be able to get away with passing context or even self
         

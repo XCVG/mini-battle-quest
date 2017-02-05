@@ -31,6 +31,7 @@
     _state = STATE_SPAWNING;
     _position.x = 0.0f;
     _position.y = 0.0f;
+    _health = GO_DEFAULT_HEALTH;
     _enabled = true;
     
     return self;
