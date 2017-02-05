@@ -17,6 +17,10 @@
 #define VIEWPORT_WIDTH 720
 #define VIEWPORT_HEIGHT 1280
 
+#define SCROLL_UPPER_BOUND 500.0f
+#define SCROLL_LOWER_BOUND 200.0f
+#define SCROLL_SPEED 100.0f
+
 // Uniform index.
 enum
 {
@@ -109,9 +113,12 @@ GLfloat gCubeVertexData[216] =
     
     //game variables
     NSMutableArray *_gameObjects;
-    BOOL _running;
     PlayerObject *_player;
+    
     float _scrollPos;
+    BOOL _scrolling;
+    
+    BOOL _running;
     
     
     
@@ -258,9 +265,28 @@ GLfloat gCubeVertexData[216] =
     }
     
     //TODO handle scrolling
-    //if player is within move threshold, start scrolling
-    //if player stops moving, continue scrolling to lower bound threshold
-    //if player is moving and within move threshold, continue scrolling
+    
+    if(_scrolling)
+    {
+        NSLog(@"Scrolling: pos %.2f", _scrollPos);
+        
+        //if scrolling, continue moving while player is above lower bound threshold
+        _scrollPos += SCROLL_SPEED;
+        if(_player.position.y - _scrollPos < SCROLL_LOWER_BOUND)
+        {
+            _scrolling = false;
+        }
+        
+    }
+    else
+    {
+        //if player is within move threshold, start scrolling
+        if(_player.position.y - _scrollPos > SCROLL_UPPER_BOUND)
+        {
+            _scrolling = true;
+        }
+        
+    }
     
     //TODO other functionality
     
