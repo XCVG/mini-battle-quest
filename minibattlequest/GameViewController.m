@@ -94,6 +94,7 @@ GLfloat gCubeVertexData[216] =
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
 
+-(void)handleViewportTap:(UITapGestureRecognizer *)tapGestureRecognizer;
 - (void)setupGL;
 - (void)tearDownGL;
 
@@ -110,7 +111,7 @@ GLfloat gCubeVertexData[216] =
     NSMutableArray *_gameObjects;
     BOOL _running;
     PlayerObject *_player;
-    float scrollPos;
+    float _scrollPos;
     
     
     
@@ -181,6 +182,8 @@ GLfloat gCubeVertexData[216] =
     [_gameObjects addObject:_player];
     
     //TODO create player move touch handler
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleViewportTap:)];
+    [self.view addGestureRecognizer:tapGesture];
     
     NSLog(@"..done!");
 }
@@ -255,6 +258,9 @@ GLfloat gCubeVertexData[216] =
     }
     
     //TODO handle scrolling
+    //if player is within move threshold, start scrolling
+    //if player stops moving, continue scrolling to lower bound threshold
+    //if player is moving and within move threshold, continue scrolling
     
     //TODO other functionality
     
@@ -319,6 +325,16 @@ GLfloat gCubeVertexData[216] =
     //glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
     
     //glDrawArrays(GL_TRIANGLES, 0, 36);
+}
+
+#pragma mark - Touch and other event handlers
+
+-(IBAction)handleViewportTap:(UITapGestureRecognizer *)tapGestureRecognizer
+{
+    //get point, transform, and set player target
+    CGPoint tapPoint =  [tapGestureRecognizer locationInView:nil]; //may need to specify view later
+    MBQPoint2D scaledTapPoint = [self getPointInWorldSpace:tapPoint];
+    [_player moveToTarget:scaledTapPoint];
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation
@@ -473,5 +489,44 @@ GLfloat gCubeVertexData[216] =
     
     return YES;
 }
+
+#pragma mark - MBQ utility methods
+
+-(MBQPoint2D)getPointInWindowSpace:(CGPoint)ssPoint
+{
+    MBQPoint2D wsPoint;
+    
+    //do the actual conversion
+    
+    //get rect
+    //if we shrink or move the drawing view we may need a different rect
+    //optimizing this is possible
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    float screenWidth = screenRect.size.width;
+    float screenHeight = screenRect.size.height;
+    
+    //calculate ratio (optimization is possible by doing this on resize)
+    float xRatio = VIEWPORT_WIDTH / screenWidth;
+    float yRatio = VIEWPORT_HEIGHT / screenHeight;
+    
+    //x is normal but y needs to be flipped
+    wsPoint.x = ssPoint.x * xRatio;
+    wsPoint.y = (screenHeight - ssPoint.y) * yRatio;
+    
+    return wsPoint;
+}
+
+-(MBQPoint2D)getPointInWorldSpace:(CGPoint)ssPoint
+{
+    MBQPoint2D wsPoint;
+    
+    wsPoint = [self getPointInWindowSpace:ssPoint];
+    
+    wsPoint.y = wsPoint.y + _scrollPos;
+    
+    return wsPoint;
+}
+
+//TODO: if we need to go the other way
 
 @end

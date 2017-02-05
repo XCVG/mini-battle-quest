@@ -64,7 +64,8 @@
             {
                 BOOL moved = NO;
                 
-                if(_target.x - self.position.x > TARGET_THRESHOLD)
+                //TODO: these checks are broken, fix them to check threshold and direction
+                if(fabsf(_target.x - self.position.x) > TARGET_THRESHOLD && _target.x > self.position.x)
                 {
                     MBQPoint2D p = self.position;
                     
@@ -73,7 +74,7 @@
                     self.position = p;
                     moved = YES;
                 }
-                else if(_target.x - self.position.x < TARGET_THRESHOLD)
+                else if(fabsf(_target.x - self.position.x) > TARGET_THRESHOLD && _target.x < self.position.x)
                 {
                     MBQPoint2D p = self.position;
                     
@@ -83,7 +84,7 @@
                     moved = YES;
                 }
                 
-                if(_target.y - self.position.y > TARGET_THRESHOLD)
+                if(fabsf(_target.y - self.position.y) > TARGET_THRESHOLD && _target.y > self.position.y)
                 {
                     MBQPoint2D p = self.position;
                     
@@ -92,7 +93,7 @@
                     self.position = p;
                     moved = YES;
                 }
-                else if(_target.y - self.position.y < TARGET_THRESHOLD)
+                else if(fabsf(_target.y - self.position.y) > TARGET_THRESHOLD && _target.y < self.position.y)
                 {
                     MBQPoint2D p = self.position;
                     
