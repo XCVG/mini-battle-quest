@@ -25,14 +25,19 @@
     return self;
 }
 
--(void)update
+-(MBQObjectUpdateOut)update:(MBQObjectUpdateIn*)data
 {
+    MBQObjectUpdateOut outData;
     
+    return outData;
 }
 
--(void)display
+//may need to rethink this; pass information back to scene to render
+-(MBQObjectDisplayOut)display:(MBQObjectDisplayIn*)data
 {
+    MBQObjectDisplayOut outData;
     
+    return outData;
 }
 
 @end

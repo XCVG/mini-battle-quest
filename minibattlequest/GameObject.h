@@ -9,8 +9,23 @@
 #ifndef GameObject_h
 #define GameObject_h
 
+#import "GOTypes.h"
+
+#define GO_DEFAULT_HEALTH 100.0f
+
 @interface GameObject : NSObject
 
+@property GameObjectState state;
+@property MBQPoint2D position;
+@property BOOL enabled;
+@property BOOL visible;
+@property float health;
+@property id box2dObject;
+-(MBQObjectUpdateOut)update:(MBQObjectUpdateIn*)data;
+-(MBQObjectDisplayOut)display:(MBQObjectDisplayIn*)data;
+
 @end
+
+
 
 #endif /* GameObject_h */

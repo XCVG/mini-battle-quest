@@ -8,8 +8,22 @@
 
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
+#import "GameObject.h"
+#import "PlayerObject.h"
+#import "EnemyObject.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
+
+#define VIEWPORT_WIDTH 720.0f
+#define VIEWPORT_HEIGHT 1280.0f
+
+#define VIEWPORT_OVERSCAN 100.0f
+
+#define SCROLL_UPPER_BOUND 800.0f
+#define SCROLL_LOWER_BOUND 200.0f
+#define SCROLL_SPEED 50.0f
+
+
 
 // Uniform index.
 enum
@@ -88,6 +102,7 @@ GLfloat gCubeVertexData[216] =
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
 
+-(void)handleViewportTap:(UITapGestureRecognizer *)tapGestureRecognizer;
 - (void)setupGL;
 - (void)tearDownGL;
 
@@ -95,11 +110,27 @@ GLfloat gCubeVertexData[216] =
 - (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
 - (BOOL)linkProgram:(GLuint)prog;
 - (BOOL)validateProgram:(GLuint)prog;
+
 @end
 
 @implementation GameViewController {
+    
+    //game variables
     NSMutableArray *_gameObjects;
+    PlayerObject *_player;
+    
+    float _scrollPos;
+    BOOL _scrolling;
+    
     BOOL _running;
+    
+    
+    //viewport pseudoconstants
+    float _screenToViewportX;
+    float _screenToViewportY;
+    float _screenActualHeight;
+    
+    
     
 }
 
@@ -117,13 +148,16 @@ GLfloat gCubeVertexData[216] =
     view.context = self.context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
+    [self calculateRatios];
+    
     [self setupGame];
     
     [self setupGL];
 }
 
 - (void)dealloc
-{    
+{
+    [self tearDownGame];
     [self tearDownGL];
     
     if ([EAGLContext currentContext] == self.context) {
@@ -140,6 +174,7 @@ GLfloat gCubeVertexData[216] =
     if ([self isViewLoaded] && ([[self view] window] == nil)) {
         self.view = nil;
         
+        [self tearDownGame];
         [self tearDownGL];
         
         if ([EAGLContext currentContext] == self.context) {
@@ -159,7 +194,17 @@ GLfloat gCubeVertexData[216] =
 {
     NSLog(@"Starting game...");
     
+    NSLog(@"creating gameobjects array");
     _gameObjects = [[NSMutableArray alloc]init];
+    
+    //create and init player
+    NSLog(@"initializing player");
+    _player = [[PlayerObject alloc] init];
+    [_gameObjects addObject:_player];
+    
+    //TODO create player move touch handler
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleViewportTap:)];
+    [self.view addGestureRecognizer:tapGesture];
     
     NSLog(@"..done!");
 }
@@ -195,6 +240,20 @@ GLfloat gCubeVertexData[216] =
     NSLog(@"...done!");
 }
 
+-(void)calculateRatios
+{
+    //calculate screen to viewport ratio
+    //get rect
+    //if we shrink or move the drawing view we may need a different rect
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    float screenWidth = screenRect.size.width;
+    float screenHeight = screenRect.size.height;
+    _screenToViewportX = VIEWPORT_WIDTH / screenWidth;
+    _screenToViewportY = VIEWPORT_HEIGHT / screenHeight;
+    _screenActualHeight = screenHeight;
+    
+}
+
 - (void)tearDownGL
 {
     [EAGLContext setCurrentContext:self.context];
@@ -210,6 +269,13 @@ GLfloat gCubeVertexData[216] =
     }
 }
 
+-(void)tearDownGame
+{
+    //may need to perform more extensive teardown on each game object
+    [_gameObjects removeAllObjects];
+    _gameObjects = nil;
+}
+
 #pragma mark - GLKView and GLKViewController delegate methods
 
 - (void)update
@@ -218,10 +284,44 @@ GLfloat gCubeVertexData[216] =
     
     //self.timeSinceLastUpdate
     
+    MBQObjectUpdateIn objectDataIn;
+    
     for(id o in _gameObjects)
     {
-        [o update]; //each gameobject may do something during its update
+     
+        GameObject *go = (GameObject*)o;
         
+        [o update:&objectDataIn]; //each gameobject may do something during its update
+        
+        //delete unused objects
+        //(may need to move this; don't know if concurrent modification is a thing)
+        if(!go.enabled)
+        {
+            [_gameObjects removeObject:o];
+        }
+    }
+    
+    //TODO handle scrolling
+    
+    if(_scrolling)
+    {
+        NSLog(@"Scrolling: pos %.2f", _scrollPos);
+        
+        //if scrolling, continue moving while player is above lower bound threshold
+        _scrollPos += SCROLL_SPEED;
+        if(_player.position.y - _scrollPos < SCROLL_LOWER_BOUND)
+        {
+            _scrolling = false;
+        }
+        
+    }
+    else
+    {
+        //if player is within move threshold, start scrolling
+        if(_player.position.y - _scrollPos > SCROLL_UPPER_BOUND)
+        {
+            _scrolling = true;
+        }
         
     }
     
@@ -259,17 +359,24 @@ GLfloat gCubeVertexData[216] =
 {
     //*****this is the "display" part of the loop
     
+    //clear the display
+    glClearColor(0.65f, 0.65f, 0.65f, 1.0f); //set background color (I remember this from GDX)
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear
+    
+    MBQObjectDisplayIn objectDataIn;
+    
     for(id o in _gameObjects)
     {
-        [o draw]; //this is the pattern I'm going with for now but I have no idea if it'll work
-        //we may need to change this; object will provide parameters to a draw method implemented here
-        //or we might be able to get away with passing context or even self
-        
+        if(((GameObject*)o).enabled && ((GameObject*)o).visible && [self isObjectInView:((GameObject*)o)])
+        {
+            MBQObjectDisplayOut objectDisplayData = [o display:&objectDataIn];
+            
+            //TODO do something withthe display data
+        }
         
     }
     
-    glClearColor(0.65f, 0.65f, 0.65f, 1.0f); //set background color (I remember this from GDX)
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear
+    
     
     glBindVertexArrayOES(_vertexArray);
     
@@ -285,6 +392,16 @@ GLfloat gCubeVertexData[216] =
     //glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
     
     //glDrawArrays(GL_TRIANGLES, 0, 36);
+}
+
+#pragma mark - Touch and other event handlers
+
+-(IBAction)handleViewportTap:(UITapGestureRecognizer *)tapGestureRecognizer
+{
+    //get point, transform, and set player target
+    CGPoint tapPoint =  [tapGestureRecognizer locationInView:nil]; //may need to specify view later
+    MBQPoint2D scaledTapPoint = [self getPointInWorldSpace:tapPoint];
+    [_player moveToTarget:scaledTapPoint];
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation
@@ -439,5 +556,44 @@ GLfloat gCubeVertexData[216] =
     
     return YES;
 }
+
+#pragma mark - MBQ utility methods
+
+-(MBQPoint2D)getPointInWindowSpace:(CGPoint)ssPoint
+{
+    MBQPoint2D wsPoint;
+    
+    //do the actual conversion
+    
+    //x is normal but y needs to be flipped
+    wsPoint.x = ssPoint.x * _screenToViewportX;
+    wsPoint.y = (_screenActualHeight - ssPoint.y) * _screenToViewportY;
+    
+    return wsPoint;
+}
+
+-(MBQPoint2D)getPointInWorldSpace:(CGPoint)ssPoint
+{
+    MBQPoint2D wsPoint;
+    
+    wsPoint = [self getPointInWindowSpace:ssPoint];
+    
+    wsPoint.y = wsPoint.y + _scrollPos;
+    
+    return wsPoint;
+}
+
+-(BOOL)isObjectInView:(GameObject*)object
+{
+    //TODO actually check if object is within view (view bounds)
+    float objX = object.position.x;
+    float objY = object.position.y - _scrollPos;
+    BOOL withinX = objX > (0 - VIEWPORT_OVERSCAN) && objX < (VIEWPORT_WIDTH + VIEWPORT_OVERSCAN);
+    BOOL withinY = objY > (0 - VIEWPORT_OVERSCAN) && objY < (VIEWPORT_HEIGHT + VIEWPORT_OVERSCAN);
+    
+    return withinX && withinY;
+}
+
+//TODO: if we need to go the other way
 
 @end
