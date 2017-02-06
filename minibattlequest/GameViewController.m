@@ -14,12 +14,16 @@
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
-#define VIEWPORT_WIDTH 720
-#define VIEWPORT_HEIGHT 1280
+#define VIEWPORT_WIDTH 720.0f
+#define VIEWPORT_HEIGHT 1280.0f
 
-#define SCROLL_UPPER_BOUND 500.0f
+#define VIEWPORT_OVERSCAN 100.0f
+
+#define SCROLL_UPPER_BOUND 800.0f
 #define SCROLL_LOWER_BOUND 200.0f
-#define SCROLL_SPEED 100.0f
+#define SCROLL_SPEED 50.0f
+
+
 
 // Uniform index.
 enum
@@ -121,6 +125,12 @@ GLfloat gCubeVertexData[216] =
     BOOL _running;
     
     
+    //viewport pseudoconstants
+    float _screenToViewportX;
+    float _screenToViewportY;
+    float _screenActualHeight;
+    
+    
     
 }
 
@@ -138,13 +148,16 @@ GLfloat gCubeVertexData[216] =
     view.context = self.context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
+    [self calculateRatios];
+    
     [self setupGame];
     
     [self setupGL];
 }
 
 - (void)dealloc
-{    
+{
+    [self tearDownGame];
     [self tearDownGL];
     
     if ([EAGLContext currentContext] == self.context) {
@@ -161,6 +174,7 @@ GLfloat gCubeVertexData[216] =
     if ([self isViewLoaded] && ([[self view] window] == nil)) {
         self.view = nil;
         
+        [self tearDownGame];
         [self tearDownGL];
         
         if ([EAGLContext currentContext] == self.context) {
@@ -226,6 +240,20 @@ GLfloat gCubeVertexData[216] =
     NSLog(@"...done!");
 }
 
+-(void)calculateRatios
+{
+    //calculate screen to viewport ratio
+    //get rect
+    //if we shrink or move the drawing view we may need a different rect
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    float screenWidth = screenRect.size.width;
+    float screenHeight = screenRect.size.height;
+    _screenToViewportX = VIEWPORT_WIDTH / screenWidth;
+    _screenToViewportY = VIEWPORT_HEIGHT / screenHeight;
+    _screenActualHeight = screenHeight;
+    
+}
+
 - (void)tearDownGL
 {
     [EAGLContext setCurrentContext:self.context];
@@ -239,6 +267,13 @@ GLfloat gCubeVertexData[216] =
         glDeleteProgram(_program);
         _program = 0;
     }
+}
+
+-(void)tearDownGame
+{
+    //may need to perform more extensive teardown on each game object
+    [_gameObjects removeAllObjects];
+    _gameObjects = nil;
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods
@@ -332,10 +367,12 @@ GLfloat gCubeVertexData[216] =
     
     for(id o in _gameObjects)
     {
-        [o display:&objectDataIn]; //this is the pattern I'm going with for now but I have no idea if it'll work
-        //we may need to change this; object will provide parameters to a draw method implemented here
-        //or we might be able to get away with passing context or even self
-        
+        if(((GameObject*)o).enabled && ((GameObject*)o).visible && [self isObjectInView:((GameObject*)o)])
+        {
+            MBQObjectDisplayOut objectDisplayData = [o display:&objectDataIn];
+            
+            //TODO do something withthe display data
+        }
         
     }
     
@@ -528,20 +565,9 @@ GLfloat gCubeVertexData[216] =
     
     //do the actual conversion
     
-    //get rect
-    //if we shrink or move the drawing view we may need a different rect
-    //optimizing this is possible
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    float screenWidth = screenRect.size.width;
-    float screenHeight = screenRect.size.height;
-    
-    //calculate ratio (optimization is possible by doing this on resize)
-    float xRatio = VIEWPORT_WIDTH / screenWidth;
-    float yRatio = VIEWPORT_HEIGHT / screenHeight;
-    
     //x is normal but y needs to be flipped
-    wsPoint.x = ssPoint.x * xRatio;
-    wsPoint.y = (screenHeight - ssPoint.y) * yRatio;
+    wsPoint.x = ssPoint.x * _screenToViewportX;
+    wsPoint.y = (_screenActualHeight - ssPoint.y) * _screenToViewportY;
     
     return wsPoint;
 }
@@ -555,6 +581,17 @@ GLfloat gCubeVertexData[216] =
     wsPoint.y = wsPoint.y + _scrollPos;
     
     return wsPoint;
+}
+
+-(BOOL)isObjectInView:(GameObject*)object
+{
+    //TODO actually check if object is within view (view bounds)
+    float objX = object.position.x;
+    float objY = object.position.y - _scrollPos;
+    BOOL withinX = objX > (0 - VIEWPORT_OVERSCAN) && objX < (VIEWPORT_WIDTH + VIEWPORT_OVERSCAN);
+    BOOL withinY = objY > (0 - VIEWPORT_OVERSCAN) && objY < (VIEWPORT_HEIGHT + VIEWPORT_OVERSCAN);
+    
+    return withinX && withinY;
 }
 
 //TODO: if we need to go the other way

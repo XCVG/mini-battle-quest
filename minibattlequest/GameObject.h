@@ -18,6 +18,7 @@
 @property GameObjectState state;
 @property MBQPoint2D position;
 @property BOOL enabled;
+@property BOOL visible;
 @property float health;
 @property id box2dObject;
 -(MBQObjectUpdateOut)update:(MBQObjectUpdateIn*)data;

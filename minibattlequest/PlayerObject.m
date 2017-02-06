@@ -31,7 +31,9 @@
 {
     self = [super init];
     
+    self.visible = true;
     _moveSpeed = DEFAULT_MOVE_SPEED;
+    
     
     return self;
 }
