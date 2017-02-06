@@ -20,8 +20,8 @@
 @property BOOL enabled;
 @property float health;
 @property id box2dObject;
--(void)update;
--(void)display;
+-(MBQObjectUpdateOut)update:(MBQObjectUpdateIn*)data;
+-(MBQObjectDisplayOut)display:(MBQObjectDisplayIn*)data;
 
 @end
 

@@ -249,12 +249,14 @@ GLfloat gCubeVertexData[216] =
     
     //self.timeSinceLastUpdate
     
+    MBQObjectUpdateIn objectDataIn;
+    
     for(id o in _gameObjects)
     {
      
         GameObject *go = (GameObject*)o;
         
-        [o update]; //each gameobject may do something during its update
+        [o update:&objectDataIn]; //each gameobject may do something during its update
         
         //delete unused objects
         //(may need to move this; don't know if concurrent modification is a thing)
@@ -326,9 +328,11 @@ GLfloat gCubeVertexData[216] =
     glClearColor(0.65f, 0.65f, 0.65f, 1.0f); //set background color (I remember this from GDX)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear
     
+    MBQObjectDisplayIn objectDataIn;
+    
     for(id o in _gameObjects)
     {
-        [o display]; //this is the pattern I'm going with for now but I have no idea if it'll work
+        [o display:&objectDataIn]; //this is the pattern I'm going with for now but I have no idea if it'll work
         //we may need to change this; object will provide parameters to a draw method implemented here
         //or we might be able to get away with passing context or even self
         

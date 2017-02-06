@@ -20,4 +20,25 @@ typedef struct MBQPoint2D{
 } MBQPoint2D;
 
 
+//for data passed into a GameObject during update()
+typedef struct MBQObjectUpdateIn{
+    
+} MBQObjectUpdateIn;
+
+//for data passed out of a GameObject during update()
+//(may not be needed)
+typedef struct MBQObjectUpdateOut{
+    
+} MBQObjectUpdateOut;
+
+//for data passed into a GameObject during display()
+typedef struct MBQObjectDisplayIn{
+    
+} MBQObjectDisplayIn;
+
+//for data passed out of a GameObject during display()
+typedef struct MBQObjectDisplayOut{
+    
+} MBQObjectDisplayOut;
+
 #endif /* GOTypes_h */

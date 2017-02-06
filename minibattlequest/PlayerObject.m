@@ -36,8 +36,10 @@
     return self;
 }
 
--(void)update
+-(MBQObjectUpdateOut)update:(MBQObjectUpdateIn*)data
 {
+    MBQObjectUpdateOut outData;
+    
     //I'm implementing most or all of these but you don't have to
     switch(self.state)
     {
@@ -131,13 +133,20 @@
             //do nothing
             break;
     }
+    
+    
+    return outData;
 }
 
--(void)display
+-(MBQObjectDisplayOut)display:(MBQObjectDisplayIn*)data
 {
+    MBQObjectDisplayOut dataOut;
+    
     NSString *output = [NSString stringWithFormat:(@"Player at: (%.2f,%.2f)"), self.position.x, self.position.y];
     
     NSLog(output);
+    
+    return dataOut;
 }
 
 -(void)moveToTarget:(MBQPoint2D)newTarget
