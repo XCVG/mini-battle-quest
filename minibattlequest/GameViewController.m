@@ -118,6 +118,7 @@ GLfloat gCubeVertexData[216] =
     //game variables
     NSMutableArray *_gameObjects;
     PlayerObject *_player;
+    NSMutableArray *_gameObjectsInView;
     
     float _scrollPos;
     BOOL _scrolling;
@@ -202,6 +203,11 @@ GLfloat gCubeVertexData[216] =
     _player = [[PlayerObject alloc] init];
     [_gameObjects addObject:_player];
     
+    //create initial "visible" list
+    NSLog(@"creating initial visible objects array");
+    _gameObjectsInView = [[NSMutableArray alloc]init];
+    [self refreshGameObjectsInView];
+    
     //TODO create player move touch handler
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleViewportTap:)];
     [self.view addGestureRecognizer:tapGesture];
@@ -284,6 +290,9 @@ GLfloat gCubeVertexData[216] =
     
     //self.timeSinceLastUpdate
     
+    //refresh game objects in view list
+    [self refreshGameObjectsInView];
+    
     MBQObjectUpdateIn objectDataIn;
     
     for(id o in _gameObjects)
@@ -365,9 +374,9 @@ GLfloat gCubeVertexData[216] =
     
     MBQObjectDisplayIn objectDataIn;
     
-    for(id o in _gameObjects)
+    for(id o in _gameObjectsInView)
     {
-        if(((GameObject*)o).enabled && ((GameObject*)o).visible && [self isObjectInView:((GameObject*)o)])
+        if(((GameObject*)o).enabled && ((GameObject*)o).visible)
         {
             MBQObjectDisplayOut objectDisplayData = [o display:&objectDataIn];
             
@@ -588,6 +597,7 @@ GLfloat gCubeVertexData[216] =
 //this might be needed to get decent physics performance
 -(BOOL)isObjectInView:(GameObject*)object
 {
+    //TODO: optimize with short-circuit to deal with most likely conditions
     //actually check if object is within view (view bounds)
     float objX = object.position.x;
     float objY = object.position.y - _scrollPos;
@@ -597,6 +607,18 @@ GLfloat gCubeVertexData[216] =
     return withinX && withinY;
 }
 
-
+//this should work
+-(void)refreshGameObjectsInView
+{
+    [_gameObjectsInView removeAllObjects];
+    
+    for(id o in _gameObjects)
+    {
+        if([self isObjectInView:((GameObject*)o)])
+        {
+            [_gameObjectsInView addObject:o];
+        }
+    }
+}
 
 @end
