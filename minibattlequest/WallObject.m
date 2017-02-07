@@ -1,36 +1,26 @@
 //
-//  GameObject.m
+//  WallObject.m
 //  minibattlequest
 //
-//  Created by Chris on 2017-01-31.
+//  Created by Chris on 2017-02-07.
 //  Copyright © 2017 Mini Battle Quest. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "GameObject.h"
+#import "WallObject.h"
 
-@interface GameObject()
+@interface WallObject()
 {
     
-
+    
 }
-
-
 @end
 
-@implementation GameObject
+@implementation WallObject
 
-//TODO: add parameters (also to subclasses)
 -(id)init
 {
     self = [super init];
-    
-    _state = STATE_SPAWNING;
-    _position.x = 0.0f;
-    _position.y = 0.0f;
-    _health = GO_DEFAULT_HEALTH;
-    _enabled = true;
-    
     return self;
 }
 

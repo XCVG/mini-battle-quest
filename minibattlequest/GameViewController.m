@@ -582,10 +582,13 @@ GLfloat gCubeVertexData[216] =
     
     return wsPoint;
 }
+//TODO: if we need to go the other way
 
+//possible optimization: check objects in view every second or so, move in and out of "visible" list
+//this might be needed to get decent physics performance
 -(BOOL)isObjectInView:(GameObject*)object
 {
-    //TODO actually check if object is within view (view bounds)
+    //actually check if object is within view (view bounds)
     float objX = object.position.x;
     float objY = object.position.y - _scrollPos;
     BOOL withinX = objX > (0 - VIEWPORT_OVERSCAN) && objX < (VIEWPORT_WIDTH + VIEWPORT_OVERSCAN);
@@ -594,6 +597,6 @@ GLfloat gCubeVertexData[216] =
     return withinX && withinY;
 }
 
-//TODO: if we need to go the other way
+
 
 @end

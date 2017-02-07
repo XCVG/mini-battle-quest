@@ -41,4 +41,9 @@ typedef struct MBQObjectDisplayOut{
     
 } MBQObjectDisplayOut;
 
+//for data passed into a GameObject after collision (not including other gameobject)
+typedef struct MBQObjectCollideContext {
+    
+} MBQObjectCollideContext;
+
 #endif /* GOTypes_h */
