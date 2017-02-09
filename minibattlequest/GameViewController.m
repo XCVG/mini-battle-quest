@@ -11,6 +11,8 @@
 #import "GameObject.h"
 #import "PlayerObject.h"
 #import "EnemyObject.h"
+#import "MeeseeksObject.h"
+#import "SpambotObject.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -119,6 +121,7 @@ GLfloat gCubeVertexData[216] =
     NSMutableArray *_gameObjects;
     PlayerObject *_player;
     NSMutableArray *_gameObjectsInView;
+    NSMutableArray *_gameObjectsToAdd;
     
     float _scrollPos;
     BOOL _scrolling;
@@ -203,12 +206,20 @@ GLfloat gCubeVertexData[216] =
     _player = [[PlayerObject alloc] init];
     [_gameObjects addObject:_player];
     
+    //TODO for testing: Meseeks and Spawner
+    NSLog(@"creating test objects");
+    [_gameObjects addObject:[[MeeseeksObject alloc] init] ];
+    [_gameObjects addObject:[[SpambotObject alloc] init] ];
+    
     //create initial "visible" list
     NSLog(@"creating initial visible objects array");
     _gameObjectsInView = [[NSMutableArray alloc]init];
     [self refreshGameObjectsInView];
     
-    //TODO create player move touch handler
+    NSLog(@"creating 'objects to add' array");
+    _gameObjectsToAdd = [[NSMutableArray alloc] init];
+    
+    //create player move touch handler
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleViewportTap:)];
     [self.view addGestureRecognizer:tapGesture];
     
@@ -290,27 +301,47 @@ GLfloat gCubeVertexData[216] =
     
     //self.timeSinceLastUpdate
     
-    //refresh game objects in view list
-    [self refreshGameObjectsInView];
-    
     MBQObjectUpdateIn objectDataIn;
+    
+    NSLog(@"%f",self.timeSinceLastUpdate);
+    objectDataIn.timeSinceLast = self.timeSinceLastUpdate;
+    objectDataIn.newObjectArray = _gameObjectsToAdd;
+    
+    //Denis: do we want to collide first, collide after, or collide during?
     
     for(id o in _gameObjects)
     {
      
-        GameObject *go = (GameObject*)o;
+        //GameObject *go = (GameObject*)o;
         
         [o update:&objectDataIn]; //each gameobject may do something during its update
         
-        //delete unused objects
-        //(may need to move this; don't know if concurrent modification is a thing)
+    }
+    
+    //delete inactive gameobjects
+    //turns out you can't delete during iteration in ObjC either
+    //if this turns out to be too expensive, we can simply ignore disabled objects
+    //and once every second or so, run a loop like this
+    for(NSInteger i = _gameObjects.count - 1; i >= 0; i--)
+    {
+        GameObject *go = _gameObjects[i];
         if(!go.enabled)
         {
-            [_gameObjects removeObject:o];
+            [_gameObjects removeObjectAtIndex:i];
         }
     }
     
-    //TODO handle scrolling
+    //why not just pass _gameObjects into objectDataIn and use that directly?
+    //something something safety, something something encapsulation, something something concurrency
+    //if speed becomes an issue we can change it to do that
+    //if we're careful with GameObject spawning we won't even have to touch the GameObjects
+    for(id o in _gameObjectsToAdd)
+    {
+        [_gameObjects addObject:o];
+        [_gameObjectsToAdd removeObject:o];
+    }
+    
+    //handle scrolling
     
     if(_scrolling)
     {
@@ -335,6 +366,11 @@ GLfloat gCubeVertexData[216] =
     }
     
     //TODO other functionality
+    
+    
+    //refresh game objects in view list
+    //we do this after, otherwise we'll end up with hanging pointers
+    [self refreshGameObjectsInView];
     
     //stuff below is for demo, should remove it
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);

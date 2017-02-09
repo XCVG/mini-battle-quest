@@ -23,6 +23,8 @@
 		83F92B931E4126AD0064411B /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B921E4126AD0064411B /* GameObject.m */; };
 		83F92B981E412BD40064411B /* PlayerObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B971E412BD40064411B /* PlayerObject.m */; };
 		83F92B9A1E412CF40064411B /* EnemyObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B991E412CF40064411B /* EnemyObject.m */; };
+		83FD94B01E4BBA2600011AAF /* MeeseeksObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FD94AF1E4BBA2600011AAF /* MeeseeksObject.m */; };
+		83FD94B31E4BC22700011AAF /* SpambotObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FD94B21E4BC22700011AAF /* SpambotObject.m */; };
 		C2E9614A1E37D81A0098A95D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E961491E37D81A0098A95D /* main.m */; };
 		C2E9614D1E37D81A0098A95D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E9614C1E37D81A0098A95D /* AppDelegate.m */; };
 		C2E9614F1E37D81A0098A95D /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = C2E9614E1E37D81A0098A95D /* Shader.fsh */; };
@@ -58,6 +60,10 @@
 		83F92B971E412BD40064411B /* PlayerObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerObject.m; sourceTree = "<group>"; };
 		83F92B991E412CF40064411B /* EnemyObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnemyObject.m; sourceTree = "<group>"; };
 		83F92B9B1E412CFF0064411B /* EnemyObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnemyObject.h; sourceTree = "<group>"; };
+		83FD94AF1E4BBA2600011AAF /* MeeseeksObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeeseeksObject.m; sourceTree = "<group>"; };
+		83FD94B11E4BBA3000011AAF /* MeeseeksObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeeseeksObject.h; sourceTree = "<group>"; };
+		83FD94B21E4BC22700011AAF /* SpambotObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpambotObject.m; sourceTree = "<group>"; };
+		83FD94B41E4BC22F00011AAF /* SpambotObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpambotObject.h; sourceTree = "<group>"; };
 		C2E961451E37D81A0098A95D /* minibattlequest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minibattlequest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2E961491E37D81A0098A95D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C2E9614B1E37D81A0098A95D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -114,6 +120,10 @@
 			isa = PBXGroup;
 			children = (
 				83DF1F841E43DA790042F3D7 /* GOTypes.h */,
+				83FD94B41E4BC22F00011AAF /* SpambotObject.h */,
+				83FD94B21E4BC22700011AAF /* SpambotObject.m */,
+				83FD94B11E4BBA3000011AAF /* MeeseeksObject.h */,
+				83FD94AF1E4BBA2600011AAF /* MeeseeksObject.m */,
 				830645B81E4A34B9000B5A0D /* WallObject.h */,
 				830645B61E4A34B1000B5A0D /* WallObject.m */,
 				83F92B991E412CF40064411B /* EnemyObject.m */,
@@ -269,12 +279,14 @@
 			files = (
 				6D5043FE1E3FE695001F8AE6 /* MainMenuViewController.m in Sources */,
 				830645B71E4A34B1000B5A0D /* WallObject.m in Sources */,
+				83FD94B31E4BC22700011AAF /* SpambotObject.m in Sources */,
 				6D5044151E3FE90B001F8AE6 /* LeaderboardViewController.m in Sources */,
 				C2E9614D1E37D81A0098A95D /* AppDelegate.m in Sources */,
 				C2E961541E37D81A0098A95D /* GameViewController.m in Sources */,
 				83F92B931E4126AD0064411B /* GameObject.m in Sources */,
 				83F92B9A1E412CF40064411B /* EnemyObject.m in Sources */,
 				C2E9614A1E37D81A0098A95D /* main.m in Sources */,
+				83FD94B01E4BBA2600011AAF /* MeeseeksObject.m in Sources */,
 				83F92B981E412BD40064411B /* PlayerObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
