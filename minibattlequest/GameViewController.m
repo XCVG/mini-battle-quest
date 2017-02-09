@@ -299,24 +299,9 @@ GLfloat gCubeVertexData[216] =
 {
     //*****this is the "update" part of the loop
     
+    [_gameObjectsInView removeAllObjects];
+    
     //self.timeSinceLastUpdate
-    
-    MBQObjectUpdateIn objectDataIn;
-    
-    NSLog(@"%f",self.timeSinceLastUpdate);
-    objectDataIn.timeSinceLast = self.timeSinceLastUpdate;
-    objectDataIn.newObjectArray = _gameObjectsToAdd;
-    
-    //Denis: do we want to collide first, collide after, or collide during?
-    
-    for(id o in _gameObjects)
-    {
-     
-        //GameObject *go = (GameObject*)o;
-        
-        [o update:&objectDataIn]; //each gameobject may do something during its update
-        
-    }
     
     //delete inactive gameobjects
     //turns out you can't delete during iteration in ObjC either
@@ -339,6 +324,36 @@ GLfloat gCubeVertexData[216] =
     {
         [_gameObjects addObject:o];
         [_gameObjectsToAdd removeObject:o];
+    }
+    
+    MBQObjectUpdateIn objectDataIn;
+    
+    //NSLog(@"%f",self.timeSinceLastUpdate);
+    objectDataIn.timeSinceLast = self.timeSinceLastUpdate;
+    objectDataIn.newObjectArray = _gameObjectsToAdd;
+    
+    //Denis: do we want to collide first, collide after, or collide during?
+    
+    for(id o in _gameObjects)
+    {
+     
+        GameObject *go = (GameObject*)o;
+        
+        if([self isObjectInView:go])
+        {
+            [_gameObjectsInView addObject:go];
+            objectDataIn.visibleOnScreen = YES;
+        }
+        else
+        {
+            objectDataIn.visibleOnScreen = NO;
+        }
+        
+        
+        [go update:&objectDataIn]; //each gameobject may do something during its update
+        
+        
+        
     }
     
     //handle scrolling
@@ -367,10 +382,6 @@ GLfloat gCubeVertexData[216] =
     
     //TODO other functionality
     
-    
-    //refresh game objects in view list
-    //we do this after, otherwise we'll end up with hanging pointers
-    [self refreshGameObjectsInView];
     
     //stuff below is for demo, should remove it
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);

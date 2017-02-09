@@ -29,6 +29,7 @@ typedef struct MBQVect2D{
 //for data passed into a GameObject during update()
 typedef struct MBQObjectUpdateIn{
     float timeSinceLast;
+    BOOL visibleOnScreen;
     __unsafe_unretained NSMutableArray *newObjectArray; //objects can put new objects here
     
 } MBQObjectUpdateIn;
