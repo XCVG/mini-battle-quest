@@ -30,17 +30,13 @@
     mapModel.objects = objects; //this is fine
     
     NSBundle *mainBundle = [NSBundle mainBundle];
-    
-    //NSString *path = [mainBundle pathForResource:map ofType:@"json" inDirectory:@"Assets/Maps"];
+
     NSString *path = [mainBundle pathForResource:map ofType:@"json"];
     
-    NSLog(path);
-    
-    //NSString *data = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-    
+    //NSLog(path);
+
     NSData *data = [[NSData alloc] initWithContentsOfFile:path];
-    
-    //NSError *error = nil;
+
     
     NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     

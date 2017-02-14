@@ -30,6 +30,7 @@ typedef struct MBQVect2D{
 typedef struct MBQObjectUpdateIn{
     float timeSinceLast;
     BOOL visibleOnScreen;
+    __unsafe_unretained id player; //because circular references and header files... the dumbest reason for a cast ever
     __unsafe_unretained NSMutableArray *newObjectArray; //objects can put new objects here
     
 } MBQObjectUpdateIn;

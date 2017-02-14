@@ -212,12 +212,10 @@ GLfloat gCubeVertexData[216] =
     [_gameObjects addObject:[[MeeseeksObject alloc] init] ];
     [_gameObjects addObject:[[SpambotObject alloc] init] ];
     
-    //TODO: load map from file
+    //load map from file
     NSLog(@"loading map from file");
     MapModel* mapModel = [MapLoadHelper loadObjectsFromMap:@"map01"];
     [_gameObjects addObjectsFromArray:mapModel.objects];  //map number hardcoded for now
-    
-    //[MapLoadHelper loadObjectsFromMap:@"map01"];
     
     //create initial "visible" list
     NSLog(@"creating initial visible objects array");
@@ -338,6 +336,7 @@ GLfloat gCubeVertexData[216] =
     
     //NSLog(@"%f",self.timeSinceLastUpdate);
     objectDataIn.timeSinceLast = self.timeSinceLastUpdate;
+    objectDataIn.player = _player;
     objectDataIn.newObjectArray = _gameObjectsToAdd;
     
     //Denis: do we want to collide first, collide after, or collide during?
