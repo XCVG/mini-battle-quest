@@ -8,6 +8,7 @@
 
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
+#import "MapLoadHelper.h"
 #import "GameObject.h"
 #import "PlayerObject.h"
 #import "EnemyObject.h"
@@ -206,10 +207,16 @@ GLfloat gCubeVertexData[216] =
     _player = [[PlayerObject alloc] init];
     [_gameObjects addObject:_player];
     
-    //TODO for testing: Meseeks and Spawner
+    //for testing: Meseeks and Spawner
     NSLog(@"creating test objects");
     [_gameObjects addObject:[[MeeseeksObject alloc] init] ];
     [_gameObjects addObject:[[SpambotObject alloc] init] ];
+    
+    //TODO: load map from file
+    NSLog(@"loading map from file");
+    [_gameObjects addObjectsFromArray:[MapLoadHelper loadObjectsFromMap:@"map01"]];  //map number hardcoded for now
+    
+    //[MapLoadHelper loadObjectsFromMap:@"map01"];
     
     //create initial "visible" list
     NSLog(@"creating initial visible objects array");

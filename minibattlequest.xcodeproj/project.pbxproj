@@ -19,6 +19,8 @@
 		6D5044121E3FE7B2001F8AE6 /* mbq_title_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5044081E3FE7B2001F8AE6 /* mbq_title_logo.png */; };
 		6D5044151E3FE90B001F8AE6 /* LeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5044141E3FE90B001F8AE6 /* LeaderboardViewController.m */; };
 		830645B71E4A34B1000B5A0D /* WallObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 830645B61E4A34B1000B5A0D /* WallObject.m */; };
+		83BD290E1E529CB3006B2B56 /* map01.json in Resources */ = {isa = PBXBuildFile; fileRef = 83BD290D1E529CB3006B2B56 /* map01.json */; };
+		83BD29101E52A916006B2B56 /* MapLoadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BD290F1E52A916006B2B56 /* MapLoadHelper.m */; };
 		83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F92B901E411D8D0064411B /* mbq_button_wide_red.png */; };
 		83F92B931E4126AD0064411B /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B921E4126AD0064411B /* GameObject.m */; };
 		83F92B981E412BD40064411B /* PlayerObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B971E412BD40064411B /* PlayerObject.m */; };
@@ -52,6 +54,9 @@
 		6D5044141E3FE90B001F8AE6 /* LeaderboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderboardViewController.m; sourceTree = "<group>"; };
 		830645B61E4A34B1000B5A0D /* WallObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WallObject.m; sourceTree = "<group>"; };
 		830645B81E4A34B9000B5A0D /* WallObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WallObject.h; sourceTree = "<group>"; };
+		83BD290D1E529CB3006B2B56 /* map01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = map01.json; path = resources/maps/map01.json; sourceTree = "<group>"; };
+		83BD290F1E52A916006B2B56 /* MapLoadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLoadHelper.m; sourceTree = "<group>"; };
+		83BD29111E52A92F006B2B56 /* MapLoadHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapLoadHelper.h; sourceTree = "<group>"; };
 		83DF1F841E43DA790042F3D7 /* GOTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GOTypes.h; sourceTree = "<group>"; };
 		83F92B901E411D8D0064411B /* mbq_button_wide_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_button_wide_red.png; path = resources/ui/mbq_button_wide_red.png; sourceTree = "<group>"; };
 		83F92B921E4126AD0064411B /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
@@ -94,6 +99,7 @@
 		6D4444401E3FE39200B9FC2B /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				83BD290A1E529C5F006B2B56 /* Maps */,
 				6D4444411E3FE3A000B9FC2B /* Images */,
 			);
 			name = Assets;
@@ -114,6 +120,14 @@
 				6D5044081E3FE7B2001F8AE6 /* mbq_title_logo.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		83BD290A1E529C5F006B2B56 /* Maps */ = {
+			isa = PBXGroup;
+			children = (
+				83BD290D1E529CB3006B2B56 /* map01.json */,
+			);
+			name = Maps;
 			sourceTree = "<group>";
 		};
 		83F92B951E412B4E0064411B /* GameObjects */ = {
@@ -157,6 +171,8 @@
 		C2E961471E37D81A0098A95D /* minibattlequest */ = {
 			isa = PBXGroup;
 			children = (
+				83BD29111E52A92F006B2B56 /* MapLoadHelper.h */,
+				83BD290F1E52A916006B2B56 /* MapLoadHelper.m */,
 				83F92B951E412B4E0064411B /* GameObjects */,
 				6D5043FC1E3FE614001F8AE6 /* MainMenuViewController.h */,
 				6D5043FD1E3FE695001F8AE6 /* MainMenuViewController.m */,
@@ -253,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D50440E1E3FE7B2001F8AE6 /* mbq_icon_shield.png in Resources */,
+				83BD290E1E529CB3006B2B56 /* map01.json in Resources */,
 				6D50440C1E3FE7B2001F8AE6 /* mbq_icon_bow.png in Resources */,
 				6D5044121E3FE7B2001F8AE6 /* mbq_title_logo.png in Resources */,
 				C2E961571E37D81A0098A95D /* Main.storyboard in Resources */,
@@ -277,6 +294,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83BD29101E52A916006B2B56 /* MapLoadHelper.m in Sources */,
 				6D5043FE1E3FE695001F8AE6 /* MainMenuViewController.m in Sources */,
 				830645B71E4A34B1000B5A0D /* WallObject.m in Sources */,
 				83FD94B31E4BC22700011AAF /* SpambotObject.m in Sources */,
