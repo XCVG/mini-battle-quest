@@ -8,10 +8,11 @@
 
 #ifndef MapLoadHelper_h
 #define MapLoadHelper_h
+#import "MapModel.h"
 
 @interface MapLoadHelper : NSObject
 
-+(NSMutableArray*)loadObjectsFromMap:(NSString*)map;
++(MapModel*)loadObjectsFromMap:(NSString*)map;
 
 @end
 

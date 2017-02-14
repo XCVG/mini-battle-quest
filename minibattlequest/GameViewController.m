@@ -214,7 +214,8 @@ GLfloat gCubeVertexData[216] =
     
     //TODO: load map from file
     NSLog(@"loading map from file");
-    [_gameObjects addObjectsFromArray:[MapLoadHelper loadObjectsFromMap:@"map01"]];  //map number hardcoded for now
+    MapModel* mapModel = [MapLoadHelper loadObjectsFromMap:@"map01"];
+    [_gameObjects addObjectsFromArray:mapModel.objects];  //map number hardcoded for now
     
     //[MapLoadHelper loadObjectsFromMap:@"map01"];
     

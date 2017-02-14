@@ -21,6 +21,7 @@
 		830645B71E4A34B1000B5A0D /* WallObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 830645B61E4A34B1000B5A0D /* WallObject.m */; };
 		83BD290E1E529CB3006B2B56 /* map01.json in Resources */ = {isa = PBXBuildFile; fileRef = 83BD290D1E529CB3006B2B56 /* map01.json */; };
 		83BD29101E52A916006B2B56 /* MapLoadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BD290F1E52A916006B2B56 /* MapLoadHelper.m */; };
+		83F34A1F1E538B0E00DAC508 /* MapModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F34A1E1E538B0E00DAC508 /* MapModel.m */; };
 		83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F92B901E411D8D0064411B /* mbq_button_wide_red.png */; };
 		83F92B931E4126AD0064411B /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B921E4126AD0064411B /* GameObject.m */; };
 		83F92B981E412BD40064411B /* PlayerObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B971E412BD40064411B /* PlayerObject.m */; };
@@ -58,6 +59,8 @@
 		83BD290F1E52A916006B2B56 /* MapLoadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLoadHelper.m; sourceTree = "<group>"; };
 		83BD29111E52A92F006B2B56 /* MapLoadHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapLoadHelper.h; sourceTree = "<group>"; };
 		83DF1F841E43DA790042F3D7 /* GOTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GOTypes.h; sourceTree = "<group>"; };
+		83F34A1D1E538ADE00DAC508 /* MapModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapModel.h; sourceTree = "<group>"; };
+		83F34A1E1E538B0E00DAC508 /* MapModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapModel.m; sourceTree = "<group>"; };
 		83F92B901E411D8D0064411B /* mbq_button_wide_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_button_wide_red.png; path = resources/ui/mbq_button_wide_red.png; sourceTree = "<group>"; };
 		83F92B921E4126AD0064411B /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
 		83F92B941E4126B90064411B /* GameObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
@@ -130,6 +133,15 @@
 			name = Maps;
 			sourceTree = "<group>";
 		};
+		83F34A1B1E538A3000DAC508 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				83F34A1D1E538ADE00DAC508 /* MapModel.h */,
+				83F34A1E1E538B0E00DAC508 /* MapModel.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		83F92B951E412B4E0064411B /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
@@ -173,6 +185,7 @@
 			children = (
 				83BD29111E52A92F006B2B56 /* MapLoadHelper.h */,
 				83BD290F1E52A916006B2B56 /* MapLoadHelper.m */,
+				83F34A1B1E538A3000DAC508 /* Models */,
 				83F92B951E412B4E0064411B /* GameObjects */,
 				6D5043FC1E3FE614001F8AE6 /* MainMenuViewController.h */,
 				6D5043FD1E3FE695001F8AE6 /* MainMenuViewController.m */,
@@ -303,6 +316,7 @@
 				C2E961541E37D81A0098A95D /* GameViewController.m in Sources */,
 				83F92B931E4126AD0064411B /* GameObject.m in Sources */,
 				83F92B9A1E412CF40064411B /* EnemyObject.m in Sources */,
+				83F34A1F1E538B0E00DAC508 /* MapModel.m in Sources */,
 				C2E9614A1E37D81A0098A95D /* main.m in Sources */,
 				83FD94B01E4BBA2600011AAF /* MeeseeksObject.m in Sources */,
 				83F92B981E412BD40064411B /* PlayerObject.m in Sources */,

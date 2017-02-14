@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MapLoadHelper.h"
+#import "GameObject.h"
 
 @interface MapLoadHelper()
 {
@@ -21,9 +22,12 @@
     
 }
 
-+(NSMutableArray*)loadObjectsFromMap:(NSString*)map
++(MapModel*)loadObjectsFromMap:(NSString*)map
 {
+    MapModel *mapModel = [[MapModel alloc] init];
+    
     NSMutableArray *objects = [[NSMutableArray alloc] init];
+    mapModel.objects = objects; //this is fine
     
     NSBundle *mainBundle = [NSBundle mainBundle];
     
@@ -38,11 +42,29 @@
     
     //NSError *error = nil;
     
-    id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     
-    return objects;
+    //get non-object propertiess
+    mapModel.name = [jsonObject valueForKey:@"name"];
+    mapModel.music = [jsonObject valueForKey:@"music"];
+    mapModel.background = [jsonObject valueForKey:@"background"];
+    
+    NSArray *jsonArrayOfGameObjects = [jsonObject valueForKey:@"objects"];
+    
+    //iterate through object and generate gameobjects
+    for(NSDictionary* object in jsonArrayOfGameObjects)
+    {
+        //type, x, y, don't use state because it's unused
+        GameObject* go = (GameObject*)[[NSClassFromString([object valueForKey:@"type"]) alloc] init];
+        MBQPoint2D pos;
+        pos.x = [(NSNumber*)[object valueForKey:@"x"] floatValue];
+        pos.y = [(NSNumber*)[object valueForKey:@"y"] floatValue];
+        go.position =  pos;
+        
+        [objects addObject:go];
+    }
+    
+    return mapModel;
 }
-
-//TODO decoding JSON into GameObjects
 
 @end
