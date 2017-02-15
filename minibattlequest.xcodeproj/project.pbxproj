@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D2FA0D31E54D4D70064595A /* MBQData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6D2FA0D11E54D4D70064595A /* MBQData.xcdatamodeld */; };
 		6D5043FE1E3FE695001F8AE6 /* MainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5043FD1E3FE695001F8AE6 /* MainMenuViewController.m */; };
 		6D50440A1E3FE7B2001F8AE6 /* mbq_home_bg_ws.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5044001E3FE7B2001F8AE6 /* mbq_home_bg_ws.png */; };
 		6D50440B1E3FE7B2001F8AE6 /* mbq_home_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5044011E3FE7B2001F8AE6 /* mbq_home_bg.png */; };
@@ -18,6 +19,10 @@
 		6D5044111E3FE7B2001F8AE6 /* mbq_title_logo_framed.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5044071E3FE7B2001F8AE6 /* mbq_title_logo_framed.png */; };
 		6D5044121E3FE7B2001F8AE6 /* mbq_title_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5044081E3FE7B2001F8AE6 /* mbq_title_logo.png */; };
 		6D5044151E3FE90B001F8AE6 /* LeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5044141E3FE90B001F8AE6 /* LeaderboardViewController.m */; };
+		6DCB13581E54E6C300CB5AA8 /* LeaderboardScore+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB13551E54E6C300CB5AA8 /* LeaderboardScore+CoreDataClass.m */; };
+		6DCB13591E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB13571E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m */; };
+		6DCB135C1E54E76B00CB5AA8 /* LeaderboardScore+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB135B1E54E76B00CB5AA8 /* LeaderboardScore+Util.m */; };
+		6DCB13601E54E7D100CB5AA8 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB135F1E54E7D100CB5AA8 /* CoreDataTableViewController.m */; };
 		83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F92B901E411D8D0064411B /* mbq_button_wide_red.png */; };
 		83F92B931E4126AD0064411B /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B921E4126AD0064411B /* GameObject.m */; };
 		83F92B981E412BD40064411B /* PlayerObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B971E412BD40064411B /* PlayerObject.m */; };
@@ -34,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6D2FA0D21E54D4D70064595A /* MBQData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MBQData.xcdatamodel; sourceTree = "<group>"; };
 		6D5043FC1E3FE614001F8AE6 /* MainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuViewController.h; path = ../MainMenuViewController.h; sourceTree = "<group>"; };
 		6D5043FD1E3FE695001F8AE6 /* MainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuViewController.m; sourceTree = "<group>"; };
 		6D5044001E3FE7B2001F8AE6 /* mbq_home_bg_ws.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_home_bg_ws.png; path = resources/ui/mbq_home_bg_ws.png; sourceTree = "<group>"; };
@@ -47,6 +53,14 @@
 		6D5044081E3FE7B2001F8AE6 /* mbq_title_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_title_logo.png; path = resources/ui/mbq_title_logo.png; sourceTree = "<group>"; };
 		6D5044131E3FE8D3001F8AE6 /* LeaderboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LeaderboardViewController.h; sourceTree = "<group>"; };
 		6D5044141E3FE90B001F8AE6 /* LeaderboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderboardViewController.m; sourceTree = "<group>"; };
+		6DCB13541E54E6C300CB5AA8 /* LeaderboardScore+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LeaderboardScore+CoreDataClass.h"; sourceTree = "<group>"; };
+		6DCB13551E54E6C300CB5AA8 /* LeaderboardScore+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LeaderboardScore+CoreDataClass.m"; sourceTree = "<group>"; };
+		6DCB13561E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LeaderboardScore+CoreDataProperties.h"; sourceTree = "<group>"; };
+		6DCB13571E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LeaderboardScore+CoreDataProperties.m"; sourceTree = "<group>"; };
+		6DCB135A1E54E76B00CB5AA8 /* LeaderboardScore+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LeaderboardScore+Util.h"; sourceTree = "<group>"; };
+		6DCB135B1E54E76B00CB5AA8 /* LeaderboardScore+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LeaderboardScore+Util.m"; sourceTree = "<group>"; };
+		6DCB135E1E54E7D100CB5AA8 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
+		6DCB135F1E54E7D100CB5AA8 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
 		83DF1F841E43DA790042F3D7 /* GOTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GOTypes.h; sourceTree = "<group>"; };
 		83F92B901E411D8D0064411B /* mbq_button_wide_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_button_wide_red.png; path = resources/ui/mbq_button_wide_red.png; sourceTree = "<group>"; };
 		83F92B921E4126AD0064411B /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
@@ -82,6 +96,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D2FA0D41E54D56B0064595A /* Core Data Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6DCB13541E54E6C300CB5AA8 /* LeaderboardScore+CoreDataClass.h */,
+				6DCB13551E54E6C300CB5AA8 /* LeaderboardScore+CoreDataClass.m */,
+				6DCB13561E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.h */,
+				6DCB13571E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m */,
+				6DCB135A1E54E76B00CB5AA8 /* LeaderboardScore+Util.h */,
+				6DCB135B1E54E76B00CB5AA8 /* LeaderboardScore+Util.m */,
+			);
+			name = "Core Data Classes";
+			sourceTree = "<group>";
+		};
 		6D4444401E3FE39200B9FC2B /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +132,19 @@
 				6D5044081E3FE7B2001F8AE6 /* mbq_title_logo.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		6DCB135D1E54E7AE00CB5AA8 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				6D5043FC1E3FE614001F8AE6 /* MainMenuViewController.h */,
+				6D5043FD1E3FE695001F8AE6 /* MainMenuViewController.m */,
+				6D5044131E3FE8D3001F8AE6 /* LeaderboardViewController.h */,
+				6D5044141E3FE90B001F8AE6 /* LeaderboardViewController.m */,
+				6DCB135E1E54E7D100CB5AA8 /* CoreDataTableViewController.h */,
+				6DCB135F1E54E7D100CB5AA8 /* CoreDataTableViewController.m */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		83F92B951E412B4E0064411B /* GameObjects */ = {
@@ -142,11 +182,10 @@
 		C2E961471E37D81A0098A95D /* minibattlequest */ = {
 			isa = PBXGroup;
 			children = (
+				6DCB135D1E54E7AE00CB5AA8 /* ViewControllers */,
+				6D2FA0D41E54D56B0064595A /* Core Data Classes */,
+				6D2FA0D11E54D4D70064595A /* MBQData.xcdatamodeld */,
 				83F92B951E412B4E0064411B /* GameObjects */,
-				6D5043FC1E3FE614001F8AE6 /* MainMenuViewController.h */,
-				6D5043FD1E3FE695001F8AE6 /* MainMenuViewController.m */,
-				6D5044131E3FE8D3001F8AE6 /* LeaderboardViewController.h */,
-				6D5044141E3FE90B001F8AE6 /* LeaderboardViewController.m */,
 				C2E9614B1E37D81A0098A95D /* AppDelegate.h */,
 				C2E9614C1E37D81A0098A95D /* AppDelegate.m */,
 				C2E9614E1E37D81A0098A95D /* Shader.fsh */,
@@ -209,7 +248,7 @@
 				TargetAttributes = {
 					C2E961441E37D8190098A95D = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 7MXZJ84DBE;
+						DevelopmentTeam = 7U4LBQ6ZEV;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -264,12 +303,17 @@
 			files = (
 				6D5043FE1E3FE695001F8AE6 /* MainMenuViewController.m in Sources */,
 				6D5044151E3FE90B001F8AE6 /* LeaderboardViewController.m in Sources */,
+				6DCB13581E54E6C300CB5AA8 /* LeaderboardScore+CoreDataClass.m in Sources */,
 				C2E9614D1E37D81A0098A95D /* AppDelegate.m in Sources */,
+				6DCB135C1E54E76B00CB5AA8 /* LeaderboardScore+Util.m in Sources */,
 				C2E961541E37D81A0098A95D /* GameViewController.m in Sources */,
+				6DCB13591E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m in Sources */,
 				83F92B931E4126AD0064411B /* GameObject.m in Sources */,
+				6DCB13601E54E7D100CB5AA8 /* CoreDataTableViewController.m in Sources */,
 				83F92B9A1E412CF40064411B /* EnemyObject.m in Sources */,
 				C2E9614A1E37D81A0098A95D /* main.m in Sources */,
 				83F92B981E412BD40064411B /* PlayerObject.m in Sources */,
+				6D2FA0D31E54D4D70064595A /* MBQData.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,11 +431,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7MXZJ84DBE;
+				DEVELOPMENT_TEAM = 7U4LBQ6ZEV;
 				INFOPLIST_FILE = minibattlequest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xcvgsystems.minibattlequest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mott00.minibattlequest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -400,11 +444,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7MXZJ84DBE;
+				DEVELOPMENT_TEAM = 7U4LBQ6ZEV;
 				INFOPLIST_FILE = minibattlequest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xcvgsystems.minibattlequest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mott00.minibattlequest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -431,6 +475,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		6D2FA0D11E54D4D70064595A /* MBQData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6D2FA0D21E54D4D70064595A /* MBQData.xcdatamodel */,
+			);
+			currentVersion = 6D2FA0D21E54D4D70064595A /* MBQData.xcdatamodel */;
+			path = MBQData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C2E9613D1E37D8190098A95D /* Project object */;
 }

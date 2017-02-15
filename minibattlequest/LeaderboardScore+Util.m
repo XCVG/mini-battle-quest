@@ -1,44 +1,65 @@
 /*===========================================================================================
-    LeaderboardViewController                                                           *//**
-                                                                                        
-    Displays the list of high scores in a UITableView.
-                                                                                        
+    LeaderboardScore+Util                                                               *//**
+
+    Adds basic utilities to the LeaderboardScore class.
+
     @author Erick Fernandez de Arteaga - https://www.linkedin.com/in/erickfda
     @version 0.1.0
     @file
-                                                                                        
+
 *//*=======================================================================================*/
 
 /*===========================================================================================
 	Dependencies
  ===========================================================================================*/
-#import <Foundation/Foundation.h>
-#import "CoreDataTableViewController.h"
+#import "LeaderboardScore+Util.h"
 
 /*===========================================================================================
-	LeaderboardViewController
+	LeaderboardScore+Util
  ===========================================================================================*/
 /**
-	Displays the list of high scores in a UITableView.
+    Adds basic utilities to the LeaderboardScore class.
  */
-@interface LeaderboardViewController : CoreDataTableViewController
+@interface LeaderboardScore (Util)
 {
     /*=======================================================================================
         Instance Variables
      =======================================================================================*/
-    
-    
+
+
 }
 
 /*===========================================================================================
     Instance Properties
  ===========================================================================================*/
-@property (nonatomic, strong) UIManagedDocument *managedDocument;
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
+
+@end
+
+@implementation LeaderboardScore (Util)
+
+/*===========================================================================================
+    Property Synthesizers
+ ===========================================================================================*/
+
+
+/*===========================================================================================
+	Class Methods
+ ===========================================================================================*/
++ (LeaderboardScore *)addScoreWithValue:(int)value inManagedObjectContext:(NSManagedObjectContext *)context
+{
+    LeaderboardScore * newScore = nil;
+
+    /* Create the new score and set its value. */
+    newScore = [NSEntityDescription insertNewObjectForEntityForName:@"LeaderboardScore"
+                                             inManagedObjectContext:context];
+    newScore.score = value;
+
+    return newScore;
+}
 
 /*===========================================================================================
 	Instance Methods
  ===========================================================================================*/
-
 
 @end

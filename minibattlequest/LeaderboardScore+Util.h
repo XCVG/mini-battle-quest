@@ -1,44 +1,44 @@
 /*===========================================================================================
-    LeaderboardViewController                                                           *//**
-                                                                                        
-    Displays the list of high scores in a UITableView.
-                                                                                        
+    LeaderboardScore+Util                                                               *//**
+
+    Adds basic utilities to the LeaderboardScore class.
+
     @author Erick Fernandez de Arteaga - https://www.linkedin.com/in/erickfda
     @version 0.1.0
     @file
-                                                                                        
+
 *//*=======================================================================================*/
 
 /*===========================================================================================
 	Dependencies
  ===========================================================================================*/
 #import <Foundation/Foundation.h>
-#import "CoreDataTableViewController.h"
+#import "LeaderboardScore+CoreDataClass.h"
 
 /*===========================================================================================
-	LeaderboardViewController
+	LeaderboardScore+Util
  ===========================================================================================*/
 /**
-	Displays the list of high scores in a UITableView.
+	Adds basic utilities to the LeaderboardScore class.
  */
-@interface LeaderboardViewController : CoreDataTableViewController
+@interface LeaderboardScore (Util)
 {
     /*=======================================================================================
         Instance Variables
      =======================================================================================*/
-    
-    
+
+
 }
 
 /*===========================================================================================
     Instance Properties
  ===========================================================================================*/
-@property (nonatomic, strong) UIManagedDocument *managedDocument;
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
 
 /*===========================================================================================
 	Instance Methods
  ===========================================================================================*/
-
++ (LeaderboardScore *)addScoreWithValue:(int)value
+                 inManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end

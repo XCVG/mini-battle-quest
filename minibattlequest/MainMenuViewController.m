@@ -21,6 +21,13 @@
     
 }
 
-
+/**
+    On load, hide the navigation bar and enable swipe navigation.
+ */
+-(void)viewDidLoad
+{
+    [self.navigationController setNavigationBarHidden:YES];
+    [self.navigationController.interactivePopGestureRecognizer setDelegate:nil];
+}
 
 @end

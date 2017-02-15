@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9WV-qI-ndA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GgC-ti-g2v">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -41,11 +41,11 @@
                                 </constraints>
                                 <state key="normal" title="LEADERBOARD" backgroundImage="mbq_button_wide_red.png"/>
                                 <connections>
-                                    <segue destination="WFi-ky-sMi" kind="show" id="upd-yr-wYU"/>
+                                    <segue destination="zkI-MN-E5q" kind="show" id="cVd-48-4pb"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mbq_title_logo_framed.png" translatesAutoresizingMaskIntoConstraints="NO" id="2s9-3K-faB">
-                                <rect key="frame" x="67" y="66" width="240" height="246"/>
+                                <rect key="frame" x="67" y="90" width="240" height="222"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -66,28 +66,41 @@
                             <constraint firstItem="2s9-3K-faB" firstAttribute="leading" secondItem="JRe-aw-uF1" secondAttribute="leadingMargin" constant="51" id="txN-F2-r7i"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="u3r-e9-E9q"/>
+                    <nil key="simulatedStatusBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qup-1i-Y30" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-951.20000000000005" y="34.632683658170919"/>
+            <point key="canvasLocation" x="927.20000000000005" y="34.632683658170919"/>
         </scene>
         <!--Leaderboard View Controller-->
-        <scene sceneID="gfY-zm-3ZS">
+        <scene sceneID="KVd-MS-C2n">
             <objects>
-                <viewController id="WFi-ky-sMi" customClass="LeaderboardViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="QeT-bM-hnG"/>
-                        <viewControllerLayoutGuide type="bottom" id="L45-k1-mX2"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="MGE-Xz-2V6">
+                <tableViewController id="zkI-MN-E5q" customClass="LeaderboardViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="SJQ-c3-nCc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="UWb-WU-FEz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeaderboardScore Cell" id="heb-PX-Eix">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="heb-PX-Eix" id="ygp-J3-DxQ">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="zkI-MN-E5q" id="BBm-oA-pqa"/>
+                            <outlet property="delegate" destination="zkI-MN-E5q" id="8BH-98-5E6"/>
+                        </connections>
+                    </tableView>
+                    <nil key="simulatedStatusBarMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FGN-DQ-kgJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="62" y="478"/>
+            <point key="canvasLocation" x="1956" y="324.28785607196403"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
@@ -105,7 +118,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="62" y="-431"/>
+            <point key="canvasLocation" x="1940" y="-431.33433283358323"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="4Fm-7T-KdQ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="GgC-ti-g2v" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="z7D-7O-IDa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="9WV-qI-ndA" kind="relationship" relationship="rootViewController" id="f0K-QV-MrF"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OZ1-bO-JeQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-12" y="34.632683658170919"/>
         </scene>
     </scenes>
     <resources>
