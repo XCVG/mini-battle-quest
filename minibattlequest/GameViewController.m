@@ -8,6 +8,7 @@
 
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
+
 #import "MapLoadHelper.h"
 #import "GameObject.h"
 #import "PlayerObject.h"
@@ -94,6 +95,8 @@ GLfloat gCubeVertexData[216] =
 
 @interface GameViewController () {
     GLuint _program;
+    //TODO: completely redo the way shaders/programs are referenced and handled
+    GLuint _bgProgram;
     
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
@@ -425,6 +428,27 @@ GLfloat gCubeVertexData[216] =
     //clear the display
     glClearColor(0.65f, 0.65f, 0.65f, 1.0f); //set background color (I remember this from GDX)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear
+    
+    /*
+    {
+        glUseProgram(_program);
+        
+        GLfloat square[] = {
+            -0.5, -0.5,
+            0.5, -0.5,
+            -0.5, 0.5,
+            0.5, 0.5};
+        
+        const char *aPositionCString = [@"position" cStringUsingEncoding:NSUTF8StringEncoding];
+        GLuint aPosition = glGetAttribLocation(_program, aPositionCString);
+        
+        glVertexAttribPointer(aPosition, 2, GL_FLOAT, GL_FALSE, 0, square);
+        glEnableVertexAttribArray(aPosition);
+        
+        // Draw
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    }
+    */
     
     MBQObjectDisplayIn objectDataIn;
     
