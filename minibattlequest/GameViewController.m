@@ -271,7 +271,11 @@ GLfloat gCubeVertexData[216] =
     glEnableVertexAttribArray(GLKVertexAttribPosition);
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 6, BUFFER_OFFSET(0));
     
+    
+    
     glBindVertexArrayOES(0);
+    
+    
     
     //load cube
     glEnable(GL_DEPTH_TEST);
@@ -480,9 +484,22 @@ GLfloat gCubeVertexData[216] =
     {
         glBindVertexArrayOES(_bgVertexArray);
         glUseProgram(_bgProgram);
-        glDrawArrays(GL_TRIANGLES, 0, 4);
+        
+        //matrix stuff
+        GLuint bgUloc = glGetUniformLocation(_bgProgram, "modelViewProjectionMatrix");
+        
+        GLKMatrix4 bgMvpm = GLKMatrix4Identity;
+        bgMvpm = GLKMatrix4MakeTranslation(1.0f, -1.0f, 0.0f);
+        bgMvpm = GLKMatrix4Scale(bgMvpm, 1.0f, 2.0f, 1.0f);
+        
+        glUniformMatrix4fv(bgUloc, 1, 0, bgMvpm.m);
+        
+        
+        glDrawArrays(GL_TRIANGLES, 0, 6);
         
     }
+    
+    glClear(GL_DEPTH_BUFFER_BIT);
     
     MBQObjectDisplayIn objectDataIn;
     
@@ -500,17 +517,17 @@ GLfloat gCubeVertexData[216] =
     glBindVertexArrayOES(_vertexArray);
     
     // Render the object with GLKit
-    [self.effect prepareToDraw];
-    
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    
-    // Render the object again with ES2
-    //glUseProgram(_program);
-    
-    //glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
-    //glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
+    //[self.effect prepareToDraw];
     
     //glDrawArrays(GL_TRIANGLES, 0, 36);
+    
+    // Render the object again with ES2
+    glUseProgram(_program);
+    
+    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
+    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
+    
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
 #pragma mark - Touch and other event handlers
