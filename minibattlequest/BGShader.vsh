@@ -7,7 +7,7 @@
 //
 
 //based on dead simple vertex shader
-attribute vec4 position
+attribute vec4 position;
 
 void main()
 {

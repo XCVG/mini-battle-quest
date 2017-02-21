@@ -97,6 +97,8 @@ GLfloat gCubeVertexData[216] =
     GLuint _program;
     //TODO: completely redo the way shaders/programs are referenced and handled
     GLuint _bgProgram;
+    GLuint _bgVertexArray;
+    GLuint _bgVertexBuffer;
     
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
@@ -242,11 +244,34 @@ GLfloat gCubeVertexData[216] =
     [EAGLContext setCurrentContext:self.context];
     
     [self loadShaders];
+    [self loadBGShaders];
     
+    //useless GLKit stuff
     self.effect = [[GLKBaseEffect alloc] init];
     self.effect.light0.enabled = GL_TRUE;
     self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
     
+    //load background
+    
+    //TODO move this
+    GLfloat bgVertices[] = {
+        0.0f, 0.0f, 0.2f,
+        1.0f, 0.0f, 0.2f,
+        0.0f, 1.0f, 0.2f,
+        1.0f, 1.0f, 0.2f  };
+    
+    glGenVertexArraysOES(1, &_bgVertexArray);
+    glBindVertexArrayOES(_bgVertexArray);
+    glGenBuffers(1, &_bgVertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _bgVertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(bgVertices), bgVertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(GLKVertexAttribPosition);
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 4, BUFFER_OFFSET(0));
+    
+    glBindVertexArrayOES(0);
+    
+    //load cube
     glEnable(GL_DEPTH_TEST);
     
     glGenVertexArraysOES(1, &_vertexArray);
@@ -450,6 +475,13 @@ GLfloat gCubeVertexData[216] =
     }
     */
     
+    {
+        glBindVertexArrayOES(_bgVertexArray);
+        glUseProgram(_bgProgram);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        
+    }
+    
     MBQObjectDisplayIn objectDataIn;
     
     for(id o in _gameObjectsInView)
@@ -462,8 +494,6 @@ GLfloat gCubeVertexData[216] =
         }
         
     }
-    
-    
     
     glBindVertexArrayOES(_vertexArray);
     
@@ -493,6 +523,73 @@ GLfloat gCubeVertexData[216] =
 
 #pragma mark -  OpenGL ES 2 shader compilation
 //I have no idea what ANY of this does
+//TODO: unified shader loading and storage
+
+//load/compile background shaders
+- (BOOL)loadBGShaders
+{
+    GLuint vertShader, fragShader;
+    NSString *vertShaderPathname, *fragShaderPathname;
+    
+    // Create shader program.
+    _bgProgram = glCreateProgram();
+    
+    // Create and compile vertex shader.
+    vertShaderPathname = [[NSBundle mainBundle] pathForResource:@"BGShader" ofType:@"vsh"];
+    if (![self compileShader:&vertShader type:GL_VERTEX_SHADER file:vertShaderPathname]) {
+        NSLog(@"Failed to compile vertex shader");
+        return NO;
+    }
+    
+    // Create and compile fragment shader.
+    fragShaderPathname = [[NSBundle mainBundle] pathForResource:@"BGShader" ofType:@"fsh"];
+    if (![self compileShader:&fragShader type:GL_FRAGMENT_SHADER file:fragShaderPathname]) {
+        NSLog(@"Failed to compile fragment shader");
+        return NO;
+    }
+    
+    // Attach vertex shader to program.
+    glAttachShader(_bgProgram, vertShader);
+    
+    // Attach fragment shader to program.
+    glAttachShader(_bgProgram, fragShader);
+    
+    // Bind attribute locations.
+    // This needs to be done prior to linking.
+    glBindAttribLocation(_bgProgram, GLKVertexAttribPosition, "position");
+    
+    // Link program.
+    if (![self linkProgram:_bgProgram]) {
+        NSLog(@"Failed to link program: %d", _bgProgram);
+        
+        if (vertShader) {
+            glDeleteShader(vertShader);
+            vertShader = 0;
+        }
+        if (fragShader) {
+            glDeleteShader(fragShader);
+            fragShader = 0;
+        }
+        if (_bgProgram) {
+            glDeleteProgram(_bgProgram);
+            _bgProgram = 0;
+        }
+        
+        return NO;
+    }
+    
+    // Release vertex and fragment shaders.
+    if (vertShader) {
+        glDetachShader(_bgProgram, vertShader);
+        glDeleteShader(vertShader);
+    }
+    if (fragShader) {
+        glDetachShader(_bgProgram, fragShader);
+        glDeleteShader(fragShader);
+    }
+    
+    return YES;
+}
 
 - (BOOL)loadShaders
 {
