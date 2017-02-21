@@ -256,8 +256,10 @@ GLfloat gCubeVertexData[216] =
     //TODO move this
     GLfloat bgVertices[] = {
         0.0f, 0.0f, 0.2f,
+        0.0f, 1.0f, 0.2f,
         1.0f, 0.0f, 0.2f,
         0.0f, 1.0f, 0.2f,
+        1.0f, 0.0f, 0.2f,
         1.0f, 1.0f, 0.2f  };
     
     glGenVertexArraysOES(1, &_bgVertexArray);
@@ -267,7 +269,7 @@ GLfloat gCubeVertexData[216] =
     glBufferData(GL_ARRAY_BUFFER, sizeof(bgVertices), bgVertices, GL_STATIC_DRAW);
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 4, BUFFER_OFFSET(0));
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 6, BUFFER_OFFSET(0));
     
     glBindVertexArrayOES(0);
     
@@ -478,7 +480,7 @@ GLfloat gCubeVertexData[216] =
     {
         glBindVertexArrayOES(_bgVertexArray);
         glUseProgram(_bgProgram);
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        glDrawArrays(GL_TRIANGLES, 0, 4);
         
     }
     
