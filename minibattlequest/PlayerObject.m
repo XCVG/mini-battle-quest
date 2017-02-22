@@ -10,7 +10,7 @@
 #import "PlayerObject.h"
 
 #define TARGET_THRESHOLD 32.0f
-#define DEFAULT_MOVE_SPEED 8.0f
+#define DEFAULT_MOVE_SPEED 100.0f
 
 @interface PlayerObject()
 {
@@ -73,46 +73,53 @@
                 //TODO: rework to use velocity
                 if(fabsf(_target.x - self.position.x) > TARGET_THRESHOLD && _target.x > self.position.x)
                 {
-                    MBQPoint2D p = self.position;
+                    MBQVect2D newVelocity = {_moveSpeed,self.velocity.y};
+                    self.velocity = newVelocity;
                     
-                    p.x += _moveSpeed;
-                    
-                    self.position = p;
                     moved = YES;
                 }
                 else if(fabsf(_target.x - self.position.x) > TARGET_THRESHOLD && _target.x < self.position.x)
                 {
-                    MBQPoint2D p = self.position;
+                    MBQVect2D newVelocity = {-_moveSpeed,self.velocity.y};
+                    self.velocity = newVelocity;
                     
-                    p.x -= _moveSpeed;
-                    
-                    self.position = p;
                     moved = YES;
+                }
+                else
+                {
+                    MBQVect2D newVelocity = {0.0f,self.velocity.y};
+                    self.velocity = newVelocity;
                 }
                 
                 if(fabsf(_target.y - self.position.y) > TARGET_THRESHOLD && _target.y > self.position.y)
                 {
-                    MBQPoint2D p = self.position;
+                    MBQVect2D newVelocity = {self.velocity.x,_moveSpeed};
+                    self.velocity = newVelocity;
                     
-                    p.y += _moveSpeed;
-                    
-                    self.position = p;
                     moved = YES;
                 }
                 else if(fabsf(_target.y - self.position.y) > TARGET_THRESHOLD && _target.y < self.position.y)
                 {
-                    MBQPoint2D p = self.position;
+                    MBQVect2D newVelocity = {self.velocity.x,-_moveSpeed};
+                    self.velocity = newVelocity;
                     
-                    p.y -= _moveSpeed;
-                    
-                    self.position = p;
                     moved = YES;
+                }
+                else
+                {
+                    MBQVect2D newVelocity = {self.velocity.x,0.0f};
+                    self.velocity = newVelocity;
                 }
                 
                 //TODO: search for/attack enemies?
                 
                 if(!moved)
+                {
+                    MBQVect2D newVelocity = {0.0f,0.0f};
+                    self.velocity = newVelocity;
                     self.state = STATE_IDLING;
+                }
+                
             }
             
             break;
