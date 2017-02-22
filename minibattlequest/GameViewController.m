@@ -8,9 +8,13 @@
 
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
+
+#import "MapLoadHelper.h"
 #import "GameObject.h"
 #import "PlayerObject.h"
 #import "EnemyObject.h"
+#import "MeeseeksObject.h"
+#import "SpambotObject.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -91,6 +95,10 @@ GLfloat gCubeVertexData[216] =
 
 @interface GameViewController () {
     GLuint _program;
+    //TODO: completely redo the way shaders/programs are referenced and handled
+    GLuint _bgProgram;
+    GLuint _bgVertexArray;
+    GLuint _bgVertexBuffer;
     
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
@@ -118,6 +126,8 @@ GLfloat gCubeVertexData[216] =
     //game variables
     NSMutableArray *_gameObjects;
     PlayerObject *_player;
+    NSMutableArray *_gameObjectsInView;
+    NSMutableArray *_gameObjectsToAdd;
     
     float _scrollPos;
     BOOL _scrolling;
@@ -202,7 +212,25 @@ GLfloat gCubeVertexData[216] =
     _player = [[PlayerObject alloc] init];
     [_gameObjects addObject:_player];
     
-    //TODO create player move touch handler
+    //for testing: Meseeks and Spawner
+    NSLog(@"creating test objects");
+    [_gameObjects addObject:[[MeeseeksObject alloc] init] ];
+    [_gameObjects addObject:[[SpambotObject alloc] init] ];
+    
+    //load map from file
+    NSLog(@"loading map from file");
+    MapModel* mapModel = [MapLoadHelper loadObjectsFromMap:@"map01"];
+    [_gameObjects addObjectsFromArray:mapModel.objects];  //map number hardcoded for now
+    
+    //create initial "visible" list
+    NSLog(@"creating initial visible objects array");
+    _gameObjectsInView = [[NSMutableArray alloc]init];
+    [self refreshGameObjectsInView];
+    
+    NSLog(@"creating 'objects to add' array");
+    _gameObjectsToAdd = [[NSMutableArray alloc] init];
+    
+    //create player move touch handler
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleViewportTap:)];
     [self.view addGestureRecognizer:tapGesture];
     
@@ -216,11 +244,40 @@ GLfloat gCubeVertexData[216] =
     [EAGLContext setCurrentContext:self.context];
     
     [self loadShaders];
+    [self loadBGShaders];
     
+    //useless GLKit stuff
     self.effect = [[GLKBaseEffect alloc] init];
     self.effect.light0.enabled = GL_TRUE;
     self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
     
+    //load background
+    
+    //TODO move this
+    GLfloat bgVertices[] = {
+        0.0f, 0.0f, 0.1f,
+        0.0f, 1.0f, 0.1f,
+        1.0f, 0.0f, 0.1f,
+        0.0f, 1.0f, 0.1f,
+        1.0f, 0.0f, 0.1f,
+        1.0f, 1.0f, 0.1f  };
+    
+    glGenVertexArraysOES(1, &_bgVertexArray);
+    glBindVertexArrayOES(_bgVertexArray);
+    glGenBuffers(1, &_bgVertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _bgVertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(bgVertices), bgVertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(GLKVertexAttribPosition);
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 6, BUFFER_OFFSET(0));
+    
+    
+    
+    glBindVertexArrayOES(0);
+    
+    
+    
+    //load cube
     glEnable(GL_DEPTH_TEST);
     
     glGenVertexArraysOES(1, &_vertexArray);
@@ -258,6 +315,9 @@ GLfloat gCubeVertexData[216] =
 {
     [EAGLContext setCurrentContext:self.context];
     
+    glDeleteBuffers(1, &_bgVertexBuffer);
+    glDeleteVertexArraysOES(1, &_bgVertexArray);
+    
     glDeleteBuffers(1, &_vertexBuffer);
     glDeleteVertexArraysOES(1, &_vertexArray);
     
@@ -282,26 +342,65 @@ GLfloat gCubeVertexData[216] =
 {
     //*****this is the "update" part of the loop
     
+    [_gameObjectsInView removeAllObjects];
+    
     //self.timeSinceLastUpdate
     
+    //delete inactive gameobjects
+    //turns out you can't delete during iteration in ObjC either
+    //if this turns out to be too expensive, we can simply ignore disabled objects
+    //and once every second or so, run a loop like this
+    for(NSInteger i = _gameObjects.count - 1; i >= 0; i--)
+    {
+        GameObject *go = _gameObjects[i];
+        if(!go.enabled)
+        {
+            [_gameObjects removeObjectAtIndex:i];
+        }
+    }
+    
+    //why not just pass _gameObjects into objectDataIn and use that directly?
+    //something something safety, something something encapsulation, something something concurrency
+    //if speed becomes an issue we can change it to do that
+    //if we're careful with GameObject spawning we won't even have to touch the GameObjects
+    for(id o in _gameObjectsToAdd)
+    {
+        [_gameObjects addObject:o];
+        [_gameObjectsToAdd removeObject:o];
+    }
+    
     MBQObjectUpdateIn objectDataIn;
+    
+    //NSLog(@"%f",self.timeSinceLastUpdate);
+    objectDataIn.timeSinceLast = self.timeSinceLastUpdate;
+    objectDataIn.player = _player;
+    objectDataIn.newObjectArray = _gameObjectsToAdd;
+    
+    //Denis: do we want to collide first, collide after, or collide during?
     
     for(id o in _gameObjects)
     {
      
         GameObject *go = (GameObject*)o;
         
-        [o update:&objectDataIn]; //each gameobject may do something during its update
-        
-        //delete unused objects
-        //(may need to move this; don't know if concurrent modification is a thing)
-        if(!go.enabled)
+        if([self isObjectInView:go])
         {
-            [_gameObjects removeObject:o];
+            [_gameObjectsInView addObject:go];
+            objectDataIn.visibleOnScreen = YES;
         }
+        else
+        {
+            objectDataIn.visibleOnScreen = NO;
+        }
+        
+        
+        [go update:&objectDataIn]; //each gameobject may do something during its update
+        
+        
+        
     }
     
-    //TODO handle scrolling
+    //handle scrolling
     
     if(_scrolling)
     {
@@ -326,6 +425,7 @@ GLfloat gCubeVertexData[216] =
     }
     
     //TODO other functionality
+    
     
     //stuff below is for demo, should remove it
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
@@ -363,35 +463,53 @@ GLfloat gCubeVertexData[216] =
     glClearColor(0.65f, 0.65f, 0.65f, 1.0f); //set background color (I remember this from GDX)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear
     
+    {
+        glBindVertexArrayOES(_bgVertexArray);
+        glUseProgram(_bgProgram);
+        
+        //matrix stuff
+        GLuint bgUloc = glGetUniformLocation(_bgProgram, "modelViewProjectionMatrix");
+        
+        GLKMatrix4 bgMvpm = GLKMatrix4Identity;
+        bgMvpm = GLKMatrix4MakeTranslation(1.0f, -1.0f, 0.0f);
+        bgMvpm = GLKMatrix4Scale(bgMvpm, 1.0f, 2.0f, 1.0f);
+        
+        glUniformMatrix4fv(bgUloc, 1, 0, bgMvpm.m);
+        
+        
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        
+    }
+    
+    glClear(GL_DEPTH_BUFFER_BIT); //clear the depth buffer so the background is behind everything
+    
     MBQObjectDisplayIn objectDataIn;
     
-    for(id o in _gameObjects)
+    for(id o in _gameObjectsInView)
     {
-        if(((GameObject*)o).enabled && ((GameObject*)o).visible && [self isObjectInView:((GameObject*)o)])
+        if(((GameObject*)o).enabled && ((GameObject*)o).visible)
         {
             MBQObjectDisplayOut objectDisplayData = [o display:&objectDataIn];
             
-            //TODO do something withthe display data
+            //TODO do something with the display data
         }
         
     }
     
-    
-    
     glBindVertexArrayOES(_vertexArray);
     
     // Render the object with GLKit
-    [self.effect prepareToDraw];
-    
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    
-    // Render the object again with ES2
-    //glUseProgram(_program);
-    
-    //glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
-    //glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
+    //[self.effect prepareToDraw];
     
     //glDrawArrays(GL_TRIANGLES, 0, 36);
+    
+    // Render the object again with ES2
+    glUseProgram(_program);
+    
+    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
+    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
+    
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
 #pragma mark - Touch and other event handlers
@@ -406,6 +524,74 @@ GLfloat gCubeVertexData[216] =
 
 #pragma mark -  OpenGL ES 2 shader compilation
 //I have no idea what ANY of this does
+//TODO: unified shader loading and storage
+
+//load/compile background shaders
+- (BOOL)loadBGShaders
+{
+    GLuint vertShader, fragShader;
+    NSString *vertShaderPathname, *fragShaderPathname;
+    
+    // Create shader program.
+    _bgProgram = glCreateProgram();
+    
+    // Create and compile vertex shader.
+    vertShaderPathname = [[NSBundle mainBundle] pathForResource:@"BGShader" ofType:@"vsh"];
+    if (![self compileShader:&vertShader type:GL_VERTEX_SHADER file:vertShaderPathname]) {
+        NSLog(@"Failed to compile vertex shader");
+        return NO;
+    }
+    
+    // Create and compile fragment shader.
+    fragShaderPathname = [[NSBundle mainBundle] pathForResource:@"BGShader" ofType:@"fsh"];
+    if (![self compileShader:&fragShader type:GL_FRAGMENT_SHADER file:fragShaderPathname]) {
+        NSLog(@"Failed to compile fragment shader");
+        return NO;
+    }
+    
+    // Attach vertex shader to program.
+    glAttachShader(_bgProgram, vertShader);
+    
+    // Attach fragment shader to program.
+    glAttachShader(_bgProgram, fragShader);
+    
+    // Bind attribute locations.
+    // This needs to be done prior to linking.
+    glBindAttribLocation(_bgProgram, GLKVertexAttribPosition, "position");
+    
+    
+    // Link program.
+    if (![self linkProgram:_bgProgram]) {
+        NSLog(@"Failed to link program: %d", _bgProgram);
+        
+        if (vertShader) {
+            glDeleteShader(vertShader);
+            vertShader = 0;
+        }
+        if (fragShader) {
+            glDeleteShader(fragShader);
+            fragShader = 0;
+        }
+        if (_bgProgram) {
+            glDeleteProgram(_bgProgram);
+            _bgProgram = 0;
+        }
+        
+        return NO;
+    }
+    
+    // Release vertex and fragment shaders.
+    if (vertShader) {
+        glDetachShader(_bgProgram, vertShader);
+        glDeleteShader(vertShader);
+    }
+    if (fragShader) {
+        glDetachShader(_bgProgram, fragShader);
+        glDeleteShader(fragShader);
+    }
+    
+    return YES;
+}
 
 - (BOOL)loadShaders
 {
@@ -557,6 +743,41 @@ GLfloat gCubeVertexData[216] =
     return YES;
 }
 
+#pragma mark -  OpenGL ES 2 textures and stuff
+
+-(GLuint)setupTexture:(NSString *)fileName {
+
+    //load CGimage
+    CGImageRef cgTexImage = [UIImage imageNamed:fileName].CGImage;
+    if(!cgTexImage)
+    {
+        NSLog(@"Failed to load texture(%@)", fileName);
+        return NO;
+    }
+    
+    //allocate and create context
+    size_t w = CGImageGetWidth(cgTexImage);
+    size_t h = CGImageGetHeight(cgTexImage);
+    GLubyte *glTexData = (GLubyte*) calloc(w*h*4, sizeof(GLubyte));
+    CGContextRef cgTexContext = CGBitmapContextCreate(glTexData, w, h, 8, w*4,                                                      CGImageGetColorSpace(cgTexImage), kCGImageAlphaPremultipliedLast);
+    
+    
+    //draw into context with CG
+    CGContextDrawImage(cgTexContext, CGRectMake(0,0,w,h), cgTexImage);
+    CGContextRelease(cgTexContext);
+    
+    
+    //bind GL texture
+    GLuint glTexName;
+    glGenTextures(1, &glTexName);
+    glBindTexture(GL_TEXTURE_2D, glTexName);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, glTexData);
+    
+    free(glTexData);
+    return glTexName;
+}
+
 #pragma mark - MBQ utility methods
 
 -(MBQPoint2D)getPointInWindowSpace:(CGPoint)ssPoint
@@ -582,10 +803,14 @@ GLfloat gCubeVertexData[216] =
     
     return wsPoint;
 }
+//TODO: if we need to go the other way
 
+//possible optimization: check objects in view every second or so, move in and out of "visible" list
+//this might be needed to get decent physics performance
 -(BOOL)isObjectInView:(GameObject*)object
 {
-    //TODO actually check if object is within view (view bounds)
+    //TODO: optimize with short-circuit to deal with most likely conditions
+    //actually check if object is within view (view bounds)
     float objX = object.position.x;
     float objY = object.position.y - _scrollPos;
     BOOL withinX = objX > (0 - VIEWPORT_OVERSCAN) && objX < (VIEWPORT_WIDTH + VIEWPORT_OVERSCAN);
@@ -594,6 +819,18 @@ GLfloat gCubeVertexData[216] =
     return withinX && withinY;
 }
 
-//TODO: if we need to go the other way
+//this should work
+-(void)refreshGameObjectsInView
+{
+    [_gameObjectsInView removeAllObjects];
+    
+    for(id o in _gameObjects)
+    {
+        if([self isObjectInView:((GameObject*)o)])
+        {
+            [_gameObjectsInView addObject:o];
+        }
+    }
+}
 
 @end

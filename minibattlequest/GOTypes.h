@@ -19,16 +19,31 @@ typedef struct MBQPoint2D{
     float y;
 } MBQPoint2D;
 
+//we could use an actual vector class, but this is (in theory) faster
+//I had some functions somewhere but don't know where to put them
+typedef struct MBQVect2D{
+    float x;
+    float y;
+} MBQVect2D;
 
 //for data passed into a GameObject during update()
 typedef struct MBQObjectUpdateIn{
+    float timeSinceLast;
+    BOOL visibleOnScreen;
+    __unsafe_unretained id player; //because circular references and header files... the dumbest reason for a cast ever
+    __unsafe_unretained NSMutableArray *newObjectArray; //objects can put new objects here
     
 } MBQObjectUpdateIn;
 
 //for data passed out of a GameObject during update()
 //(may not be needed)
 typedef struct MBQObjectUpdateOut{
-    
+    //so originally I was going to pass back newly created objects here, but ARC doesn't like that
+    //leaving me with a few options:
+    //1. disable ARC and confuse the rest of the team
+    //2. reimplement this with objects instead of structs (heavy!)
+    //3. pass a pointer to a mutable array into ObjectUpdateIn instead
+    //this may become a problem with rendering so we'll figure that out
 } MBQObjectUpdateOut;
 
 //for data passed into a GameObject during display()
@@ -40,5 +55,10 @@ typedef struct MBQObjectDisplayIn{
 typedef struct MBQObjectDisplayOut{
     
 } MBQObjectDisplayOut;
+
+//for data passed into a GameObject after collision (not including other gameobject)
+typedef struct MBQObjectCollideContext {
+    
+} MBQObjectCollideContext;
 
 #endif /* GOTypes_h */

@@ -23,6 +23,15 @@
 		6DCB13591E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB13571E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m */; };
 		6DCB135C1E54E76B00CB5AA8 /* LeaderboardScore+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB135B1E54E76B00CB5AA8 /* LeaderboardScore+Util.m */; };
 		6DCB13601E54E7D100CB5AA8 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB135F1E54E7D100CB5AA8 /* CoreDataTableViewController.m */; };
+		83D546A71E5E2BD500A056F5 /* MeeseeksObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D546A21E5E2BD500A056F5 /* MeeseeksObject.m */; };
+		83D546A81E5E2BD500A056F5 /* SpambotObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D546A41E5E2BD500A056F5 /* SpambotObject.m */; };
+		83D546A91E5E2BD500A056F5 /* WallObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D546A61E5E2BD500A056F5 /* WallObject.m */; };
+		83D546B01E5E2BE600A056F5 /* BGShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 83D546AA1E5E2BE600A056F5 /* BGShader.fsh */; };
+		83D546B11E5E2BE600A056F5 /* BGShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 83D546AB1E5E2BE600A056F5 /* BGShader.vsh */; };
+		83D546B21E5E2BE600A056F5 /* MapLoadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D546AD1E5E2BE600A056F5 /* MapLoadHelper.m */; };
+		83D546B31E5E2BE600A056F5 /* MapModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D546AF1E5E2BE600A056F5 /* MapModel.m */; };
+		83D546B61E5E2C3500A056F5 /* map01.json in Resources */ = {isa = PBXBuildFile; fileRef = 83D546B51E5E2C3500A056F5 /* map01.json */; };
+		83D546BB1E5E2C5800A056F5 /* tex_bgtest.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D546BA1E5E2C5800A056F5 /* tex_bgtest.png */; };
 		83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F92B901E411D8D0064411B /* mbq_button_wide_red.png */; };
 		83F92B931E4126AD0064411B /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B921E4126AD0064411B /* GameObject.m */; };
 		83F92B981E412BD40064411B /* PlayerObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B971E412BD40064411B /* PlayerObject.m */; };
@@ -61,6 +70,20 @@
 		6DCB135B1E54E76B00CB5AA8 /* LeaderboardScore+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LeaderboardScore+Util.m"; sourceTree = "<group>"; };
 		6DCB135E1E54E7D100CB5AA8 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
 		6DCB135F1E54E7D100CB5AA8 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
+		83D546A11E5E2BD500A056F5 /* MeeseeksObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeeseeksObject.h; sourceTree = "<group>"; };
+		83D546A21E5E2BD500A056F5 /* MeeseeksObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeeseeksObject.m; sourceTree = "<group>"; };
+		83D546A31E5E2BD500A056F5 /* SpambotObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpambotObject.h; sourceTree = "<group>"; };
+		83D546A41E5E2BD500A056F5 /* SpambotObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpambotObject.m; sourceTree = "<group>"; };
+		83D546A51E5E2BD500A056F5 /* WallObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WallObject.h; sourceTree = "<group>"; };
+		83D546A61E5E2BD500A056F5 /* WallObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WallObject.m; sourceTree = "<group>"; };
+		83D546AA1E5E2BE600A056F5 /* BGShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BGShader.fsh; sourceTree = "<group>"; };
+		83D546AB1E5E2BE600A056F5 /* BGShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BGShader.vsh; sourceTree = "<group>"; };
+		83D546AC1E5E2BE600A056F5 /* MapLoadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLoadHelper.h; sourceTree = "<group>"; };
+		83D546AD1E5E2BE600A056F5 /* MapLoadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLoadHelper.m; sourceTree = "<group>"; };
+		83D546AE1E5E2BE600A056F5 /* MapModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapModel.h; sourceTree = "<group>"; };
+		83D546AF1E5E2BE600A056F5 /* MapModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapModel.m; sourceTree = "<group>"; };
+		83D546B51E5E2C3500A056F5 /* map01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = map01.json; path = resources/maps/map01.json; sourceTree = "<group>"; };
+		83D546BA1E5E2C5800A056F5 /* tex_bgtest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tex_bgtest.png; path = resources/textures/tex_bgtest.png; sourceTree = "<group>"; };
 		83DF1F841E43DA790042F3D7 /* GOTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GOTypes.h; sourceTree = "<group>"; };
 		83F92B901E411D8D0064411B /* mbq_button_wide_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_button_wide_red.png; path = resources/ui/mbq_button_wide_red.png; sourceTree = "<group>"; };
 		83F92B921E4126AD0064411B /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
@@ -112,6 +135,8 @@
 		6D4444401E3FE39200B9FC2B /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				83D546B71E5E2C3D00A056F5 /* Textures */,
+				83D546B41E5E2C1B00A056F5 /* Maps */,
 				6D4444411E3FE3A000B9FC2B /* Images */,
 			);
 			name = Assets;
@@ -147,9 +172,31 @@
 			name = ViewControllers;
 			sourceTree = "<group>";
 		};
+		83D546B41E5E2C1B00A056F5 /* Maps */ = {
+			isa = PBXGroup;
+			children = (
+				83D546B51E5E2C3500A056F5 /* map01.json */,
+			);
+			name = Maps;
+			sourceTree = "<group>";
+		};
+		83D546B71E5E2C3D00A056F5 /* Textures */ = {
+			isa = PBXGroup;
+			children = (
+				83D546BA1E5E2C5800A056F5 /* tex_bgtest.png */,
+			);
+			name = Textures;
+			sourceTree = "<group>";
+		};
 		83F92B951E412B4E0064411B /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
+				83D546A11E5E2BD500A056F5 /* MeeseeksObject.h */,
+				83D546A21E5E2BD500A056F5 /* MeeseeksObject.m */,
+				83D546A31E5E2BD500A056F5 /* SpambotObject.h */,
+				83D546A41E5E2BD500A056F5 /* SpambotObject.m */,
+				83D546A51E5E2BD500A056F5 /* WallObject.h */,
+				83D546A61E5E2BD500A056F5 /* WallObject.m */,
 				83DF1F841E43DA790042F3D7 /* GOTypes.h */,
 				83F92B991E412CF40064411B /* EnemyObject.m */,
 				83F92B9B1E412CFF0064411B /* EnemyObject.h */,
@@ -188,6 +235,12 @@
 				83F92B951E412B4E0064411B /* GameObjects */,
 				C2E9614B1E37D81A0098A95D /* AppDelegate.h */,
 				C2E9614C1E37D81A0098A95D /* AppDelegate.m */,
+				83D546AC1E5E2BE600A056F5 /* MapLoadHelper.h */,
+				83D546AD1E5E2BE600A056F5 /* MapLoadHelper.m */,
+				83D546AE1E5E2BE600A056F5 /* MapModel.h */,
+				83D546AF1E5E2BE600A056F5 /* MapModel.m */,
+				83D546AA1E5E2BE600A056F5 /* BGShader.fsh */,
+				83D546AB1E5E2BE600A056F5 /* BGShader.vsh */,
 				C2E9614E1E37D81A0098A95D /* Shader.fsh */,
 				C2E961501E37D81A0098A95D /* Shader.vsh */,
 				C2E961521E37D81A0098A95D /* GameViewController.h */,
@@ -284,11 +337,15 @@
 				C2E961511E37D81A0098A95D /* Shader.vsh in Resources */,
 				83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */,
 				6D50440D1E3FE7B2001F8AE6 /* mbq_icon_health.png in Resources */,
+				83D546BB1E5E2C5800A056F5 /* tex_bgtest.png in Resources */,
 				6D50440B1E3FE7B2001F8AE6 /* mbq_home_bg.png in Resources */,
 				C2E961591E37D81A0098A95D /* Assets.xcassets in Resources */,
 				6D5044101E3FE7B2001F8AE6 /* mbq_title_logo_clear.png in Resources */,
+				83D546B01E5E2BE600A056F5 /* BGShader.fsh in Resources */,
 				C2E9615C1E37D81A0098A95D /* LaunchScreen.storyboard in Resources */,
+				83D546B11E5E2BE600A056F5 /* BGShader.vsh in Resources */,
 				6D5044111E3FE7B2001F8AE6 /* mbq_title_logo_framed.png in Resources */,
+				83D546B61E5E2C3500A056F5 /* map01.json in Resources */,
 				6D50440A1E3FE7B2001F8AE6 /* mbq_home_bg_ws.png in Resources */,
 				C2E9614F1E37D81A0098A95D /* Shader.fsh in Resources */,
 			);
@@ -301,7 +358,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83D546B31E5E2BE600A056F5 /* MapModel.m in Sources */,
 				6D5043FE1E3FE695001F8AE6 /* MainMenuViewController.m in Sources */,
+				83D546A81E5E2BD500A056F5 /* SpambotObject.m in Sources */,
 				6D5044151E3FE90B001F8AE6 /* LeaderboardViewController.m in Sources */,
 				6DCB13581E54E6C300CB5AA8 /* LeaderboardScore+CoreDataClass.m in Sources */,
 				C2E9614D1E37D81A0098A95D /* AppDelegate.m in Sources */,
@@ -311,8 +370,11 @@
 				83F92B931E4126AD0064411B /* GameObject.m in Sources */,
 				6DCB13601E54E7D100CB5AA8 /* CoreDataTableViewController.m in Sources */,
 				83F92B9A1E412CF40064411B /* EnemyObject.m in Sources */,
+				83D546A71E5E2BD500A056F5 /* MeeseeksObject.m in Sources */,
+				83D546B21E5E2BE600A056F5 /* MapLoadHelper.m in Sources */,
 				C2E9614A1E37D81A0098A95D /* main.m in Sources */,
 				83F92B981E412BD40064411B /* PlayerObject.m in Sources */,
+				83D546A91E5E2BD500A056F5 /* WallObject.m in Sources */,
 				6D2FA0D31E54D4D70064595A /* MBQData.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
