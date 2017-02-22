@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6D2FA0D31E54D4D70064595A /* MBQData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6D2FA0D11E54D4D70064595A /* MBQData.xcdatamodeld */; };
+		6D42AEFA1E5E352200091DB0 /* MBQDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D42AEF91E5E352200091DB0 /* MBQDataManager.m */; };
 		6D5043FE1E3FE695001F8AE6 /* MainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5043FD1E3FE695001F8AE6 /* MainMenuViewController.m */; };
 		6D50440A1E3FE7B2001F8AE6 /* mbq_home_bg_ws.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5044001E3FE7B2001F8AE6 /* mbq_home_bg_ws.png */; };
 		6D50440B1E3FE7B2001F8AE6 /* mbq_home_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D5044011E3FE7B2001F8AE6 /* mbq_home_bg.png */; };
@@ -49,7 +50,9 @@
 
 /* Begin PBXFileReference section */
 		6D2FA0D21E54D4D70064595A /* MBQData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MBQData.xcdatamodel; sourceTree = "<group>"; };
-		6D5043FC1E3FE614001F8AE6 /* MainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuViewController.h; path = ../MainMenuViewController.h; sourceTree = "<group>"; };
+		6D42AEF81E5E352200091DB0 /* MBQDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBQDataManager.h; sourceTree = "<group>"; };
+		6D42AEF91E5E352200091DB0 /* MBQDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBQDataManager.m; sourceTree = "<group>"; };
+		6D5043FC1E3FE614001F8AE6 /* MainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuViewController.h; sourceTree = "<group>"; };
 		6D5043FD1E3FE695001F8AE6 /* MainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuViewController.m; sourceTree = "<group>"; };
 		6D5044001E3FE7B2001F8AE6 /* mbq_home_bg_ws.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_home_bg_ws.png; path = resources/ui/mbq_home_bg_ws.png; sourceTree = "<group>"; };
 		6D5044011E3FE7B2001F8AE6 /* mbq_home_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_home_bg.png; path = resources/ui/mbq_home_bg.png; sourceTree = "<group>"; };
@@ -130,6 +133,15 @@
 				6DCB135B1E54E76B00CB5AA8 /* LeaderboardScore+Util.m */,
 			);
 			name = "Core Data Classes";
+			sourceTree = "<group>";
+		};
+		6D42AEF71E5E350000091DB0 /* Other Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6D42AEF81E5E352200091DB0 /* MBQDataManager.h */,
+				6D42AEF91E5E352200091DB0 /* MBQDataManager.m */,
+			);
+			name = "Other Classes";
 			sourceTree = "<group>";
 		};
 		6D4444401E3FE39200B9FC2B /* Assets */ = {
@@ -251,11 +263,11 @@
 		C2E961471E37D81A0098A95D /* minibattlequest */ = {
 			isa = PBXGroup;
 			children = (
+				6D42AEF71E5E350000091DB0 /* Other Classes */,
 				83D546BD1E5E2CF100A056F5 /* Helpers */,
 				83D546BC1E5E2CE100A056F5 /* Shaders */,
 				6DCB135D1E54E7AE00CB5AA8 /* ViewControllers */,
 				6D2FA0D41E54D56B0064595A /* Core Data Classes */,
-				6D2FA0D11E54D4D70064595A /* MBQData.xcdatamodeld */,
 				83F92B951E412B4E0064411B /* GameObjects */,
 				C2E9614B1E37D81A0098A95D /* AppDelegate.h */,
 				C2E9614C1E37D81A0098A95D /* AppDelegate.m */,
@@ -265,6 +277,7 @@
 				C2E961581E37D81A0098A95D /* Assets.xcassets */,
 				C2E9615A1E37D81A0098A95D /* LaunchScreen.storyboard */,
 				C2E9615D1E37D81A0098A95D /* Info.plist */,
+				6D2FA0D11E54D4D70064595A /* MBQData.xcdatamodeld */,
 				C2E961481E37D81A0098A95D /* Supporting Files */,
 			);
 			path = minibattlequest;
@@ -317,6 +330,7 @@
 				TargetAttributes = {
 					C2E961441E37D8190098A95D = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 7U4LBQ6ZEV;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -380,6 +394,7 @@
 				6DCB13581E54E6C300CB5AA8 /* LeaderboardScore+CoreDataClass.m in Sources */,
 				C2E9614D1E37D81A0098A95D /* AppDelegate.m in Sources */,
 				6DCB135C1E54E76B00CB5AA8 /* LeaderboardScore+Util.m in Sources */,
+				6D42AEFA1E5E352200091DB0 /* MBQDataManager.m in Sources */,
 				C2E961541E37D81A0098A95D /* GameViewController.m in Sources */,
 				6DCB13591E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m in Sources */,
 				83F92B931E4126AD0064411B /* GameObject.m in Sources */,
@@ -508,11 +523,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7U4LBQ6ZEV;
 				INFOPLIST_FILE = minibattlequest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xcvgsystems.minibattlequest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mott00.minibattlequest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -521,11 +536,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7U4LBQ6ZEV;
 				INFOPLIST_FILE = minibattlequest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xcvgsystems.minibattlequest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mott00.minibattlequest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

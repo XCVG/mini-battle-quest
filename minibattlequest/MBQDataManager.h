@@ -1,7 +1,7 @@
 /*========================================================================================
-    MainMenuViewController
+    MBQDataManager
 	
-	Displays the main menu.
+	Provides global access to a common UIManagedDocument context.
 	
 	@author Erick Fernandez de Arteaga - https://www.linkedin.com/in/erickfda
 	@version 0.1.0
@@ -13,39 +13,41 @@
 	Dependencies
  ========================================================================================*/
 #import <Foundation/Foundation.h>
-#import "MainMenuViewController.h"
-#import "MBQDataManager.h"
-#import "LeaderboardScore+Util.h"
+#import <UIKit/UIKit.h>
 
-@interface MainMenuViewController ()
+/*========================================================================================
+	Dependencies
+ ========================================================================================*/
+typedef void (^OnDocumentReady) (UIManagedDocument *document);
+
+/*========================================================================================
+	MBQDataManager
+ ========================================================================================*/
+/**
+	Provides global access to a common UIManagedDocument context.
+ */
+@interface MBQDataManager : NSObject
 {
     /*------------------------------------------------------------------------------------
         Instance Variables
      ------------------------------------------------------------------------------------*/
+    
     
 }
 
 /*----------------------------------------------------------------------------------------
     Instance Properties
  ----------------------------------------------------------------------------------------*/
+@property (strong, nonatomic) UIManagedDocument *document;
 
-
-@end
-
-@implementation MainMenuViewController
 /*----------------------------------------------------------------------------------------
-    Property Synthesizers
+	Class Methods
  ----------------------------------------------------------------------------------------*/
-
++ (MBQDataManager *)instance;
 
 /*----------------------------------------------------------------------------------------
 	Instance Methods
  ----------------------------------------------------------------------------------------*/
--(void)viewDidLoad
-{
-    /* On load, hide the navigation bar and enable swipe navigation. */
-    [self.navigationController setNavigationBarHidden:YES];
-    [self.navigationController.interactivePopGestureRecognizer setDelegate:nil];
-}
+- (void)performWithDocument:(OnDocumentReady)onDocumentReady;
 
 @end

@@ -12,12 +12,15 @@
 /*========================================================================================
 	Dependencies
  ========================================================================================*/
-#import <Foundation/Foundation.h>
-#import "MainMenuViewController.h"
-#import "MBQDataManager.h"
-#import "LeaderboardScore+Util.h"
+#import <UIKit/UIKit.h>
 
-@interface MainMenuViewController ()
+/*========================================================================================
+	MainMenuViewController
+ ========================================================================================*/
+/**
+	Displays the main menu.
+ */
+@interface MainMenuViewController : UIViewController
 {
     /*------------------------------------------------------------------------------------
         Instance Variables
@@ -30,22 +33,9 @@
  ----------------------------------------------------------------------------------------*/
 
 
-@end
-
-@implementation MainMenuViewController
-/*----------------------------------------------------------------------------------------
-    Property Synthesizers
- ----------------------------------------------------------------------------------------*/
-
-
 /*----------------------------------------------------------------------------------------
 	Instance Methods
  ----------------------------------------------------------------------------------------*/
--(void)viewDidLoad
-{
-    /* On load, hide the navigation bar and enable swipe navigation. */
-    [self.navigationController setNavigationBarHidden:YES];
-    [self.navigationController.interactivePopGestureRecognizer setDelegate:nil];
-}
+
 
 @end

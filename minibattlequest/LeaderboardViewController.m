@@ -1,20 +1,20 @@
 /*===========================================================================================
-    LeaderboardViewController                                                           *//**
-                                                                                        
+    LeaderboardViewController
+ 
     Displays the list of high scores in a UITableView.
-                                                                                        
+ 
     @author Erick Fernandez de Arteaga - https://www.linkedin.com/in/erickfda
     @version 0.1.0
     @file
-                                                                                        
-*//*=======================================================================================*/
+ 
+ ===========================================================================================*/
 
 /*===========================================================================================
 	Dependencies
  ===========================================================================================*/
 #import "LeaderboardViewController.h"
 #import "LeaderboardScore+CoreDataClass.h"
-#import "LeaderboardScore+Util.h"
+#import "MBQDataManager.h"
 
 /*===========================================================================================
 	LeaderboardViewController
@@ -24,7 +24,7 @@
  */
 @interface LeaderboardViewController()
 {
-    /*===========®============================================================================
+    /*=======================================================================================
         Instance Variables
      =======================================================================================*/
     
@@ -33,7 +33,7 @@
 
 /*===========================================================================================
     Instance Properties
- ===============================ß®============================================================*/
+ ===========================================================================================*/
 
 @end
 
@@ -42,12 +42,28 @@
 /*===========================================================================================
     Property Synthesizers
  ===========================================================================================*/
-@synthesize managedDocument;
 @synthesize managedObjectContext;
 
 /*===========================================================================================
 	Instance Methods
  ===========================================================================================*/
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    /* Get the global UIManagedContext. */
+    if(!managedObjectContext)
+    {
+        NSLog(@"Getting global UIManagedContext.");
+        
+        [[MBQDataManager instance] performWithDocument:^(UIManagedDocument *document) {
+            [self setManagedObjectContext:document.managedObjectContext];
+        }];
+    }
+    
+    NSLog(@"Managed Object Context: %@", managedObjectContext);
+}
+
 /**
     Returns the table cell for the given row.
  */
