@@ -12,7 +12,7 @@
 
 #define TARGET_THRESHOLD 32.0f
 #define DEFAULT_MOVE_SPEED 100.0f
-#define PLAYER_DEFAULT_HEALTH = 200.0f;
+#define PLAYER_DEFAULT_HEALTH 200.0f
 
 @interface PlayerObject()
 {
@@ -28,6 +28,8 @@
     MBQPoint2D _target; //the place we want to go
     
     id _currentTarget; //the enemy we want to hit
+    
+    float _elapsed; //elapsed; temporary for testing
 }
 
 //we should override these (are they virtual by default like Java or not like C++?)
@@ -49,6 +51,8 @@
 {
     MBQObjectUpdateOut outData = [super update:data];
     
+    _elapsed += data->timeSinceLast;
+    
     //I'm implementing most or all of these but you don't have to
     switch(self.state)
     {
@@ -67,6 +71,7 @@
             
             //TODO search for and attack enemies
             [self searchForTargets];
+            [self attackTarget];
             
             //TODO health check (may need to be in multiple parts)
             
@@ -82,11 +87,14 @@
                     self.velocity = newVelocity;
                     self.state = STATE_IDLING;
                 }
+                
+                [self searchForTargets];
+                [self attackTarget];
             }
             break;
         case STATE_FIRING:
             {
-                [self checkMove];
+                //[self checkMove];
                 //attacking
                 
                 //for testing: fire an arrow straight up and switch back to idle
@@ -97,7 +105,7 @@
             }
             break;
         case STATE_PAINING:
-            [self checkMove];
+            //[self checkMove];
             //yes I know it's an awkward name
             
             //TODO any pain animation
@@ -150,12 +158,22 @@
 -(void)attackTarget
 {
     //for testing: fire an arrow every few seconds
+    if(_elapsed > 2.0f)
+    {
+        self.state = STATE_FIRING;
+        
+        _elapsed = 0.0f;
+    }
 }
 
 //TODO: fire an arrow down the target bearing
 -(void)fireArrow:(MBQVect2D)vector intoList:(NSMutableArray*)list
 {
     GameObject *arrow = [[ArrowObject alloc] init];
+    
+    MBQPoint2D pos = self.position;
+    pos.y += 64.0f;
+    arrow.position = pos;
 
     //TODO: deal with speed/magnitude maybe?
     arrow.velocity = vector;
