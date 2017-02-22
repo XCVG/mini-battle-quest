@@ -18,17 +18,17 @@
 @property GameObjectState state;
 @property MBQPoint2D position;
 @property float zPosition;
+@property float size; //Need this for collisions detection
 @property MBQVect2D velocity;
 @property BOOL enabled; //if disabled, delete
 @property BOOL visible; //draw if visible
 @property BOOL solid; //collide if solid
 @property BOOL movable; //move if movable
 @property float health;
-//you'll need to add a collision box of some sort here
 
 -(MBQObjectUpdateOut)update:(MBQObjectUpdateIn*)data;
 -(MBQObjectDisplayOut)display:(MBQObjectDisplayIn*)data;
-//and a collision method declaration here
+-(bool)checkCollisionBetweenObject:(GameObject *)one and:(GameObject *)two; //MICHAEL'S Collision function declaration
 
 @end
 
