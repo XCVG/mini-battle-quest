@@ -559,6 +559,7 @@ GLfloat gCubeVertexData[216] =
     // This needs to be done prior to linking.
     glBindAttribLocation(_bgProgram, GLKVertexAttribPosition, "position");
     
+    
     // Link program.
     if (![self linkProgram:_bgProgram]) {
         NSLog(@"Failed to link program: %d", _bgProgram);
