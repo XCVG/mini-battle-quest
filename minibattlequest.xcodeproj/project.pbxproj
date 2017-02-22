@@ -188,6 +188,28 @@
 			name = Textures;
 			sourceTree = "<group>";
 		};
+		83D546BC1E5E2CE100A056F5 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				83D546AA1E5E2BE600A056F5 /* BGShader.fsh */,
+				83D546AB1E5E2BE600A056F5 /* BGShader.vsh */,
+				C2E9614E1E37D81A0098A95D /* Shader.fsh */,
+				C2E961501E37D81A0098A95D /* Shader.vsh */,
+			);
+			name = Shaders;
+			sourceTree = "<group>";
+		};
+		83D546BD1E5E2CF100A056F5 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				83D546AC1E5E2BE600A056F5 /* MapLoadHelper.h */,
+				83D546AD1E5E2BE600A056F5 /* MapLoadHelper.m */,
+				83D546AE1E5E2BE600A056F5 /* MapModel.h */,
+				83D546AF1E5E2BE600A056F5 /* MapModel.m */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		83F92B951E412B4E0064411B /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
@@ -229,20 +251,14 @@
 		C2E961471E37D81A0098A95D /* minibattlequest */ = {
 			isa = PBXGroup;
 			children = (
+				83D546BD1E5E2CF100A056F5 /* Helpers */,
+				83D546BC1E5E2CE100A056F5 /* Shaders */,
 				6DCB135D1E54E7AE00CB5AA8 /* ViewControllers */,
 				6D2FA0D41E54D56B0064595A /* Core Data Classes */,
 				6D2FA0D11E54D4D70064595A /* MBQData.xcdatamodeld */,
 				83F92B951E412B4E0064411B /* GameObjects */,
 				C2E9614B1E37D81A0098A95D /* AppDelegate.h */,
 				C2E9614C1E37D81A0098A95D /* AppDelegate.m */,
-				83D546AC1E5E2BE600A056F5 /* MapLoadHelper.h */,
-				83D546AD1E5E2BE600A056F5 /* MapLoadHelper.m */,
-				83D546AE1E5E2BE600A056F5 /* MapModel.h */,
-				83D546AF1E5E2BE600A056F5 /* MapModel.m */,
-				83D546AA1E5E2BE600A056F5 /* BGShader.fsh */,
-				83D546AB1E5E2BE600A056F5 /* BGShader.vsh */,
-				C2E9614E1E37D81A0098A95D /* Shader.fsh */,
-				C2E961501E37D81A0098A95D /* Shader.vsh */,
 				C2E961521E37D81A0098A95D /* GameViewController.h */,
 				C2E961531E37D81A0098A95D /* GameViewController.m */,
 				C2E961551E37D81A0098A95D /* Main.storyboard */,
@@ -301,7 +317,6 @@
 				TargetAttributes = {
 					C2E961441E37D8190098A95D = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 7U4LBQ6ZEV;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -493,11 +508,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7U4LBQ6ZEV;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = minibattlequest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mott00.minibattlequest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xcvgsystems.minibattlequest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -506,11 +521,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7U4LBQ6ZEV;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = minibattlequest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mott00.minibattlequest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xcvgsystems.minibattlequest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
