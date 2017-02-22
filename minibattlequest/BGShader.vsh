@@ -9,9 +9,13 @@
 //based on dead simple vertex shader
 attribute vec4 position;
 
+attribute vec2 texCoordIn;
+varying vec2 texCoordOut;
+
 uniform mat4 modelViewProjectionMatrix;
 
 void main()
 {
     gl_Position = modelViewProjectionMatrix * position;
+    texCoordOut = texCoordIn;
 }

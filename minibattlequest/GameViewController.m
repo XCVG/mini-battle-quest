@@ -255,12 +255,12 @@ GLfloat gCubeVertexData[216] =
     
     //TODO move this
     GLfloat bgVertices[] = {
-        0.0f, 0.0f, 0.2f,
-        0.0f, 1.0f, 0.2f,
-        1.0f, 0.0f, 0.2f,
-        0.0f, 1.0f, 0.2f,
-        1.0f, 0.0f, 0.2f,
-        1.0f, 1.0f, 0.2f  };
+        0.0f, 0.0f, 0.1f,
+        0.0f, 1.0f, 0.1f,
+        1.0f, 0.0f, 0.1f,
+        0.0f, 1.0f, 0.1f,
+        1.0f, 0.0f, 0.1f,
+        1.0f, 1.0f, 0.1f  };
     
     glGenVertexArraysOES(1, &_bgVertexArray);
     glBindVertexArrayOES(_bgVertexArray);
@@ -314,6 +314,9 @@ GLfloat gCubeVertexData[216] =
 - (void)tearDownGL
 {
     [EAGLContext setCurrentContext:self.context];
+    
+    glDeleteBuffers(1, &_bgVertexBuffer);
+    glDeleteVertexArraysOES(1, &_bgVertexArray);
     
     glDeleteBuffers(1, &_vertexBuffer);
     glDeleteVertexArraysOES(1, &_vertexArray);
@@ -460,27 +463,6 @@ GLfloat gCubeVertexData[216] =
     glClearColor(0.65f, 0.65f, 0.65f, 1.0f); //set background color (I remember this from GDX)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear
     
-    /*
-    {
-        glUseProgram(_program);
-        
-        GLfloat square[] = {
-            -0.5, -0.5,
-            0.5, -0.5,
-            -0.5, 0.5,
-            0.5, 0.5};
-        
-        const char *aPositionCString = [@"position" cStringUsingEncoding:NSUTF8StringEncoding];
-        GLuint aPosition = glGetAttribLocation(_program, aPositionCString);
-        
-        glVertexAttribPointer(aPosition, 2, GL_FLOAT, GL_FALSE, 0, square);
-        glEnableVertexAttribArray(aPosition);
-        
-        // Draw
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    }
-    */
-    
     {
         glBindVertexArrayOES(_bgVertexArray);
         glUseProgram(_bgProgram);
@@ -499,7 +481,7 @@ GLfloat gCubeVertexData[216] =
         
     }
     
-    glClear(GL_DEPTH_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT); //clear the depth buffer so the background is behind everything
     
     MBQObjectDisplayIn objectDataIn;
     
@@ -509,7 +491,7 @@ GLfloat gCubeVertexData[216] =
         {
             MBQObjectDisplayOut objectDisplayData = [o display:&objectDataIn];
             
-            //TODO do something withthe display data
+            //TODO do something with the display data
         }
         
     }
@@ -758,6 +740,41 @@ GLfloat gCubeVertexData[216] =
     }
     
     return YES;
+}
+
+#pragma mark -  OpenGL ES 2 textures and stuff
+
+-(GLuint)setupTexture:(NSString *)fileName {
+
+    //load CGimage
+    CGImageRef cgTexImage = [UIImage imageNamed:fileName].CGImage;
+    if(!cgTexImage)
+    {
+        NSLog(@"Failed to load texture(%@)", fileName);
+        return NO;
+    }
+    
+    //allocate and create context
+    size_t w = CGImageGetWidth(cgTexImage);
+    size_t h = CGImageGetHeight(cgTexImage);
+    GLubyte *glTexData = (GLubyte*) calloc(w*h*4, sizeof(GLubyte));
+    CGContextRef cgTexContext = CGBitmapContextCreate(glTexData, w, h, 8, w*4,                                                      CGImageGetColorSpace(cgTexImage), kCGImageAlphaPremultipliedLast);
+    
+    
+    //draw into context with CG
+    CGContextDrawImage(cgTexContext, CGRectMake(0,0,w,h), cgTexImage);
+    CGContextRelease(cgTexContext);
+    
+    
+    //bind GL texture
+    GLuint glTexName;
+    glGenTextures(1, &glTexName);
+    glBindTexture(GL_TEXTURE_2D, glTexName);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, glTexData);
+    
+    free(glTexData);
+    return glTexName;
 }
 
 #pragma mark - MBQ utility methods

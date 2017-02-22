@@ -23,6 +23,7 @@
 		830A75E11E5B995700884239 /* BGShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 830A75E01E5B995700884239 /* BGShader.fsh */; };
 		83BD290E1E529CB3006B2B56 /* map01.json in Resources */ = {isa = PBXBuildFile; fileRef = 83BD290D1E529CB3006B2B56 /* map01.json */; };
 		83BD29101E52A916006B2B56 /* MapLoadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BD290F1E52A916006B2B56 /* MapLoadHelper.m */; };
+		83D5468F1E5E1FC400A056F5 /* tex_bgtest.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D5468E1E5E1FC300A056F5 /* tex_bgtest.png */; };
 		83F34A1F1E538B0E00DAC508 /* MapModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F34A1E1E538B0E00DAC508 /* MapModel.m */; };
 		83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F92B901E411D8D0064411B /* mbq_button_wide_red.png */; };
 		83F92B931E4126AD0064411B /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B921E4126AD0064411B /* GameObject.m */; };
@@ -62,6 +63,7 @@
 		83BD290D1E529CB3006B2B56 /* map01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = map01.json; path = resources/maps/map01.json; sourceTree = "<group>"; };
 		83BD290F1E52A916006B2B56 /* MapLoadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLoadHelper.m; sourceTree = "<group>"; };
 		83BD29111E52A92F006B2B56 /* MapLoadHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapLoadHelper.h; sourceTree = "<group>"; };
+		83D5468E1E5E1FC300A056F5 /* tex_bgtest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tex_bgtest.png; path = resources/textures/tex_bgtest.png; sourceTree = "<group>"; };
 		83DF1F841E43DA790042F3D7 /* GOTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GOTypes.h; sourceTree = "<group>"; };
 		83F34A1D1E538ADE00DAC508 /* MapModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapModel.h; sourceTree = "<group>"; };
 		83F34A1E1E538B0E00DAC508 /* MapModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapModel.m; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 		6D4444401E3FE39200B9FC2B /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				83D5468D1E5E1F8800A056F5 /* Textures */,
 				83BD290A1E529C5F006B2B56 /* Maps */,
 				6D4444411E3FE3A000B9FC2B /* Images */,
 			);
@@ -146,6 +149,14 @@
 				83BD290D1E529CB3006B2B56 /* map01.json */,
 			);
 			name = Maps;
+			sourceTree = "<group>";
+		};
+		83D5468D1E5E1F8800A056F5 /* Textures */ = {
+			isa = PBXGroup;
+			children = (
+				83D5468E1E5E1FC300A056F5 /* tex_bgtest.png */,
+			);
+			name = Textures;
 			sourceTree = "<group>";
 		};
 		83F34A1B1E538A3000DAC508 /* Models */ = {
@@ -303,6 +314,7 @@
 				6D50440F1E3FE7B2001F8AE6 /* mbq_icon_sword.png in Resources */,
 				C2E961511E37D81A0098A95D /* Shader.vsh in Resources */,
 				830A75E11E5B995700884239 /* BGShader.fsh in Resources */,
+				83D5468F1E5E1FC400A056F5 /* tex_bgtest.png in Resources */,
 				83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */,
 				6D50440D1E3FE7B2001F8AE6 /* mbq_icon_health.png in Resources */,
 				6D50440B1E3FE7B2001F8AE6 /* mbq_home_bg.png in Resources */,
