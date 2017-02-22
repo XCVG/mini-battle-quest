@@ -14,6 +14,11 @@ typedef NS_ENUM(NSInteger, GameObjectState) {
     STATE_SPAWNING, STATE_DORMANT, STATE_IDLING, STATE_MOVING, STATE_FIRING, STATE_PAINING, STATE_DYING, STATE_DEAD //from PARROTGAME, we can change this
 };
 
+//weapon types (may move these)
+typedef NS_ENUM(NSInteger, MBQWeapon) {
+    WEAPON_NONE, WEAPON_SWORD, WEAPON_BOW, WEAPON_SHIELD
+};
+
 typedef struct MBQPoint2D{
     float x;
     float y;
