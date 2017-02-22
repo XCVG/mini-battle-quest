@@ -32,6 +32,8 @@
     self = [super init];
     
     self.visible = true;
+    self.solid = true;
+    self.movable = true;
     _moveSpeed = DEFAULT_MOVE_SPEED;
     
     
@@ -40,7 +42,7 @@
 
 -(MBQObjectUpdateOut)update:(MBQObjectUpdateIn*)data
 {
-    MBQObjectUpdateOut outData;
+    MBQObjectUpdateOut outData = [super update:data];
     
     //I'm implementing most or all of these but you don't have to
     switch(self.state)
@@ -68,7 +70,7 @@
             {
                 BOOL moved = NO;
                 
-                //TODO: these checks are broken, fix them to check threshold and direction
+                //TODO: rework to use velocity
                 if(fabsf(_target.x - self.position.x) > TARGET_THRESHOLD && _target.x > self.position.x)
                 {
                     MBQPoint2D p = self.position;

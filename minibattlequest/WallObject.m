@@ -21,12 +21,15 @@
 -(id)init
 {
     self = [super init];
+    self.visible = true;
+    self.solid = true;
+    self.movable = false;
     return self;
 }
 
 -(MBQObjectUpdateOut)update:(MBQObjectUpdateIn*)data
 {
-    MBQObjectUpdateOut outData;
+    MBQObjectUpdateOut outData = [super update:data];
     
     return outData;
 }
