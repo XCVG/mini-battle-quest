@@ -99,6 +99,9 @@ GLfloat gCubeVertexData[216] =
     GLuint _bgProgram;
     GLuint _bgVertexArray;
     GLuint _bgVertexBuffer;
+    GLuint _bgTexture;
+    GLuint _bgTexCoordSlot;
+    GLuint _bgTexUniform;
     
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
@@ -252,6 +255,7 @@ GLfloat gCubeVertexData[216] =
     self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
     
     //load background
+    _bgTexture = [self setupTexture:@"tex_bgtest.png"];
     
     //TODO move this
     GLfloat bgVertices[] = {
@@ -262,6 +266,14 @@ GLfloat gCubeVertexData[216] =
         1.0f, 0.0f, 0.1f,
         1.0f, 1.0f, 0.1f  };
     
+    GLfloat bgTexCoords[] = {
+        0.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f};
+    
     glGenVertexArraysOES(1, &_bgVertexArray);
     glBindVertexArrayOES(_bgVertexArray);
     glGenBuffers(1, &_bgVertexBuffer);
@@ -271,7 +283,10 @@ GLfloat gCubeVertexData[216] =
     glEnableVertexAttribArray(GLKVertexAttribPosition);
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 6, BUFFER_OFFSET(0));
     
-    
+    _bgTexCoordSlot = glGetAttribLocation(_bgProgram, "texCoordIn");
+    glEnableVertexAttribArray(_bgTexCoordSlot);
+    _bgTexUniform = glGetUniformLocation(_bgProgram, "texture");
+    glVertexAttribPointer(_bgTexCoordSlot, 2, GL_FLOAT, GL_FALSE, 6, BUFFER_OFFSET(0));
     
     glBindVertexArrayOES(0);
     
@@ -476,6 +491,9 @@ GLfloat gCubeVertexData[216] =
         
         glUniformMatrix4fv(bgUloc, 1, 0, bgMvpm.m);
         
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, _bgTexture);
+        glUniform1i(_bgTexUniform, 0);
         
         glDrawArrays(GL_TRIANGLES, 0, 6);
         
