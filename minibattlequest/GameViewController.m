@@ -281,12 +281,12 @@ GLfloat gCubeVertexData[216] =
     glBufferData(GL_ARRAY_BUFFER, sizeof(bgVertices), bgVertices, GL_STATIC_DRAW);
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 6, BUFFER_OFFSET(0));
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 12, BUFFER_OFFSET(0));
     
     _bgTexCoordSlot = glGetAttribLocation(_bgProgram, "texCoordIn");
     glEnableVertexAttribArray(_bgTexCoordSlot);
     _bgTexUniform = glGetUniformLocation(_bgProgram, "texture");
-    glVertexAttribPointer(_bgTexCoordSlot, 2, GL_FLOAT, GL_FALSE, 6, BUFFER_OFFSET(0));
+    glVertexAttribPointer(_bgTexCoordSlot, 2, GL_FLOAT, GL_FALSE, 12, BUFFER_OFFSET(0));
     
     glBindVertexArrayOES(0);
     
@@ -486,8 +486,8 @@ GLfloat gCubeVertexData[216] =
         GLuint bgUloc = glGetUniformLocation(_bgProgram, "modelViewProjectionMatrix");
         
         GLKMatrix4 bgMvpm = GLKMatrix4Identity;
-        bgMvpm = GLKMatrix4MakeTranslation(1.0f, -1.0f, 0.0f);
-        bgMvpm = GLKMatrix4Scale(bgMvpm, 1.0f, 2.0f, 1.0f);
+        bgMvpm = GLKMatrix4MakeTranslation(-1.0f, -1.0f, 0.0f);
+        bgMvpm = GLKMatrix4Scale(bgMvpm, 2.0f, 4.0f, 1.0f); //TODO deal with different sized backgrounds (2.0f * (size / viewport_height))
         
         glUniformMatrix4fv(bgUloc, 1, 0, bgMvpm.m);
         
