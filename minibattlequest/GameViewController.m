@@ -26,6 +26,7 @@
 #define SCROLL_UPPER_BOUND 800.0f
 #define SCROLL_LOWER_BOUND 200.0f
 #define SCROLL_SPEED 50.0f
+#define SCROLL_FACTOR 2.0f
 
 
 
@@ -96,12 +97,14 @@ GLfloat gCubeVertexData[216] =
 @interface GameViewController () {
     GLuint _program;
     //TODO: completely redo the way shaders/programs are referenced and handled
+    //also, these probably don't need to be in interface
     GLuint _bgProgram;
     GLuint _bgVertexArray;
     GLuint _bgVertexBuffer;
     GLuint _bgTexture;
     GLuint _bgTexCoordSlot;
     GLuint _bgTexUniform;
+    float _bgLengthScale;
     
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
@@ -125,6 +128,8 @@ GLfloat gCubeVertexData[216] =
 @end
 
 @implementation GameViewController {
+    
+    MapModel* _mapModel;
     
     //game variables
     NSMutableArray *_gameObjects;
@@ -222,8 +227,8 @@ GLfloat gCubeVertexData[216] =
     
     //load map from file
     NSLog(@"loading map from file");
-    MapModel* mapModel = [MapLoadHelper loadObjectsFromMap:@"map01"];
-    [_gameObjects addObjectsFromArray:mapModel.objects];  //map number hardcoded for now
+    _mapModel = [MapLoadHelper loadObjectsFromMap:@"map01"];
+    [_gameObjects addObjectsFromArray:_mapModel.objects];  //map number hardcoded for now
     
     //create initial "visible" list
     NSLog(@"creating initial visible objects array");
@@ -256,6 +261,7 @@ GLfloat gCubeVertexData[216] =
     
     //load background
     _bgTexture = [self setupTexture:@"tex_bgtest.png"];
+    _bgLengthScale = 2.0f * (_mapModel.length / VIEWPORT_HEIGHT); //deal with different sized backgrounds
     
     //TODO move this
     GLfloat bgVertices[] = {
@@ -487,7 +493,9 @@ GLfloat gCubeVertexData[216] =
         
         GLKMatrix4 bgMvpm = GLKMatrix4Identity;
         bgMvpm = GLKMatrix4MakeTranslation(-1.0f, -1.0f, 0.0f);
-        bgMvpm = GLKMatrix4Scale(bgMvpm, 2.0f, 4.0f, 1.0f); //TODO deal with different sized backgrounds (2.0f * (size / viewport_height))
+        bgMvpm = GLKMatrix4Scale(bgMvpm, 2.0f, _bgLengthScale, 1.0f);
+        float bgLengthTransform = (_scrollPos / VIEWPORT_HEIGHT) / SCROLL_FACTOR;
+        bgMvpm = GLKMatrix4Translate(bgMvpm, 0.0f, -bgLengthTransform, 0.0f);
         
         glUniformMatrix4fv(bgUloc, 1, 0, bgMvpm.m);
         
@@ -780,7 +788,9 @@ GLfloat gCubeVertexData[216] =
     CGContextRef cgTexContext = CGBitmapContextCreate(glTexData, w, h, 8, w*4,                                                      CGImageGetColorSpace(cgTexImage), kCGImageAlphaPremultipliedLast);
     
     
-    //draw into context with CG
+    //draw into context with CG (and flip)
+    CGContextTranslateCTM(cgTexContext, 0, h);
+    CGContextScaleCTM(cgTexContext, 1.0, -1.0);
     CGContextDrawImage(cgTexContext, CGRectMake(0,0,w,h), cgTexImage);
     CGContextRelease(cgTexContext);
     
