@@ -382,8 +382,8 @@ GLfloat gCubeVertexData[216] =
     for(id o in _gameObjectsToAdd)
     {
         [_gameObjects addObject:o];
-        [_gameObjectsToAdd removeObject:o];
     }
+    [_gameObjectsToAdd removeAllObjects];
     
     MBQObjectUpdateIn objectDataIn;
     
