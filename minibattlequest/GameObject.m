@@ -62,4 +62,14 @@
     return outData;
 }
 
+-(void)onCollision:(GameObject*)otherObject
+{
+    NSLog(@"Something Hit an Object!");
+}
+
+-(void)destroy
+{
+    self.enabled = NO;
+}
+
 @end

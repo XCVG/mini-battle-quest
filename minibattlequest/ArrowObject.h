@@ -12,6 +12,8 @@
 
 @interface ArrowObject : GameObject
 
+@property float damage;
+
 @end
 
 #endif /* ArrowObject_h */

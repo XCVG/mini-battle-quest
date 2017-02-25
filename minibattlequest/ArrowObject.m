@@ -28,6 +28,7 @@
     self.visible = true;
     self.solid = true;
     self.movable = true;
+    self.damage = 10;
     
     return self;
 }
@@ -45,6 +46,12 @@
     MBQObjectDisplayOut outData;
     
     return outData;
+}
+
+-(void)onCollision:(GameObject*)otherObject
+{
+    NSLog(@"Arrow Hit an Object!");
+    [self destroy];
 }
 
 @end

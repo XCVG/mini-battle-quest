@@ -169,6 +169,8 @@
 //TODO: fire an arrow down the target bearing
 -(void)fireArrow:(MBQVect2D)vector intoList:(NSMutableArray*)list
 {
+    NSLog(@"Arrow Fired!");
+    
     GameObject *arrow = [[ArrowObject alloc] init];
     
     MBQPoint2D pos = self.position;

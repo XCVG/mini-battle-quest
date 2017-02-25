@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "EnemyObject.h"
+#import "ArrowObject.h"
 
 @interface EnemyObject()
 {
@@ -41,6 +42,29 @@
     MBQObjectDisplayOut outData;
     
     return outData;
+}
+
+-(void)onCollision:(GameObject*)otherObject
+{
+    NSLog(@"Something Hit an Enemy!");
+    if ([otherObject isKindOfClass:[ArrowObject class]])
+    {
+        //lose health points
+        ArrowObject * myArrow = (ArrowObject*)otherObject;
+        [self takeDamage:myArrow.damage];
+    }
+}
+
+-(void)takeDamage:(float)damage
+{
+    self.health -= damage;
+    NSLog(@"Ouch! Health: %f",self.health);
+    
+    if (self.health <= 0)
+    {
+        NSLog(@"I dun gone died!");
+        [self destroy];
+    }
 }
 
 @end

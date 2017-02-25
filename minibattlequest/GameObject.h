@@ -29,6 +29,8 @@
 -(MBQObjectUpdateOut)update:(MBQObjectUpdateIn*)data;
 -(MBQObjectDisplayOut)display:(MBQObjectDisplayIn*)data;
 -(bool)checkCollisionBetweenObject:(GameObject *)one and:(GameObject *)two; //MICHAEL'S Collision function declaration
+-(void)onCollision:(GameObject*)otherObject;
+-(void)destroy;
 
 @end
 

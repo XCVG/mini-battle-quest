@@ -218,6 +218,14 @@ GLfloat gCubeVertexData[216] =
     [_gameObjects addObject:[[MeeseeksObject alloc] init] ];
     [_gameObjects addObject:[[SpambotObject alloc] init] ];
     
+    //for testing: Arrow hitting an enemy
+    NSLog(@"creating test objects");
+    EnemyObject *myEnemy = [[EnemyObject alloc] init];
+    [_gameObjects addObject:myEnemy];
+    MBQPoint2D myPosition = {0, 200};
+    myEnemy.position = myPosition;
+    myEnemy.size = 10;
+    
     //load map from file
     NSLog(@"loading map from file");
     MapModel* mapModel = [MapLoadHelper loadObjectsFromMap:@"map01"];
@@ -426,8 +434,10 @@ GLfloat gCubeVertexData[216] =
         for (int j=0; j < _gameObjectsInView.count ; j++)
         {
             if ((((GameObject *)[_gameObjectsInView objectAtIndex:i]).solid && ((GameObject *)[_gameObjectsInView objectAtIndex:j]).solid) &&
-                [self checkCollisionBetweenObject:_gameObjectsInView[i] and:_gameObjectsInView[j]])
+                [self checkCollisionBetweenObject:_gameObjectsInView[i] and:_gameObjectsInView[j]]  && _gameObjectsInView[i] != _gameObjectsInView[j])
             {
+                NSLog(@"Collision Detected!");
+                [(GameObject *)_gameObjectsInView[i] onCollision:_gameObjectsInView[j]];
                 //call oncollide function for first object only
                 //still need to make the oncollide function
             }
