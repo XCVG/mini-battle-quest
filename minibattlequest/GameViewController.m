@@ -26,6 +26,7 @@
 #define SCROLL_UPPER_BOUND 800.0f
 #define SCROLL_LOWER_BOUND 200.0f
 #define SCROLL_SPEED 50.0f
+#define SCROLL_FACTOR 2.0f
 
 
 
@@ -96,9 +97,14 @@ GLfloat gCubeVertexData[216] =
 @interface GameViewController () {
     GLuint _program;
     //TODO: completely redo the way shaders/programs are referenced and handled
+    //also, these probably don't need to be in interface
     GLuint _bgProgram;
     GLuint _bgVertexArray;
     GLuint _bgVertexBuffer;
+    GLuint _bgTexture;
+    GLuint _bgTexCoordSlot;
+    GLuint _bgTexUniform;
+    float _bgLengthScale;
     
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
@@ -122,6 +128,8 @@ GLfloat gCubeVertexData[216] =
 @end
 
 @implementation GameViewController {
+    
+    MapModel* _mapModel;
     
     //game variables
     NSMutableArray *_gameObjects;
@@ -219,8 +227,8 @@ GLfloat gCubeVertexData[216] =
     
     //load map from file
     NSLog(@"loading map from file");
-    MapModel* mapModel = [MapLoadHelper loadObjectsFromMap:@"map01"];
-    [_gameObjects addObjectsFromArray:mapModel.objects];  //map number hardcoded for now
+    _mapModel = [MapLoadHelper loadObjectsFromMap:@"map01"];
+    [_gameObjects addObjectsFromArray:_mapModel.objects];  //map number hardcoded for now
     
     //create initial "visible" list
     NSLog(@"creating initial visible objects array");
@@ -243,56 +251,19 @@ GLfloat gCubeVertexData[216] =
     
     [EAGLContext setCurrentContext:self.context];
     
-    [self loadShaders];
-    [self loadBGShaders];
+    [self loadShaders]; //load original shader
+    [self loadBGShaders]; //load background shader
     
     //useless GLKit stuff
     self.effect = [[GLKBaseEffect alloc] init];
     self.effect.light0.enabled = GL_TRUE;
     self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
     
-    //load background
-    
-    //TODO move this
-    GLfloat bgVertices[] = {
-        0.0f, 0.0f, 0.1f,
-        0.0f, 1.0f, 0.1f,
-        1.0f, 0.0f, 0.1f,
-        0.0f, 1.0f, 0.1f,
-        1.0f, 0.0f, 0.1f,
-        1.0f, 1.0f, 0.1f  };
-    
-    glGenVertexArraysOES(1, &_bgVertexArray);
-    glBindVertexArrayOES(_bgVertexArray);
-    glGenBuffers(1, &_bgVertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _bgVertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(bgVertices), bgVertices, GL_STATIC_DRAW);
-    
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 6, BUFFER_OFFSET(0));
+    [self setupBackground]; //actually setup the background
     
     
     
-    glBindVertexArrayOES(0);
-    
-    
-    
-    //load cube
-    glEnable(GL_DEPTH_TEST);
-    
-    glGenVertexArraysOES(1, &_vertexArray);
-    glBindVertexArrayOES(_vertexArray);
-    
-    glGenBuffers(1, &_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(gCubeVertexData), gCubeVertexData, GL_STATIC_DRAW);
-    
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
-    glEnableVertexAttribArray(GLKVertexAttribNormal);
-    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
-    
-    glBindVertexArrayOES(0);
+[self setupCube];
     
     NSLog(@"...done!");
 }
@@ -315,9 +286,11 @@ GLfloat gCubeVertexData[216] =
 {
     [EAGLContext setCurrentContext:self.context];
     
+    //teardown background
     glDeleteBuffers(1, &_bgVertexBuffer);
     glDeleteVertexArraysOES(1, &_bgVertexArray);
     
+    //teardown cube
     glDeleteBuffers(1, &_vertexBuffer);
     glDeleteVertexArraysOES(1, &_vertexArray);
     
@@ -462,26 +435,9 @@ GLfloat gCubeVertexData[216] =
     //clear the display
     glClearColor(0.65f, 0.65f, 0.65f, 1.0f); //set background color (I remember this from GDX)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear
-    
-    {
-        glBindVertexArrayOES(_bgVertexArray);
-        glUseProgram(_bgProgram);
-        
-        //matrix stuff
-        GLuint bgUloc = glGetUniformLocation(_bgProgram, "modelViewProjectionMatrix");
-        
-        GLKMatrix4 bgMvpm = GLKMatrix4Identity;
-        bgMvpm = GLKMatrix4MakeTranslation(1.0f, -1.0f, 0.0f);
-        bgMvpm = GLKMatrix4Scale(bgMvpm, 1.0f, 2.0f, 1.0f);
-        
-        glUniformMatrix4fv(bgUloc, 1, 0, bgMvpm.m);
-        
-        
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        
-    }
-    
-    glClear(GL_DEPTH_BUFFER_BIT); //clear the depth buffer so the background is behind everything
+
+    //render the background
+    [self renderBackground];
     
     MBQObjectDisplayIn objectDataIn;
     
@@ -496,6 +452,42 @@ GLfloat gCubeVertexData[216] =
         
     }
     
+    //moved the cube render into its own method
+    [self renderCube];
+}
+
+#pragma mark - Rendering methods
+
+- (void)renderBackground
+{
+    //bind the background data in preparation to render
+    glBindVertexArrayOES(_bgVertexArray);
+    glUseProgram(_bgProgram);
+    
+    //matrix stuff
+    GLuint bgUloc = glGetUniformLocation(_bgProgram, "modelViewProjectionMatrix");
+    
+    GLKMatrix4 bgMvpm = GLKMatrix4Identity;
+    bgMvpm = GLKMatrix4MakeTranslation(-1.0f, -1.0f, 0.0f); //position the background
+    bgMvpm = GLKMatrix4Scale(bgMvpm, 2.0f, _bgLengthScale, 1.0f); //scale the background
+    float bgLengthTransform = (_scrollPos / VIEWPORT_HEIGHT) / SCROLL_FACTOR;
+    bgMvpm = GLKMatrix4Translate(bgMvpm, 0.0f, -bgLengthTransform, 0.0f); //scroll the background
+    
+    glUniformMatrix4fv(bgUloc, 1, 0, bgMvpm.m);
+    
+    //texture setup
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _bgTexture);
+    glUniform1i(_bgTexUniform, 0);
+    
+    //draw it!
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    
+    glClear(GL_DEPTH_BUFFER_BIT); //clear the depth buffer so the background is behind everything
+}
+
+- (void)renderCube
+{
     glBindVertexArrayOES(_vertexArray);
     
     // Render the object with GLKit
@@ -512,6 +504,7 @@ GLfloat gCubeVertexData[216] =
     glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
+
 #pragma mark - Touch and other event handlers
 
 -(IBAction)handleViewportTap:(UITapGestureRecognizer *)tapGestureRecognizer
@@ -522,8 +515,63 @@ GLfloat gCubeVertexData[216] =
     [_player moveToTarget:scaledTapPoint];
 }
 
+#pragma mark -  Rendering setup
+
+- (void)setupCube
+{
+    //load cube
+    glEnable(GL_DEPTH_TEST);
+    
+    glGenVertexArraysOES(1, &_vertexArray);
+    glBindVertexArrayOES(_vertexArray);
+    
+    glGenBuffers(1, &_vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(gCubeVertexData), gCubeVertexData, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(GLKVertexAttribPosition);
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
+    glEnableVertexAttribArray(GLKVertexAttribNormal);
+    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
+    
+    glBindVertexArrayOES(0);
+}
+
+- (void)setupBackground
+{
+    //load background
+    _bgTexture = [self setupTexture:@"tex_bgtest.png"];
+    _bgLengthScale = 2.0f * (_mapModel.length / VIEWPORT_HEIGHT); //deal with different sized backgrounds
+    
+    //TODO move this
+    GLfloat bgVertices[] = {
+        0.0f, 0.0f, 0.1f,
+        0.0f, 1.0f, 0.1f,
+        1.0f, 0.0f, 0.1f,
+        0.0f, 1.0f, 0.1f,
+        1.0f, 0.0f, 0.1f,
+        1.0f, 1.0f, 0.1f  };
+    
+    glGenVertexArraysOES(1, &_bgVertexArray);
+    glBindVertexArrayOES(_bgVertexArray);
+    glGenBuffers(1, &_bgVertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _bgVertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(bgVertices), bgVertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(GLKVertexAttribPosition);
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 12, BUFFER_OFFSET(0));
+    
+    _bgTexCoordSlot = glGetAttribLocation(_bgProgram, "texCoordIn");
+    glEnableVertexAttribArray(_bgTexCoordSlot);
+    _bgTexUniform = glGetUniformLocation(_bgProgram, "texture");
+    glVertexAttribPointer(_bgTexCoordSlot, 2, GL_FLOAT, GL_FALSE, 12, BUFFER_OFFSET(0));
+    
+    glBindVertexArrayOES(0);
+}
+
+
+
 #pragma mark -  OpenGL ES 2 shader compilation
-//I have no idea what ANY of this does
 //TODO: unified shader loading and storage
 
 //load/compile background shaders
@@ -762,7 +810,9 @@ GLfloat gCubeVertexData[216] =
     CGContextRef cgTexContext = CGBitmapContextCreate(glTexData, w, h, 8, w*4,                                                      CGImageGetColorSpace(cgTexImage), kCGImageAlphaPremultipliedLast);
     
     
-    //draw into context with CG
+    //draw into context with CG (and flip)
+    CGContextTranslateCTM(cgTexContext, 0, h);
+    CGContextScaleCTM(cgTexContext, 1.0, -1.0);
     CGContextDrawImage(cgTexContext, CGRectMake(0,0,w,h), cgTexImage);
     CGContextRelease(cgTexContext);
     
