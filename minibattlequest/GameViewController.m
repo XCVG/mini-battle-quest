@@ -119,6 +119,7 @@ GLfloat gCubeVertexData[216] =
 -(void)handleViewportTap:(UITapGestureRecognizer *)tapGestureRecognizer;
 - (void)setupGL;
 - (void)tearDownGL;
+- (bool)CheckCollision;
 
 - (BOOL)loadShaders;
 - (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
@@ -225,6 +226,14 @@ GLfloat gCubeVertexData[216] =
     [_gameObjects addObject:[[MeeseeksObject alloc] init] ];
     [_gameObjects addObject:[[SpambotObject alloc] init] ];
     
+    //for testing: Arrow hitting an enemy
+    NSLog(@"creating test objects");
+    EnemyObject *myEnemy = [[EnemyObject alloc] init];
+    [_gameObjects addObject:myEnemy];
+    MBQPoint2D myPosition = {0, 200};
+    myEnemy.position = myPosition;
+    myEnemy.size = 10;
+    
     //load map from file
     NSLog(@"loading map from file");
     _mapModel = [MapLoadHelper loadObjectsFromMap:@"map01"];
@@ -282,7 +291,7 @@ GLfloat gCubeVertexData[216] =
     
 }
 
-- (void)tearDownGL
+-(void)tearDownGL
 {
     [EAGLContext setCurrentContext:self.context];
     
@@ -307,6 +316,21 @@ GLfloat gCubeVertexData[216] =
     //may need to perform more extensive teardown on each game object
     [_gameObjects removeAllObjects];
     _gameObjects = nil;
+}
+
+//Michael
+//Physics collision detection
+//Each GameObject is a square with x,y position and a size
+-(bool)checkCollisionBetweenObject:(GameObject *)one and:(GameObject *)two
+{
+    // check x-axis collision
+    bool collisionX = one.position.x + one.size/2 >= two.position.x - two.size/2 && two.position.x + two.size/2 >= one.position.x - one.size/2;
+    
+    // check y-axis collision
+    bool collisionY = one.position.y + one.size/2 >= two.position.y - two.size/2 && two.position.y + two.size/2 >= one.position.y - one.size/2;
+    
+    // collision occurs only if on both axes
+    return collisionX && collisionY;
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods
@@ -339,8 +363,8 @@ GLfloat gCubeVertexData[216] =
     for(id o in _gameObjectsToAdd)
     {
         [_gameObjects addObject:o];
-        [_gameObjectsToAdd removeObject:o];
     }
+    [_gameObjectsToAdd removeAllObjects];
     
     MBQObjectUpdateIn objectDataIn;
     
@@ -371,6 +395,26 @@ GLfloat gCubeVertexData[216] =
         
         
         
+    }
+    
+    //check for GameObject collisions
+    //loop through all gameobjects in scene
+    //check if any of those two objects are colliding AND they are both solid
+    //if they are, then return collision!
+    
+    for (int i=0; i <_gameObjectsInView.count ; i++)
+    {
+        for (int j=0; j < _gameObjectsInView.count ; j++)
+        {
+            if ((((GameObject *)[_gameObjectsInView objectAtIndex:i]).solid && ((GameObject *)[_gameObjectsInView objectAtIndex:j]).solid) &&
+                [self checkCollisionBetweenObject:_gameObjectsInView[i] and:_gameObjectsInView[j]]  && _gameObjectsInView[i] != _gameObjectsInView[j])
+            {
+                NSLog(@"Collision Detected!");
+                [(GameObject *)_gameObjectsInView[i] onCollision:_gameObjectsInView[j]];
+                //call oncollide function for first object only
+                //still need to make the oncollide function
+            }
+        }
     }
     
     //handle scrolling

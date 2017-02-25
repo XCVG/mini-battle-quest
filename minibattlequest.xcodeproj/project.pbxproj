@@ -24,6 +24,7 @@
 		6DCB13591E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB13571E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m */; };
 		6DCB135C1E54E76B00CB5AA8 /* LeaderboardScore+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB135B1E54E76B00CB5AA8 /* LeaderboardScore+Util.m */; };
 		6DCB13601E54E7D100CB5AA8 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB135F1E54E7D100CB5AA8 /* CoreDataTableViewController.m */; };
+		83D367731E62517300784CD8 /* ArrowObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D367721E62517300784CD8 /* ArrowObject.m */; };
 		83D546A71E5E2BD500A056F5 /* MeeseeksObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D546A21E5E2BD500A056F5 /* MeeseeksObject.m */; };
 		83D546A81E5E2BD500A056F5 /* SpambotObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D546A41E5E2BD500A056F5 /* SpambotObject.m */; };
 		83D546A91E5E2BD500A056F5 /* WallObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D546A61E5E2BD500A056F5 /* WallObject.m */; };
@@ -73,6 +74,8 @@
 		6DCB135B1E54E76B00CB5AA8 /* LeaderboardScore+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LeaderboardScore+Util.m"; sourceTree = "<group>"; };
 		6DCB135E1E54E7D100CB5AA8 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
 		6DCB135F1E54E7D100CB5AA8 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
+		83D367711E62517300784CD8 /* ArrowObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrowObject.h; sourceTree = "<group>"; };
+		83D367721E62517300784CD8 /* ArrowObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrowObject.m; sourceTree = "<group>"; };
 		83D546A11E5E2BD500A056F5 /* MeeseeksObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeeseeksObject.h; sourceTree = "<group>"; };
 		83D546A21E5E2BD500A056F5 /* MeeseeksObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeeseeksObject.m; sourceTree = "<group>"; };
 		83D546A31E5E2BD500A056F5 /* SpambotObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpambotObject.h; sourceTree = "<group>"; };
@@ -225,6 +228,8 @@
 		83F92B951E412B4E0064411B /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
+				83D367711E62517300784CD8 /* ArrowObject.h */,
+				83D367721E62517300784CD8 /* ArrowObject.m */,
 				83D546A11E5E2BD500A056F5 /* MeeseeksObject.h */,
 				83D546A21E5E2BD500A056F5 /* MeeseeksObject.m */,
 				83D546A31E5E2BD500A056F5 /* SpambotObject.h */,
@@ -389,6 +394,7 @@
 			files = (
 				83D546B31E5E2BE600A056F5 /* MapModel.m in Sources */,
 				6D5043FE1E3FE695001F8AE6 /* MainMenuViewController.m in Sources */,
+				83D367731E62517300784CD8 /* ArrowObject.m in Sources */,
 				83D546A81E5E2BD500A056F5 /* SpambotObject.m in Sources */,
 				6D5044151E3FE90B001F8AE6 /* LeaderboardViewController.m in Sources */,
 				6DCB13581E54E6C300CB5AA8 /* LeaderboardScore+CoreDataClass.m in Sources */,

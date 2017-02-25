@@ -89,7 +89,7 @@
     request.predicate = nil;
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"score"
                                                               ascending:NO
-                                                               selector:@selector(localizedStandardCompare:)]];
+                                                               selector:@selector(compare:)]];
     request.fetchLimit = 50;
     
     self.fetchedResultsController = [[NSFetchedResultsController alloc]

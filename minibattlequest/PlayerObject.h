@@ -12,6 +12,7 @@
 #import "GameObject.h"
 
 @interface PlayerObject : GameObject
+@property MBQWeapon weapon;
 
 -(void)moveToTarget:(MBQPoint2D)target;
 
