@@ -47,6 +47,7 @@
 		C2E961591E37D81A0098A95D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2E961581E37D81A0098A95D /* Assets.xcassets */; };
 		C2E9615C1E37D81A0098A95D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2E9615A1E37D81A0098A95D /* LaunchScreen.storyboard */; };
 		C2E961651E37D89A0098A95D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2E961641E37D89A0098A95D /* CoreData.framework */; };
+		DDD6BCDB1E625674007C8CCB /* QuestThroughTime.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DDD6BCDA1E625674007C8CCB /* QuestThroughTime.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -111,6 +112,7 @@
 		C2E9615B1E37D81A0098A95D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C2E9615D1E37D81A0098A95D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2E961641E37D89A0098A95D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DDD6BCDA1E625674007C8CCB /* QuestThroughTime.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = QuestThroughTime.mp3; path = resources/Audio/QuestThroughTime.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 		6D4444401E3FE39200B9FC2B /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				DDD6BCDC1E62569A007C8CCB /* Audio */,
 				83D546B71E5E2C3D00A056F5 /* Textures */,
 				83D546B41E5E2C1B00A056F5 /* Maps */,
 				6D4444411E3FE3A000B9FC2B /* Images */,
@@ -304,6 +307,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		DDD6BCDC1E62569A007C8CCB /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				DDD6BCDA1E625674007C8CCB /* QuestThroughTime.mp3 */,
+			);
+			name = Audio;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -367,6 +378,7 @@
 				6D50440C1E3FE7B2001F8AE6 /* mbq_icon_bow.png in Resources */,
 				6D5044121E3FE7B2001F8AE6 /* mbq_title_logo.png in Resources */,
 				C2E961571E37D81A0098A95D /* Main.storyboard in Resources */,
+				DDD6BCDB1E625674007C8CCB /* QuestThroughTime.mp3 in Resources */,
 				6D50440F1E3FE7B2001F8AE6 /* mbq_icon_sword.png in Resources */,
 				C2E961511E37D81A0098A95D /* Shader.vsh in Resources */,
 				83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */,
