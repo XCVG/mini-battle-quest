@@ -10,8 +10,8 @@
 #import "PlayerObject.h"
 #import "ArrowObject.h"
 
-#define TARGET_THRESHOLD 32.0f
-#define DEFAULT_MOVE_SPEED 100.0f
+#define TARGET_THRESHOLD 1
+#define DEFAULT_MOVE_SPEED 1.5f
 #define PLAYER_DEFAULT_HEALTH 200.0f
 
 @interface PlayerObject()
@@ -133,7 +133,7 @@
     
     NSString *output = [NSString stringWithFormat:(@"Player at: (%.2f,%.2f)"), self.position.x, self.position.y];
     
-    NSLog(output);
+   // NSLog(output);
     
     return dataOut;
 }
@@ -174,7 +174,7 @@
     GameObject *arrow = [[ArrowObject alloc] init];
     
     MBQPoint2D pos = self.position;
-    pos.y += 64.0f;
+    pos.y += 0.5f;
     arrow.position = pos;
 
     //TODO: deal with speed/magnitude maybe?
@@ -194,7 +194,7 @@
     
     NSString *output = [NSString stringWithFormat:(@"Target at: (%.2f,%.2f)"), newTarget.x, newTarget.y];
     
-    NSLog(output);
+    //NSLog(output);
     
     self.state = STATE_MOVING;
     self->_target = newTarget;

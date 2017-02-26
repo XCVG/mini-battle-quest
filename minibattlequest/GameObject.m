@@ -58,7 +58,7 @@
 -(MBQObjectDisplayOut)display:(MBQObjectDisplayIn*)data
 {
     MBQObjectDisplayOut outData;
-    outData.modelHandle = self.modelHandle;
+    //outData.modelHandle = self.modelHandle;
     outData.textureHandle = self.textureHandle;
     outData.dPosition = GLKVector3Make(self.position.x, self.position.y, self.zPosition);
     outData.dRotation = GLKVector3Make(0.0f, 0.0f, GLKMathDegreesToRadians(self.rotation)); //might need to negative this

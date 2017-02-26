@@ -13,6 +13,7 @@
 #import "GameObject.h"
 #import "PlayerObject.h"
 #import "EnemyObject.h"
+#import "ArrowObject.h"
 #import "MeeseeksObject.h"
 #import "SpambotObject.h"
 #include "ModelData.m"
@@ -49,6 +50,7 @@ enum
 };
 
 
+
 @interface GameViewController () {
     GLuint _program;
     //TODO: completely redo the way shaders/programs are referenced and handled
@@ -65,8 +67,10 @@ enum
     GLKMatrix3 _normalMatrix;
     float _rotation;
     
-    GLuint  _sphereVertexArray, _cubeVertexArray;
-    GLuint  _sphereVertexBuffer, _cubeVertexBuffer;
+    struct VertexInfo playerVert, enemyVert;
+    
+    //GLuint  _sphereVertexArray, _cubeVertexArray;
+   // GLuint  _sphereVertexBuffer, _cubeVertexBuffer;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -179,26 +183,29 @@ enum
   //  NSLog(@"initializing player");
     _player = [[PlayerObject alloc] init];
     [_gameObjectsToAdd addObject:_player];
-    _player.modelxPos  = -1.0f;
-    _player.modelyPos  = -1.0f;
+    MBQPoint2D pos = {0.0f, -7.0f};
+    _player.position = pos;
+    _player.yRotation = 3.14f;
+    _player.xRotation = 0.8f;
+
     
     // initisalize an enemy - may not be needed if spawned later
     _enemy = [[EnemyObject alloc] init];
    [_gameObjectsToAdd addObject:_enemy];
-    _enemy.modelxPos  = 1.0f;
-    _enemy.modelyPos  = 1.0f;
-    /*
-    //for testing: Meseeks and Spawner
-    NSLog(@"creating test objects");
-    [_gameObjects addObject:[[MeeseeksObject alloc] init] ];
-    [_gameObjects addObject:[[SpambotObject alloc] init] ];
-    */
-    //for testing: Spawn enemuy to test hiting arrows
+    MBQPoint2D enemyPos = {-3.0f, 6.0f};
+    _enemy.position = enemyPos;
+    //_enemy.yRotation = 3.14f;
+    _enemy.xRotation = 0.8f;
+
+    
+    //testing for dynamic enemy spawning
     NSLog(@"creating test objects");
     EnemyObject *myEnemy = [[EnemyObject alloc] init];
-    [_gameObjects addObject:myEnemy];
-    MBQPoint2D myPosition = {0, 20};
+    [_gameObjectsToAdd addObject:myEnemy];
+    MBQPoint2D myPosition = {3.0f, 5.0f};
     myEnemy.position = myPosition;
+    //myEnemy.yRotation = 3.14f;
+    myEnemy.xRotation = 0.8f;
     myEnemy.size = 10;
     
     //load map from file
@@ -220,105 +227,7 @@ enum
 
 - (void)setupGL
 {
-    NSLog(@"Opening GL...");
-    
-    [EAGLContext setCurrentContext:self.context];
-    
-    [self loadShaders]; //load original shader
-    [self loadBGShaders]; //load background shader
-    
-    //useless GLKit stuff
-    self.effect = [[GLKBaseEffect alloc] init];
-    self.effect.light0.enabled = GL_TRUE;
-    self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
-    
-    [self setupBackground]; //actually setup the background
-    
-    
-    
-    glEnable(GL_DEPTH_TEST);
-    
-    
-    //fiddling with gl settings
-    // glDisable(GL_CULL_FACE);
-    // glCullFace(GL_FRONT);
-    // glFrontFace (GL_CW);
-    
-    //TODO loop through this for all vertexArrays
-    glGenVertexArraysOES(1, &_cubeVertexArray);
-    glBindVertexArrayOES(_cubeVertexArray);
-    
-    glGenBuffers(1, &_cubeVertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _cubeVertexBuffer);
-    
-    //Model from model data file grabbed here
-    //Merge positon and normal arrays can't figure out how to load them seperate)
-    
-    //TODO loop this
-    long size = sizeof(cube_pos);
-    //NSLog(@"Vertex array size %lu", [cube_pos count]);
-    GLfloat mixedArray[size];
-    //NSLog(@"%u", size);
-    int j = 0;
-    int k = 0;
-    for(int i = 0; i < size; i++){
-        //NSLog(@"%u", i%6);
-        if(i%6 < 3){
-            mixedArray[i] = cube_pos[j];
-            j++;
-        }else{
-            mixedArray[i] = cube_norm[k];
-            k++;
-        }
-        //NSLog(@"%.2f", mixedArray[i]);
-    }
-    
-    //load array into buffer
-    glBufferData(GL_ARRAY_BUFFER, sizeof(mixedArray), mixedArray, GL_STATIC_DRAW);
-    
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
-    glEnableVertexAttribArray(GLKVertexAttribNormal);
-    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
-    
-    glBindVertexArrayOES(0);
-    
-    
-    //redone version TODO get rid of redundancy
-    glGenVertexArraysOES(1, &_sphereVertexArray);
-    glBindVertexArrayOES(_sphereVertexArray);
-    
-    glGenBuffers(1, &_sphereVertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _sphereVertexBuffer);
-    //TODO loop this
-    size = sizeof(sphere_pos) * 2;
-    GLfloat mixedArray2[size];
-    
-    //NSLog(@"%u", size);
-    j = 0;
-    k = 0;
-    for(int i = 0; i < size; i++){
-        //NSLog(@"%u", i%6);
-        if(i%6 < 3){
-            mixedArray2[i] = sphere_pos[j];
-            j++;
-        }else{
-            mixedArray2[i] = sphere_norm[k];
-            k++;
-        }
-        //NSLog(@"%.2f", mixedArray[i]);
-    }
-    
-    //load array into buffer
-    glBufferData(GL_ARRAY_BUFFER, sizeof(mixedArray2), mixedArray2, GL_STATIC_DRAW);
-    
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
-    glEnableVertexAttribArray(GLKVertexAttribNormal);
-    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
-    
-    
-    glBindVertexArrayOES(0);
+    [self setupVertexArrays];
 }
 
 -(void)calculateRatios
@@ -345,11 +254,11 @@ enum
     
     //TODO Loop this
     //teardown vertex arrays and buffers
-    glDeleteBuffers(1, &_sphereVertexBuffer);
-    glDeleteVertexArraysOES(1, &_sphereVertexArray);
+    glDeleteBuffers(1, &playerVert.vBuffer);
+    glDeleteVertexArraysOES(1, &playerVert.vArray);
     
-    glDeleteBuffers(1, &_cubeVertexBuffer);
-    glDeleteVertexArraysOES(1, &_cubeVertexArray);
+    glDeleteBuffers(1, &enemyVert.vBuffer);
+    glDeleteVertexArraysOES(1, &enemyVert.vArray);
     
     self.effect = nil;
     
@@ -384,24 +293,23 @@ enum
 //Associate gameobjects with models
 -(void)bindObject:(GameObject*)object
 {
-    
+
     //for debugging
     NSLog(@"Binding GL for: %@", NSStringFromClass([object class]));
     
     //determine model based on what the object is
     if([object isKindOfClass:[PlayerObject class]])
     {
-        object.modelHandle = _sphereVertexArray;
-        
+        object.modelHandle = playerVert;
     }
     else if([object isKindOfClass:[EnemyObject class]])
     {
-        
-        object.modelHandle = _cubeVertexArray;
-        
-        
+        object.modelHandle = enemyVert;
     }
-    //TODO cube and player objects
+    else if([object isKindOfClass:[ArrowObject class]])
+    {
+        object.modelHandle = enemyVert;
+    }
     
 }
 
@@ -552,7 +460,7 @@ enum
         
     }
     //what does this line do?
-    glBindVertexArrayOES(_cubeVertexArray);
+    glBindVertexArrayOES(enemyVert.vArray);
 }
 
 -(void)renderObject:(GameObject*)gameObject
@@ -566,19 +474,25 @@ enum
     
     //self.effect.transform.projectionMatrix = projectionMatrix;
     
-    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -7.0f);
+    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -20.0f);
 
     // Compute the model view matrix for the object rendered with ES2
     //GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(gameObject.modelxPos, gameObject.modelxPos, 1.5f);
-    //modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
+    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(gameObject.position.x, gameObject.position.y, 1.5f);
+    
+   // modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
+   // _rotation += self.timeSinceLastUpdate * 0.1f;
+    
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.xRotation, 1, 0,0);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.yRotation, 0, 1,0);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.zRotation, 0, 0,1);
     modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
     
     _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
     
     _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
     
-    _rotation += self.timeSinceLastUpdate * 0.1f;
+    
     
     //bind uniform matrices
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
@@ -588,17 +502,18 @@ enum
     
     //draw!
     
-    //glBindVertexArrayOES(_cubeVertexArray);
-    glBindVertexArrayOES(gameObject.modelHandle);
+    //glBindVertexArrayOES(playerVert.vArray);
+    glBindVertexArrayOES(gameObject.modelHandle.vArray);
     glUseProgram(_program);
     
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
     glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
     
-    //int s = 5760 / 6;
     
-    // NSLog(@"Size: %u", s);
-    glDrawArrays(GL_TRIANGLES, 0, 256);
+    // NSLog(@"moduleHandel array Size: %u", s);
+
+    
+    glDrawArrays(GL_TRIANGLES, 0, gameObject.modelHandle.length);//need to change 256 to actual array size
     
     //glDrawArrays(GL_TRIANGLES, 0, 1024); //will probably have to deal with this 36 somewhere
     
@@ -635,25 +550,7 @@ enum
     
     glClear(GL_DEPTH_BUFFER_BIT); //clear the depth buffer so the background is behind everything
 }
-/*
-- (void)renderCube
-{
-    glBindVertexArrayOES(_vertexArray);
-    
-    // Render the object with GLKit
-    //[self.effect prepareToDraw];
-    
-    //glDrawArrays(GL_TRIANGLES, 0, 36);
-    
-    // Render the object again with ES2
-    glUseProgram(_program);
-    
-    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
-    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
-    
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-}
-*/
+
 
 #pragma mark - Touch and other event handlers
 
@@ -666,32 +563,52 @@ enum
 }
 
 #pragma mark -  Rendering setup
-/*
+
+long p2Length, cubeLengh;
 - (void)setupVertexArrays
 {
-    glGenVertexArraysOES(1, &_cubeVertexArray);
-    glBindVertexArrayOES(_cubeVertexArray);
+    NSLog(@"Opening GL...");
     
-    glGenBuffers(1, &_cubeVertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _cubeVertexBuffer);
+    [EAGLContext setCurrentContext:self.context];
     
-    //Model from model data file grabbed here
-    //Merge positon and normal arrays can't figure out how to load them seperate)
+    [self loadShaders]; //load original shader
+    [self loadBGShaders]; //load background shader
     
-    //TODO loop this
-    long size = sizeof(cube_pos);
-    //NSLog(@"Vertex array size %lu", [cube_pos count]);
+    //useless GLKit stuff
+    self.effect = [[GLKBaseEffect alloc] init];
+    self.effect.light0.enabled = GL_TRUE;
+    self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
+    
+    [self setupBackground]; //actually setup the background
+    
+    glEnable(GL_DEPTH_TEST);
+
+    glGenVertexArraysOES(1, &enemyVert.vArray);
+    glBindVertexArrayOES(enemyVert.vArray);
+    
+    glGenBuffers(1, &enemyVert.vBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, enemyVert.vBuffer);
+    
+
+    
+    //merging Vertex position and normal arrays.
+    //TODO: move all this shit to the to OBJ  parser
+    long size = sizeof(wizard_pos) /2;
+    //cubeLengh = size;
+    enemyVert.length = (int)size / 6 ;
+    NSLog(@"Vertex array size %u", enemyVert.length);
     GLfloat mixedArray[size];
+    //NSLog(@"Vertex Array Size%lu", size);
     //NSLog(@"%u", size);
     int j = 0;
     int k = 0;
     for(int i = 0; i < size; i++){
         //NSLog(@"%u", i%6);
         if(i%6 < 3){
-            mixedArray[i] = cube_pos[j];
+            mixedArray[i] = wizard_pos[j];
             j++;
         }else{
-            mixedArray[i] = cube_norm[k];
+            mixedArray[i] = wizard_norm[k];
             k++;
         }
         //NSLog(@"%.2f", mixedArray[i]);
@@ -708,26 +625,27 @@ enum
     glBindVertexArrayOES(0);
     
     
-    //redone version TODO get rid of redundancy
-    glGenVertexArraysOES(1, &_sphereVertexArray);
-    glBindVertexArrayOES(_sphereVertexArray);
+    //same thing for second object. Will be gone once this code is in the parser
+    glGenVertexArraysOES(1, &playerVert.vArray);
+    glBindVertexArrayOES(playerVert.vArray);
     
-    glGenBuffers(1, &_sphereVertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _sphereVertexBuffer);
+    glGenBuffers(1, &playerVert.vBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, playerVert.vBuffer);
     //TODO loop this
-    size = sizeof(sphere_pos);
+    size = sizeof(p2_pos) / 2;
+    playerVert.length = (int)size / 6;// / because 6 points per vertex (xyz position, xyz normals)
+     NSLog(@"Vertex array size %u", playerVert.length);
     GLfloat mixedArray2[size];
-    
-    //NSLog(@"%u", size);
+
     j = 0;
     k = 0;
     for(int i = 0; i < size; i++){
         //NSLog(@"%u", i%6);
         if(i%6 < 3){
-            mixedArray2[i] = sphere_pos[j];
+            mixedArray2[i] = p2_pos[j];
             j++;
         }else{
-            mixedArray2[i] = sphere_norm[k];
+            mixedArray2[i] = p2_norm[k];
             k++;
         }
         //NSLog(@"%.2f", mixedArray[i]);
@@ -742,10 +660,9 @@ enum
     glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
     
     
-    glBindVertexArrayOES(1);
-
+    glBindVertexArrayOES(0);
 }
- */
+
 
 - (void)setupBackground
 {
