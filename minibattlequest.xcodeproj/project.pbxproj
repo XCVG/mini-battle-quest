@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B6A45FA1E626998000C333B /* ModelData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6A45F91E626998000C333B /* ModelData.m */; };
 		6D2FA0D31E54D4D70064595A /* MBQData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6D2FA0D11E54D4D70064595A /* MBQData.xcdatamodeld */; };
 		6D42AEFA1E5E352200091DB0 /* MBQDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D42AEF91E5E352200091DB0 /* MBQDataManager.m */; };
 		6D5043FE1E3FE695001F8AE6 /* MainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D5043FD1E3FE695001F8AE6 /* MainMenuViewController.m */; };
@@ -51,6 +52,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B6A45F91E626998000C333B /* ModelData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelData.m; sourceTree = "<group>"; };
 		6D2FA0D21E54D4D70064595A /* MBQData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MBQData.xcdatamodel; sourceTree = "<group>"; };
 		6D42AEF81E5E352200091DB0 /* MBQDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBQDataManager.h; sourceTree = "<group>"; };
 		6D42AEF91E5E352200091DB0 /* MBQDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBQDataManager.m; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				83D546AD1E5E2BE600A056F5 /* MapLoadHelper.m */,
 				83D546AE1E5E2BE600A056F5 /* MapModel.h */,
 				83D546AF1E5E2BE600A056F5 /* MapModel.m */,
+				1B6A45F91E626998000C333B /* ModelData.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 				C2E961541E37D81A0098A95D /* GameViewController.m in Sources */,
 				6DCB13591E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m in Sources */,
 				83F92B931E4126AD0064411B /* GameObject.m in Sources */,
+				1B6A45FA1E626998000C333B /* ModelData.m in Sources */,
 				6DCB13601E54E7D100CB5AA8 /* CoreDataTableViewController.m in Sources */,
 				83F92B9A1E412CF40064411B /* EnemyObject.m in Sources */,
 				83D546A71E5E2BD500A056F5 /* MeeseeksObject.m in Sources */,

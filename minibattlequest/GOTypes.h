@@ -8,6 +8,7 @@
 
 #ifndef GOTypes_h
 #define GOTypes_h
+#import <GLKit/GLKit.h>
 
 //may move these; I don't know a lot about header files
 typedef NS_ENUM(NSInteger, GameObjectState) {
@@ -58,9 +59,14 @@ typedef struct MBQObjectDisplayIn{
 
 //for data passed out of a GameObject during display()
 typedef struct MBQObjectDisplayOut{
+    GLuint modelHandle;
+    GLuint textureHandle;
+    GLuint numVertices; //I'm hoping it's a GLuint but you can change it later
+    GLKVector3 dPosition;
+    GLKVector3 dRotation;
+    GLKVector3 dScale;
     
 } MBQObjectDisplayOut;
-
 //for data passed into a GameObject after collision (not including other gameobject)
 typedef struct MBQObjectCollideContext {
     

@@ -15,6 +15,7 @@
 #import "EnemyObject.h"
 #import "MeeseeksObject.h"
 #import "SpambotObject.h"
+#include "ModelData.m"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -47,52 +48,6 @@ enum
     NUM_ATTRIBUTES
 };
 
-GLfloat gCubeVertexData[216] = 
-{
-    // Data layout for each line below is:
-    // positionX, positionY, positionZ,     normalX, normalY, normalZ,
-    0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, -0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, -0.5f,          1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
-    
-    0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 1.0f, 0.0f,
-    
-    -0.5f, 0.5f, -0.5f,        -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        -1.0f, 0.0f, 0.0f,
-    
-    -0.5f, -0.5f, -0.5f,       0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, -1.0f, 0.0f,
-    
-    0.5f, 0.5f, 0.5f,          0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, 0.0f, 1.0f,
-    
-    0.5f, -0.5f, -0.5f,        0.0f, 0.0f, -1.0f,
-    -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
-    0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
-    0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
-    -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
-};
 
 @interface GameViewController () {
     GLuint _program;
@@ -110,8 +65,8 @@ GLfloat gCubeVertexData[216] =
     GLKMatrix3 _normalMatrix;
     float _rotation;
     
-    GLuint _vertexArray;
-    GLuint _vertexBuffer;
+    GLuint  _sphereVertexArray, _cubeVertexArray;
+    GLuint  _sphereVertexBuffer, _cubeVertexBuffer;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -135,6 +90,7 @@ GLfloat gCubeVertexData[216] =
     //game variables
     NSMutableArray *_gameObjects;
     PlayerObject *_player;
+    EnemyObject  *_enemy;
     NSMutableArray *_gameObjectsInView;
     NSMutableArray *_gameObjectsToAdd;
     
@@ -213,24 +169,35 @@ GLfloat gCubeVertexData[216] =
 {
     NSLog(@"Starting game...");
     
+    NSLog(@"creating 'objects to add' array");
+    _gameObjectsToAdd = [[NSMutableArray alloc] init];
+    
     NSLog(@"creating gameobjects array");
     _gameObjects = [[NSMutableArray alloc]init];
     
     //create and init player
-    NSLog(@"initializing player");
+  //  NSLog(@"initializing player");
     _player = [[PlayerObject alloc] init];
-    [_gameObjects addObject:_player];
+    [_gameObjectsToAdd addObject:_player];
+    _player.modelxPos  = -1.0f;
+    _player.modelyPos  = -1.0f;
     
+    // initisalize an enemy - may not be needed if spawned later
+    _enemy = [[EnemyObject alloc] init];
+   [_gameObjectsToAdd addObject:_enemy];
+    _enemy.modelxPos  = 1.0f;
+    _enemy.modelyPos  = 1.0f;
+    /*
     //for testing: Meseeks and Spawner
     NSLog(@"creating test objects");
     [_gameObjects addObject:[[MeeseeksObject alloc] init] ];
     [_gameObjects addObject:[[SpambotObject alloc] init] ];
-    
-    //for testing: Arrow hitting an enemy
+    */
+    //for testing: Spawn enemuy to test hiting arrows
     NSLog(@"creating test objects");
     EnemyObject *myEnemy = [[EnemyObject alloc] init];
     [_gameObjects addObject:myEnemy];
-    MBQPoint2D myPosition = {0, 200};
+    MBQPoint2D myPosition = {0, 20};
     myEnemy.position = myPosition;
     myEnemy.size = 10;
     
@@ -243,9 +210,6 @@ GLfloat gCubeVertexData[216] =
     NSLog(@"creating initial visible objects array");
     _gameObjectsInView = [[NSMutableArray alloc]init];
     [self refreshGameObjectsInView];
-    
-    NSLog(@"creating 'objects to add' array");
-    _gameObjectsToAdd = [[NSMutableArray alloc] init];
     
     //create player move touch handler
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleViewportTap:)];
@@ -272,9 +236,89 @@ GLfloat gCubeVertexData[216] =
     
     
     
-[self setupCube];
+    glEnable(GL_DEPTH_TEST);
     
-    NSLog(@"...done!");
+    
+    //fiddling with gl settings
+    // glDisable(GL_CULL_FACE);
+    // glCullFace(GL_FRONT);
+    // glFrontFace (GL_CW);
+    
+    //TODO loop through this for all vertexArrays
+    glGenVertexArraysOES(1, &_cubeVertexArray);
+    glBindVertexArrayOES(_cubeVertexArray);
+    
+    glGenBuffers(1, &_cubeVertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _cubeVertexBuffer);
+    
+    //Model from model data file grabbed here
+    //Merge positon and normal arrays can't figure out how to load them seperate)
+    
+    //TODO loop this
+    long size = sizeof(cube_pos);
+    //NSLog(@"Vertex array size %lu", [cube_pos count]);
+    GLfloat mixedArray[size];
+    //NSLog(@"%u", size);
+    int j = 0;
+    int k = 0;
+    for(int i = 0; i < size; i++){
+        //NSLog(@"%u", i%6);
+        if(i%6 < 3){
+            mixedArray[i] = cube_pos[j];
+            j++;
+        }else{
+            mixedArray[i] = cube_norm[k];
+            k++;
+        }
+        //NSLog(@"%.2f", mixedArray[i]);
+    }
+    
+    //load array into buffer
+    glBufferData(GL_ARRAY_BUFFER, sizeof(mixedArray), mixedArray, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(GLKVertexAttribPosition);
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
+    glEnableVertexAttribArray(GLKVertexAttribNormal);
+    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
+    
+    glBindVertexArrayOES(0);
+    
+    
+    //redone version TODO get rid of redundancy
+    glGenVertexArraysOES(1, &_sphereVertexArray);
+    glBindVertexArrayOES(_sphereVertexArray);
+    
+    glGenBuffers(1, &_sphereVertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _sphereVertexBuffer);
+    //TODO loop this
+    size = sizeof(sphere_pos) * 2;
+    GLfloat mixedArray2[size];
+    
+    //NSLog(@"%u", size);
+    j = 0;
+    k = 0;
+    for(int i = 0; i < size; i++){
+        //NSLog(@"%u", i%6);
+        if(i%6 < 3){
+            mixedArray2[i] = sphere_pos[j];
+            j++;
+        }else{
+            mixedArray2[i] = sphere_norm[k];
+            k++;
+        }
+        //NSLog(@"%.2f", mixedArray[i]);
+    }
+    
+    //load array into buffer
+    glBufferData(GL_ARRAY_BUFFER, sizeof(mixedArray2), mixedArray2, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(GLKVertexAttribPosition);
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
+    glEnableVertexAttribArray(GLKVertexAttribNormal);
+    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
+    
+    
+    glBindVertexArrayOES(0);
 }
 
 -(void)calculateRatios
@@ -299,9 +343,13 @@ GLfloat gCubeVertexData[216] =
     glDeleteBuffers(1, &_bgVertexBuffer);
     glDeleteVertexArraysOES(1, &_bgVertexArray);
     
-    //teardown cube
-    glDeleteBuffers(1, &_vertexBuffer);
-    glDeleteVertexArraysOES(1, &_vertexArray);
+    //TODO Loop this
+    //teardown vertex arrays and buffers
+    glDeleteBuffers(1, &_sphereVertexBuffer);
+    glDeleteVertexArraysOES(1, &_sphereVertexArray);
+    
+    glDeleteBuffers(1, &_cubeVertexBuffer);
+    glDeleteVertexArraysOES(1, &_cubeVertexArray);
     
     self.effect = nil;
     
@@ -331,6 +379,30 @@ GLfloat gCubeVertexData[216] =
     
     // collision occurs only if on both axes
     return collisionX && collisionY;
+}
+
+//Associate gameobjects with models
+-(void)bindObject:(GameObject*)object
+{
+    
+    //for debugging
+    NSLog(@"Binding GL for: %@", NSStringFromClass([object class]));
+    
+    //determine model based on what the object is
+    if([object isKindOfClass:[PlayerObject class]])
+    {
+        object.modelHandle = _sphereVertexArray;
+        
+    }
+    else if([object isKindOfClass:[EnemyObject class]])
+    {
+        
+        object.modelHandle = _cubeVertexArray;
+        
+        
+    }
+    //TODO cube and player objects
+    
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods
@@ -363,6 +435,7 @@ GLfloat gCubeVertexData[216] =
     for(id o in _gameObjectsToAdd)
     {
         [_gameObjects addObject:o];
+         [self bindObject:o];
     }
     [_gameObjectsToAdd removeAllObjects];
     
@@ -440,36 +513,7 @@ GLfloat gCubeVertexData[216] =
         }
         
     }
-    
-    //TODO other functionality
-    
-    
-    //stuff below is for demo, should remove it
-    float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
-    
-    self.effect.transform.projectionMatrix = projectionMatrix;
-    
-    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
-    baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
-    
-    // Compute the model view matrix for the object rendered with GLKit
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -1.5f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
-    
-    self.effect.transform.modelviewMatrix = modelViewMatrix;
-    
-    // Compute the model view matrix for the object rendered with ES2
-    modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
-    
-    _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
-    
-    _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
-    
-    _rotation += self.timeSinceLastUpdate * 0.5f;
+
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
@@ -496,8 +540,70 @@ GLfloat gCubeVertexData[216] =
         
     }
     
-    //moved the cube render into its own method
-    [self renderCube];
+    for(id o in _gameObjects)
+    {
+        if(((GameObject*)o).enabled && ((GameObject*)o).visible)
+        {
+            MBQObjectDisplayOut objectDisplayData = [o display:&objectDataIn];
+            
+            //TODO do something with the display data
+            [self renderObject:(GameObject*)o];
+        }
+        
+    }
+    //what does this line do?
+    glBindVertexArrayOES(_cubeVertexArray);
+}
+
+-(void)renderObject:(GameObject*)gameObject
+{
+    
+    //glBindVertexArrayOES(data.modelHandle);
+    glUseProgram(_program); //should probably provide options
+    
+    float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
+    
+    //self.effect.transform.projectionMatrix = projectionMatrix;
+    
+    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -7.0f);
+
+    // Compute the model view matrix for the object rendered with ES2
+    //GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
+    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(gameObject.modelxPos, gameObject.modelxPos, 1.5f);
+    //modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
+    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
+    
+    _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
+    
+    _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
+    
+    _rotation += self.timeSinceLastUpdate * 0.1f;
+    
+    //bind uniform matrices
+    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
+    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
+    
+    //TODO bind textures when we get to that point
+    
+    //draw!
+    
+    //glBindVertexArrayOES(_cubeVertexArray);
+    glBindVertexArrayOES(gameObject.modelHandle);
+    glUseProgram(_program);
+    
+    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
+    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
+    
+    //int s = 5760 / 6;
+    
+    // NSLog(@"Size: %u", s);
+    glDrawArrays(GL_TRIANGLES, 0, 256);
+    
+    //glDrawArrays(GL_TRIANGLES, 0, 1024); //will probably have to deal with this 36 somewhere
+    
+    
+    glBindVertexArrayOES(0);
 }
 
 #pragma mark - Rendering methods
@@ -529,7 +635,7 @@ GLfloat gCubeVertexData[216] =
     
     glClear(GL_DEPTH_BUFFER_BIT); //clear the depth buffer so the background is behind everything
 }
-
+/*
 - (void)renderCube
 {
     glBindVertexArrayOES(_vertexArray);
@@ -547,7 +653,7 @@ GLfloat gCubeVertexData[216] =
     
     glDrawArrays(GL_TRIANGLES, 0, 36);
 }
-
+*/
 
 #pragma mark - Touch and other event handlers
 
@@ -560,18 +666,39 @@ GLfloat gCubeVertexData[216] =
 }
 
 #pragma mark -  Rendering setup
-
-- (void)setupCube
+/*
+- (void)setupVertexArrays
 {
-    //load cube
-    glEnable(GL_DEPTH_TEST);
+    glGenVertexArraysOES(1, &_cubeVertexArray);
+    glBindVertexArrayOES(_cubeVertexArray);
     
-    glGenVertexArraysOES(1, &_vertexArray);
-    glBindVertexArrayOES(_vertexArray);
+    glGenBuffers(1, &_cubeVertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _cubeVertexBuffer);
     
-    glGenBuffers(1, &_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(gCubeVertexData), gCubeVertexData, GL_STATIC_DRAW);
+    //Model from model data file grabbed here
+    //Merge positon and normal arrays can't figure out how to load them seperate)
+    
+    //TODO loop this
+    long size = sizeof(cube_pos);
+    //NSLog(@"Vertex array size %lu", [cube_pos count]);
+    GLfloat mixedArray[size];
+    //NSLog(@"%u", size);
+    int j = 0;
+    int k = 0;
+    for(int i = 0; i < size; i++){
+        //NSLog(@"%u", i%6);
+        if(i%6 < 3){
+            mixedArray[i] = cube_pos[j];
+            j++;
+        }else{
+            mixedArray[i] = cube_norm[k];
+            k++;
+        }
+        //NSLog(@"%.2f", mixedArray[i]);
+    }
+    
+    //load array into buffer
+    glBufferData(GL_ARRAY_BUFFER, sizeof(mixedArray), mixedArray, GL_STATIC_DRAW);
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
@@ -579,7 +706,46 @@ GLfloat gCubeVertexData[216] =
     glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
     
     glBindVertexArrayOES(0);
+    
+    
+    //redone version TODO get rid of redundancy
+    glGenVertexArraysOES(1, &_sphereVertexArray);
+    glBindVertexArrayOES(_sphereVertexArray);
+    
+    glGenBuffers(1, &_sphereVertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _sphereVertexBuffer);
+    //TODO loop this
+    size = sizeof(sphere_pos);
+    GLfloat mixedArray2[size];
+    
+    //NSLog(@"%u", size);
+    j = 0;
+    k = 0;
+    for(int i = 0; i < size; i++){
+        //NSLog(@"%u", i%6);
+        if(i%6 < 3){
+            mixedArray2[i] = sphere_pos[j];
+            j++;
+        }else{
+            mixedArray2[i] = sphere_norm[k];
+            k++;
+        }
+        //NSLog(@"%.2f", mixedArray[i]);
+    }
+    
+    //load array into buffer
+    glBufferData(GL_ARRAY_BUFFER, sizeof(mixedArray2), mixedArray2, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(GLKVertexAttribPosition);
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
+    glEnableVertexAttribArray(GLKVertexAttribNormal);
+    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
+    
+    
+    glBindVertexArrayOES(1);
+
 }
+ */
 
 - (void)setupBackground
 {
