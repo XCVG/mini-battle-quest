@@ -30,6 +30,9 @@
 #define SCROLL_SPEED 25.0f
 #define SCROLL_FACTOR 2.0f
 
+#define RENDER_MODEL_SCALE 1.0f
+
+//TODO global and specific scale as well as default scale
 
 
 // Uniform index.
