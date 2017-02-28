@@ -9,11 +9,6 @@
       "x": 360,
       "y": 1600,
       "state": "dormant"
-    },
-    {
-      "type": "WallObject",
-      "x": 120,
-      "y": 600
     }
   ]
 }
