@@ -49,13 +49,12 @@
     [self.navigationController.interactivePopGestureRecognizer setDelegate:nil];
     
     /* Put in some dummy data. */
-//    [[MBQDataManager instance] performWithDocument:^(UIManagedDocument *document) {
-//        [LeaderboardScore addScoreWithValue:100 inManagedObjectContext:document.managedObjectContext];
-//        [LeaderboardScore addScoreWithValue:5000 inManagedObjectContext:document.managedObjectContext];
-//        [LeaderboardScore addScoreWithValue:400 inManagedObjectContext:document.managedObjectContext];
-//        [LeaderboardScore addScoreWithValue:200 inManagedObjectContext:document.managedObjectContext];
-//        [LeaderboardScore addScoreWithValue:300 inManagedObjectContext:document.managedObjectContext];
-//    }];
+    [[MBQDataManager instance] performWithDocument:^(UIManagedDocument *document) {
+        [LeaderboardScore addScoreWithValue:100 inManagedObjectContext:document.managedObjectContext];        [LeaderboardScore addScoreWithValue:5000 inManagedObjectContext:document.managedObjectContext];
+       [LeaderboardScore addScoreWithValue:400 inManagedObjectContext:document.managedObjectContext];
+        [LeaderboardScore addScoreWithValue:200 inManagedObjectContext:document.managedObjectContext];
+        [LeaderboardScore addScoreWithValue:300 inManagedObjectContext:document.managedObjectContext];
+   }];
     
     //Background music
     NSURL *music1 = [[NSBundle mainBundle] URLForResource:@"QuestThroughTime" withExtension:@"mp3"];
