@@ -39,6 +39,8 @@
 		83F92B931E4126AD0064411B /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B921E4126AD0064411B /* GameObject.m */; };
 		83F92B981E412BD40064411B /* PlayerObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B971E412BD40064411B /* PlayerObject.m */; };
 		83F92B9A1E412CF40064411B /* EnemyObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B991E412CF40064411B /* EnemyObject.m */; };
+		985689B71E662D6200D0A8D5 /* Hit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 985689B61E662D6200D0A8D5 /* Hit.mp3 */; };
+		985689B91E662D7F00D0A8D5 /* ShootArrow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 985689B81E662D7F00D0A8D5 /* ShootArrow.mp3 */; };
 		C2E9614A1E37D81A0098A95D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E961491E37D81A0098A95D /* main.m */; };
 		C2E9614D1E37D81A0098A95D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E9614C1E37D81A0098A95D /* AppDelegate.m */; };
 		C2E9614F1E37D81A0098A95D /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = C2E9614E1E37D81A0098A95D /* Shader.fsh */; };
@@ -101,6 +103,8 @@
 		83F92B971E412BD40064411B /* PlayerObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerObject.m; sourceTree = "<group>"; };
 		83F92B991E412CF40064411B /* EnemyObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnemyObject.m; sourceTree = "<group>"; };
 		83F92B9B1E412CFF0064411B /* EnemyObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnemyObject.h; sourceTree = "<group>"; };
+		985689B61E662D6200D0A8D5 /* Hit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Hit.mp3; path = resources/Audio/Hit.mp3; sourceTree = "<group>"; };
+		985689B81E662D7F00D0A8D5 /* ShootArrow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = ShootArrow.mp3; path = resources/Audio/ShootArrow.mp3; sourceTree = "<group>"; };
 		C2E961451E37D81A0098A95D /* minibattlequest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minibattlequest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2E961491E37D81A0098A95D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C2E9614B1E37D81A0098A95D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -313,6 +317,8 @@
 		DDD6BCDC1E62569A007C8CCB /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				985689B81E662D7F00D0A8D5 /* ShootArrow.mp3 */,
+				985689B61E662D6200D0A8D5 /* Hit.mp3 */,
 				DDD6BCDA1E625674007C8CCB /* QuestThroughTime.mp3 */,
 			);
 			name = Audio;
@@ -385,8 +391,10 @@
 				C2E961511E37D81A0098A95D /* Shader.vsh in Resources */,
 				83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */,
 				6D50440D1E3FE7B2001F8AE6 /* mbq_icon_health.png in Resources */,
+				985689B71E662D6200D0A8D5 /* Hit.mp3 in Resources */,
 				83D546BB1E5E2C5800A056F5 /* tex_bgtest.png in Resources */,
 				6D50440B1E3FE7B2001F8AE6 /* mbq_home_bg.png in Resources */,
+				985689B91E662D7F00D0A8D5 /* ShootArrow.mp3 in Resources */,
 				C2E961591E37D81A0098A95D /* Assets.xcassets in Resources */,
 				6D5044101E3FE7B2001F8AE6 /* mbq_title_logo_clear.png in Resources */,
 				83D546B01E5E2BE600A056F5 /* BGShader.fsh in Resources */,

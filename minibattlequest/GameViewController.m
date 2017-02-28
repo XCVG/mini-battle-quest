@@ -18,6 +18,8 @@
 #import "SpambotObject.h"
 #include "ModelData.m"
 
+#import <AudioToolbox/AudioToolbox.h>
+
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 //this was, in retrospect, a really, really bad idea
@@ -75,6 +77,8 @@ enum
     
     //GLuint  _sphereVertexArray, _cubeVertexArray;
    // GLuint  _sphereVertexBuffer, _cubeVertexBuffer;
+    
+    SystemSoundID soundEffect;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -113,8 +117,8 @@ enum
     float _screenToViewportY;
     float _screenActualHeight;
     
-    
-    
+    SystemSoundID HitSfx;
+    SystemSoundID ShootArrowSfx;
 }
 
 - (void)viewDidLoad
@@ -136,6 +140,18 @@ enum
     [self setupGame];
     
     [self setupGL];
+    
+    //audio paths
+    NSString *hitSoundPath = [[NSBundle mainBundle] pathForResource:@"Hit" ofType:@"mp3"];
+    NSURL *hitSoundPathURL = [NSURL fileURLWithPath : hitSoundPath];
+    
+    NSString *shootArrowSoundPath = [[NSBundle mainBundle] pathForResource:@"ShootArrow" ofType:@"mp3"];
+    NSURL *shootArrowSoundPathURL = [NSURL fileURLWithPath : shootArrowSoundPath];
+    
+    //create audio
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef) hitSoundPathURL, &HitSfx);
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef) shootArrowSoundPathURL, &ShootArrowSfx);
+    
 }
 
 - (void)dealloc
@@ -422,6 +438,8 @@ enum
                 [(GameObject *)_gameObjectsInView[i] onCollision:_gameObjectsInView[j]];
                 //call oncollide function for first object only
                 //still need to make the oncollide function
+                
+                AudioServicesPlaySystemSound(HitSfx);
             }
         }
     }
