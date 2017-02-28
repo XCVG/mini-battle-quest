@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "WallObject.h"
 
+#define WALL_DEFAULT_SCALE 25.0f
+
 @interface WallObject()
 {
     
@@ -24,6 +26,8 @@
     self.visible = true;
     self.solid = true;
     self.movable = false;
+    self.size = 64.0f;
+    self.scale = GLKVector3Make(WALL_DEFAULT_SCALE, WALL_DEFAULT_SCALE, WALL_DEFAULT_SCALE);
     return self;
 }
 

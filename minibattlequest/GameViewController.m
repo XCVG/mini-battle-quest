@@ -20,6 +20,7 @@
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
+//this was, in retrospect, a really, really bad idea
 #define VIEWPORT_WIDTH 720.0f
 #define VIEWPORT_HEIGHT 1280.0f
 
@@ -198,7 +199,7 @@ enum
     MBQPoint2D enemyPos = {32.0f, 1000.0f};
     _enemy.position = enemyPos;
     //_enemy.yRotation = 3.14f;
-    _enemy.xRotation = 0.8f;
+    //_enemy.xRotation = 0.8f;
 
     
     //testing for dynamic enemy spawning
@@ -208,13 +209,13 @@ enum
     MBQPoint2D myPosition = {600.0f, 400.0f};
     myEnemy.position = myPosition;
     //myEnemy.yRotation = 3.14f;
-    myEnemy.xRotation = 0.8f;
-    myEnemy.size = 10;
+    //myEnemy.xRotation = 0.8f;
+
     
     //load map from file
     NSLog(@"loading map from file");
     _mapModel = [MapLoadHelper loadObjectsFromMap:@"map01"];
-    [_gameObjects addObjectsFromArray:_mapModel.objects];  //map number hardcoded for now
+    [_gameObjectsToAdd addObjectsFromArray:_mapModel.objects];  //map number hardcoded for now
     
     //create initial "visible" list
     NSLog(@"creating initial visible objects array");
@@ -503,7 +504,9 @@ enum
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.xRotation, 1, 0,0);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.yRotation, 0, 1,0);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.zRotation, 0, 0,1);
-    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 25.0f, 25.0f, 25.0f); //temp; should use object scale
+    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, gameObject.scale.x, gameObject.scale.y, gameObject.scale.z);
+    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, RENDER_MODEL_SCALE, RENDER_MODEL_SCALE, RENDER_MODEL_SCALE);
+    //modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 25.0f, 25.0f, 25.0f); //temp; should use object scale
     modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
     
     _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
