@@ -18,14 +18,22 @@
 
 //struct that stores the vertex info
 // maybe move vertex position in here as well and get rid of MBQPoint2D?
+/*
 struct VertexInfo
 {
     GLuint vArray; //pointer to vertex array
     GLuint vBuffer; //pointer to vertex buffer
     int   length; //# of vertices
-    
 
 };
+*/
+typedef struct
+{
+    GLuint vArray; //pointer to vertex array
+    GLuint vBuffer; //pointer to vertex buffer
+    int   length; //# of vertices
+
+} VertexInfo;
 
 @property GameObjectState state;
 @property MBQPoint2D position;
@@ -43,10 +51,8 @@ struct VertexInfo
 //object rotation in Rad
 @property float xRotation, yRotation, zRotation;
 
-
-
 //used for model stuff. Now Accessed directly from here instead of using MBQobjectout bullshit
-@property struct VertexInfo modelHandle;
+@property VertexInfo modelHandle;
 @property GLuint numVertices;
 //@property float modelxPos, modelyPos;
 

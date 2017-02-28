@@ -10,7 +10,7 @@
 #import "PlayerObject.h"
 #import "ArrowObject.h"
 
-#define TARGET_THRESHOLD 1
+#define TARGET_THRESHOLD 1.0f
 #define DEFAULT_MOVE_SPEED 1.5f
 #define PLAYER_DEFAULT_HEALTH 200.0f
 
@@ -98,7 +98,7 @@
                 //attacking
                 
                 //for testing: fire an arrow straight up and switch back to idle
-                MBQVect2D vector = {0.0f, 100.0f};
+                MBQVect2D vector = {0.0f, 10.0f};
                 [self fireArrow:vector intoList:data->newObjectArray];
                 
                 self.state = STATE_IDLING;

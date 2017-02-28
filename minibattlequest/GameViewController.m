@@ -67,7 +67,7 @@ enum
     GLKMatrix3 _normalMatrix;
     float _rotation;
     
-    struct VertexInfo playerVert, enemyVert;
+    VertexInfo playerVert, enemyVert, arrowVert;
     
     //GLuint  _sphereVertexArray, _cubeVertexArray;
    // GLuint  _sphereVertexBuffer, _cubeVertexBuffer;
@@ -183,7 +183,7 @@ enum
   //  NSLog(@"initializing player");
     _player = [[PlayerObject alloc] init];
     [_gameObjectsToAdd addObject:_player];
-    MBQPoint2D pos = {0.0f, -7.0f};
+    MBQPoint2D pos = {0.0f, -15.0f};
     _player.position = pos;
     _player.yRotation = 3.14f;
     _player.xRotation = 0.8f;
@@ -192,7 +192,7 @@ enum
     // initisalize an enemy - may not be needed if spawned later
     _enemy = [[EnemyObject alloc] init];
    [_gameObjectsToAdd addObject:_enemy];
-    MBQPoint2D enemyPos = {-3.0f, 6.0f};
+    MBQPoint2D enemyPos = {-3.0f, 12.0f};
     _enemy.position = enemyPos;
     //_enemy.yRotation = 3.14f;
     _enemy.xRotation = 0.8f;
@@ -202,7 +202,7 @@ enum
     NSLog(@"creating test objects");
     EnemyObject *myEnemy = [[EnemyObject alloc] init];
     [_gameObjectsToAdd addObject:myEnemy];
-    MBQPoint2D myPosition = {3.0f, 5.0f};
+    MBQPoint2D myPosition = {3.0f, 10.0f};
     myEnemy.position = myPosition;
     //myEnemy.yRotation = 3.14f;
     myEnemy.xRotation = 0.8f;
@@ -227,7 +227,29 @@ enum
 
 - (void)setupGL
 {
-    [self setupVertexArrays];
+    [EAGLContext setCurrentContext:self.context];
+    
+    [self loadShaders]; //load original shader
+    [self loadBGShaders]; //load background shader
+    
+    //useless GLKit stuff
+    self.effect = [[GLKBaseEffect alloc] init];
+    self.effect.light0.enabled = GL_TRUE;
+    self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
+    
+    [self setupBackground]; //actually setup the background
+    
+    glEnable(GL_DEPTH_TEST);
+    
+    
+    playerVert.length = sizeof(p2_pos) / 12;
+    [self setupVertices:(VertexInfo*)&playerVert :p2_pos :p2_norm];
+    
+    enemyVert.length = sizeof(wizard_pos) / 12;
+    [self setupVertices:(VertexInfo*)&enemyVert :wizard_pos :wizard_norm];
+    
+    arrowVert.length = sizeof(arrow_pos) / 12;
+    [self setupVertices:(VertexInfo*)&arrowVert :arrow_pos :arrow_norm];
 }
 
 -(void)calculateRatios
@@ -308,7 +330,9 @@ enum
     }
     else if([object isKindOfClass:[ArrowObject class]])
     {
-        object.modelHandle = enemyVert;
+        object.modelHandle = arrowVert;
+        object.zRotation = 1.5708f;
+        
     }
     
 }
@@ -474,7 +498,7 @@ enum
     
     //self.effect.transform.projectionMatrix = projectionMatrix;
     
-    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -20.0f);
+    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -30.0f);
 
     // Compute the model view matrix for the object rendered with ES2
     //GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
@@ -564,51 +588,26 @@ enum
 
 #pragma mark -  Rendering setup
 
-long p2Length, cubeLengh;
-- (void)setupVertexArrays
+//merges the positiona nd normal array and binds the model vertex info
+-(void)setupVertices:(VertexInfo*)vertexInfoStruct :(GLfloat*)posArray : (GLfloat*)normArray
 {
-    NSLog(@"Opening GL...");
+    glGenVertexArraysOES(1, &vertexInfoStruct->vArray);
+    glBindVertexArrayOES(vertexInfoStruct->vArray);
     
-    [EAGLContext setCurrentContext:self.context];
-    
-    [self loadShaders]; //load original shader
-    [self loadBGShaders]; //load background shader
-    
-    //useless GLKit stuff
-    self.effect = [[GLKBaseEffect alloc] init];
-    self.effect.light0.enabled = GL_TRUE;
-    self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
-    
-    [self setupBackground]; //actually setup the background
-    
-    glEnable(GL_DEPTH_TEST);
+    glGenBuffers(1, &vertexInfoStruct->vBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexInfoStruct->vBuffer);
 
-    glGenVertexArraysOES(1, &enemyVert.vArray);
-    glBindVertexArrayOES(enemyVert.vArray);
-    
-    glGenBuffers(1, &enemyVert.vBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, enemyVert.vBuffer);
-    
-
-    
-    //merging Vertex position and normal arrays.
-    //TODO: move all this shit to the to OBJ  parser
-    long size = sizeof(wizard_pos) /2;
-    //cubeLengh = size;
-    enemyVert.length = (int)size / 6 ;
-    NSLog(@"Vertex array size %u", enemyVert.length);
+    long size = playerVert.length * 6;
     GLfloat mixedArray[size];
-    //NSLog(@"Vertex Array Size%lu", size);
-    //NSLog(@"%u", size);
     int j = 0;
     int k = 0;
     for(int i = 0; i < size; i++){
         //NSLog(@"%u", i%6);
         if(i%6 < 3){
-            mixedArray[i] = wizard_pos[j];
+            mixedArray[i] = posArray[j];
             j++;
         }else{
-            mixedArray[i] = wizard_norm[k];
+            mixedArray[i] = normArray[k];
             k++;
         }
         //NSLog(@"%.2f", mixedArray[i]);
@@ -623,44 +622,7 @@ long p2Length, cubeLengh;
     glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
     
     glBindVertexArrayOES(0);
-    
-    
-    //same thing for second object. Will be gone once this code is in the parser
-    glGenVertexArraysOES(1, &playerVert.vArray);
-    glBindVertexArrayOES(playerVert.vArray);
-    
-    glGenBuffers(1, &playerVert.vBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, playerVert.vBuffer);
-    //TODO loop this
-    size = sizeof(p2_pos) / 2;
-    playerVert.length = (int)size / 6;// / because 6 points per vertex (xyz position, xyz normals)
-     NSLog(@"Vertex array size %u", playerVert.length);
-    GLfloat mixedArray2[size];
 
-    j = 0;
-    k = 0;
-    for(int i = 0; i < size; i++){
-        //NSLog(@"%u", i%6);
-        if(i%6 < 3){
-            mixedArray2[i] = p2_pos[j];
-            j++;
-        }else{
-            mixedArray2[i] = p2_norm[k];
-            k++;
-        }
-        //NSLog(@"%.2f", mixedArray[i]);
-    }
-    
-    //load array into buffer
-    glBufferData(GL_ARRAY_BUFFER, sizeof(mixedArray2), mixedArray2, GL_STATIC_DRAW);
-    
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
-    glEnableVertexAttribArray(GLKVertexAttribNormal);
-    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
-    
-    
-    glBindVertexArrayOES(0);
 }
 
 

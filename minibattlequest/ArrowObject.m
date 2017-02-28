@@ -28,7 +28,7 @@
     self.visible = true;
     self.solid = true;
     self.movable = true;
-    self.damage = 10;
+    self.damage = 20;
     
     return self;
 }
