@@ -36,10 +36,12 @@ typedef struct
 } VertexInfo;
 
 @property GameObjectState state;
+//TODO rework into vectors
 @property MBQPoint2D position;
 @property float zPosition;
 @property float size; //Need this for collisions detection
-@property float rotation; //in what we would call the y-axis in the 3d world
+@property float rotation; //in what we would call the y-axis in the 3d world (redundant)
+@property GLKVector3 scale;
 @property MBQVect2D velocity;
 @property BOOL enabled; //if disabled, delete
 @property BOOL visible; //draw if visible
@@ -48,12 +50,12 @@ typedef struct
 @property float health;
 @property GLuint textureHandle;
 
-//object rotation in Rad
+//object rotation in Rad (TODO: change to GLKVector3, and maybe degrees)
 @property float xRotation, yRotation, zRotation;
 
 //used for model stuff. Now Accessed directly from here instead of using MBQobjectout bullshit
 @property VertexInfo modelHandle;
-@property GLuint numVertices;
+@property GLuint numVertices; //redundant
 //@property float modelxPos, modelyPos;
 
 

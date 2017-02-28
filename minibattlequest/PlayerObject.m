@@ -10,9 +10,10 @@
 #import "PlayerObject.h"
 #import "ArrowObject.h"
 
-#define TARGET_THRESHOLD 1.0f
-#define DEFAULT_MOVE_SPEED 1.5f
+#define TARGET_THRESHOLD 50.0f
+#define DEFAULT_MOVE_SPEED 100.0f
 #define PLAYER_DEFAULT_HEALTH 200.0f
+#define PLAYER_DEFAULT_SCALE 25.0f
 
 @interface PlayerObject()
 {
@@ -36,6 +37,8 @@
 -(id)init
 {
     self = [super init];
+    
+    self.scale = GLKVector3Make(PLAYER_DEFAULT_SCALE, PLAYER_DEFAULT_SCALE, PLAYER_DEFAULT_SCALE);
     
     self.visible = true;
     self.solid = true;
@@ -70,6 +73,7 @@
         case STATE_IDLING:
             
             //TODO search for and attack enemies
+            //[self checkMove];
             [self searchForTargets];
             [self attackTarget];
             
@@ -98,10 +102,11 @@
                 //attacking
                 
                 //for testing: fire an arrow straight up and switch back to idle
-                MBQVect2D vector = {0.0f, 10.0f};
+                MBQVect2D vector = {0.0f, 300.0f};
                 [self fireArrow:vector intoList:data->newObjectArray];
                 
-                self.state = STATE_IDLING;
+                self.state = STATE_MOVING;
+                [self checkMove];
             }
             break;
         case STATE_PAINING:
@@ -131,9 +136,9 @@
 {
     MBQObjectDisplayOut dataOut;
     
-    NSString *output = [NSString stringWithFormat:(@"Player at: (%.2f,%.2f)"), self.position.x, self.position.y];
+    //NSString *output = [NSString stringWithFormat:(@"Player at: (%.2f,%.2f)"), self.position.x, self.position.y];
     
-   // NSLog(output);
+    //NSLog(output);
     
     return dataOut;
 }
@@ -174,7 +179,7 @@
     GameObject *arrow = [[ArrowObject alloc] init];
     
     MBQPoint2D pos = self.position;
-    pos.y += 0.5f;
+    pos.y += 64.0f;
     arrow.position = pos;
 
     //TODO: deal with speed/magnitude maybe?
@@ -194,7 +199,7 @@
     
     NSString *output = [NSString stringWithFormat:(@"Target at: (%.2f,%.2f)"), newTarget.x, newTarget.y];
     
-    //NSLog(output);
+    NSLog(output);
     
     self.state = STATE_MOVING;
     self->_target = newTarget;

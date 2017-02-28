@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "ArrowObject.h"
 
+#define ARROW_DEFAULT_SCALE 35.0f
+
 @interface ArrowObject()
 {
     
@@ -28,6 +30,8 @@
     self.visible = true;
     self.solid = true;
     self.movable = true;
+    self.size = 32.0f;
+    self.scale = GLKVector3Make(ARROW_DEFAULT_SCALE, ARROW_DEFAULT_SCALE, ARROW_DEFAULT_SCALE);
     self.damage = 20;
     
     return self;

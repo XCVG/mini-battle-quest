@@ -10,6 +10,8 @@
 #import "EnemyObject.h"
 #import "ArrowObject.h"
 
+#define ENEMY_DEFAULT_SCALE 25.0f
+
 @interface EnemyObject()
 {
     
@@ -26,6 +28,9 @@
     self.solid = true;
     self.visible = true;
     self.movable = true;
+    self.scale = GLKVector3Make(ENEMY_DEFAULT_SCALE, ENEMY_DEFAULT_SCALE, ENEMY_DEFAULT_SCALE);
+    self.size = 64.0f;
+    self.xRotation = 0.8f;
     return self;
 }
 
