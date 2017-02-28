@@ -32,7 +32,7 @@
     self.movable = true;
     self.size = 32.0f;
     self.scale = GLKVector3Make(ARROW_DEFAULT_SCALE, ARROW_DEFAULT_SCALE, ARROW_DEFAULT_SCALE);
-    self.damage = 20;
+    self.damage = 40;
     
     return self;
 }
