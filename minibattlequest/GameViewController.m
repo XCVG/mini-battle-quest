@@ -27,7 +27,7 @@
 
 #define SCROLL_UPPER_BOUND 800.0f
 #define SCROLL_LOWER_BOUND 200.0f
-#define SCROLL_SPEED 50.0f
+#define SCROLL_SPEED 25.0f
 #define SCROLL_FACTOR 2.0f
 
 
@@ -183,7 +183,7 @@ enum
   //  NSLog(@"initializing player");
     _player = [[PlayerObject alloc] init];
     [_gameObjectsToAdd addObject:_player];
-    MBQPoint2D pos = {0.0f, -15.0f};
+    MBQPoint2D pos = {360.0f, 40.0f};
     _player.position = pos;
     _player.yRotation = 3.14f;
     _player.xRotation = 0.8f;
@@ -192,7 +192,7 @@ enum
     // initisalize an enemy - may not be needed if spawned later
     _enemy = [[EnemyObject alloc] init];
    [_gameObjectsToAdd addObject:_enemy];
-    MBQPoint2D enemyPos = {0.0f, 1000.0f};
+    MBQPoint2D enemyPos = {32.0f, 1000.0f};
     _enemy.position = enemyPos;
     //_enemy.yRotation = 3.14f;
     _enemy.xRotation = 0.8f;
@@ -500,7 +500,7 @@ enum
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.xRotation, 1, 0,0);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.yRotation, 0, 1,0);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.zRotation, 0, 0,1);
-    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 10.0f, 10.0f, 10.0f); //temp; should use object scale
+    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 25.0f, 25.0f, 25.0f); //temp; should use object scale
     modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
     
     _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);

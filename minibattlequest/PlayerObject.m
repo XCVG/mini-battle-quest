@@ -10,8 +10,8 @@
 #import "PlayerObject.h"
 #import "ArrowObject.h"
 
-#define TARGET_THRESHOLD 32.0f
-#define DEFAULT_MOVE_SPEED 32.0f
+#define TARGET_THRESHOLD 50.0f
+#define DEFAULT_MOVE_SPEED 100.0f
 #define PLAYER_DEFAULT_HEALTH 200.0f
 
 @interface PlayerObject()
@@ -99,7 +99,7 @@
                 //attacking
                 
                 //for testing: fire an arrow straight up and switch back to idle
-                MBQVect2D vector = {0.0f, 10.0f};
+                MBQVect2D vector = {0.0f, 300.0f};
                 [self fireArrow:vector intoList:data->newObjectArray];
                 
                 self.state = STATE_IDLING;
@@ -132,9 +132,9 @@
 {
     MBQObjectDisplayOut dataOut;
     
-    NSString *output = [NSString stringWithFormat:(@"Player at: (%.2f,%.2f)"), self.position.x, self.position.y];
+    //NSString *output = [NSString stringWithFormat:(@"Player at: (%.2f,%.2f)"), self.position.x, self.position.y];
     
-    NSLog(output);
+    //NSLog(output);
     
     return dataOut;
 }
@@ -175,7 +175,7 @@
     GameObject *arrow = [[ArrowObject alloc] init];
     
     MBQPoint2D pos = self.position;
-    pos.y += 0.5f;
+    pos.y += 64.0f;
     arrow.position = pos;
 
     //TODO: deal with speed/magnitude maybe?

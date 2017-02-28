@@ -26,6 +26,7 @@
     self.solid = true;
     self.visible = true;
     self.movable = true;
+    self.size = 64.0f;
     return self;
 }
 

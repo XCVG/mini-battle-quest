@@ -28,6 +28,7 @@
     self.visible = true;
     self.solid = true;
     self.movable = true;
+    self.size = 32.0f;
     self.damage = 20;
     
     return self;
