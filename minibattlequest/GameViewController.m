@@ -192,7 +192,7 @@ enum
     // initisalize an enemy - may not be needed if spawned later
     _enemy = [[EnemyObject alloc] init];
    [_gameObjectsToAdd addObject:_enemy];
-    MBQPoint2D enemyPos = {-3.0f, 12.0f};
+    MBQPoint2D enemyPos = {0.0f, 1000.0f};
     _enemy.position = enemyPos;
     //_enemy.yRotation = 3.14f;
     _enemy.xRotation = 0.8f;
@@ -202,7 +202,7 @@ enum
     NSLog(@"creating test objects");
     EnemyObject *myEnemy = [[EnemyObject alloc] init];
     [_gameObjectsToAdd addObject:myEnemy];
-    MBQPoint2D myPosition = {3.0f, 10.0f};
+    MBQPoint2D myPosition = {600.0f, 400.0f};
     myEnemy.position = myPosition;
     //myEnemy.yRotation = 3.14f;
     myEnemy.xRotation = 0.8f;
@@ -461,17 +461,6 @@ enum
     
     MBQObjectDisplayIn objectDataIn;
     
-    for(id o in _gameObjectsInView)
-    {
-        if(((GameObject*)o).enabled && ((GameObject*)o).visible)
-        {
-            MBQObjectDisplayOut objectDisplayData = [o display:&objectDataIn];
-            
-            //TODO do something with the display data
-        }
-        
-    }
-    
     for(id o in _gameObjects)
     {
         if(((GameObject*)o).enabled && ((GameObject*)o).visible)
@@ -493,12 +482,13 @@ enum
     //glBindVertexArrayOES(data.modelHandle);
     glUseProgram(_program); //should probably provide options
     
-    float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
+    //float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
+    float aspect = fabs(VIEWPORT_WIDTH/VIEWPORT_HEIGHT);
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(60.0f), aspect, 0.1f, 2000.0f);
     
     //self.effect.transform.projectionMatrix = projectionMatrix;
     
-    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -30.0f);
+    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(-360.0f, -640.0f-_scrollPos, -1108.0f); //fixed but can be calculated
 
     // Compute the model view matrix for the object rendered with ES2
     //GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
@@ -510,19 +500,13 @@ enum
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.xRotation, 1, 0,0);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.yRotation, 0, 1,0);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.zRotation, 0, 0,1);
+    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 10.0f, 10.0f, 10.0f); //temp; should use object scale
     modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
     
     _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
     
     _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
     
-    
-    
-    //bind uniform matrices
-    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
-    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
-    
-    //TODO bind textures when we get to that point
     
     //draw!
     

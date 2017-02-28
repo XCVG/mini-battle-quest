@@ -10,8 +10,8 @@
 #import "PlayerObject.h"
 #import "ArrowObject.h"
 
-#define TARGET_THRESHOLD 1.0f
-#define DEFAULT_MOVE_SPEED 1.5f
+#define TARGET_THRESHOLD 32.0f
+#define DEFAULT_MOVE_SPEED 32.0f
 #define PLAYER_DEFAULT_HEALTH 200.0f
 
 @interface PlayerObject()
@@ -70,6 +70,7 @@
         case STATE_IDLING:
             
             //TODO search for and attack enemies
+            [self checkMove];
             [self searchForTargets];
             [self attackTarget];
             
@@ -133,7 +134,7 @@
     
     NSString *output = [NSString stringWithFormat:(@"Player at: (%.2f,%.2f)"), self.position.x, self.position.y];
     
-   // NSLog(output);
+    NSLog(output);
     
     return dataOut;
 }
@@ -194,7 +195,7 @@
     
     NSString *output = [NSString stringWithFormat:(@"Target at: (%.2f,%.2f)"), newTarget.x, newTarget.y];
     
-    //NSLog(output);
+    NSLog(output);
     
     self.state = STATE_MOVING;
     self->_target = newTarget;
