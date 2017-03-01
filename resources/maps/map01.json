@@ -1,0 +1,14 @@
+{
+  "name": "Awesome Map",
+  "music": "m_dm2ttl",
+  "length": 2560,
+  "background": "blue",
+  "objects": [
+    {
+      "type": "EnemyObject",
+      "x": 360,
+      "y": 1600,
+      "state": "dormant"
+    }
+  ]
+}
