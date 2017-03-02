@@ -203,29 +203,21 @@ enum
   //  NSLog(@"initializing player");
     _player = [[PlayerObject alloc] init];
     [_gameObjectsToAdd addObject:_player];
-    MBQPoint2D pos = {360.0f, 40.0f};
-    _player.position = pos;
-    _player.yRotation = 3.14f;
-    _player.xRotation = 0.8f;
+    _player.position = GLKVector3Make(360.0f, 40.0f, 0.0f);
+    _player.rotation = GLKVector3Make(0.8f, 3.14f, 0.0f);
 
     
     // initisalize an enemy - may not be needed if spawned later
     _enemy = [[EnemyObject alloc] init];
    [_gameObjectsToAdd addObject:_enemy];
-    MBQPoint2D enemyPos = {32.0f, 1000.0f};
-    _enemy.position = enemyPos;
-    //_enemy.yRotation = 3.14f;
-    //_enemy.xRotation = 0.8f;
+    _enemy.position = GLKVector3Make(32.0f, 1000.0f, 0.0f);
 
     
     //testing for dynamic enemy spawning
     NSLog(@"creating test objects");
     EnemyObject *myEnemy = [[EnemyObject alloc] init];
     [_gameObjectsToAdd addObject:myEnemy];
-    MBQPoint2D myPosition = {600.0f, 400.0f};
-    myEnemy.position = myPosition;
-    //myEnemy.yRotation = 3.14f;
-    //myEnemy.xRotation = 0.8f;
+    myEnemy.position = GLKVector3Make(600.0f, 400.0f, 0.0f);
 
     
     //load map from file
@@ -351,7 +343,7 @@ enum
     else if([object isKindOfClass:[ArrowObject class]])
     {
         object.modelHandle = arrowVert;
-        object.zRotation = 1.5708f;
+        object.rotation = GLKVector3Make(object.rotation.x, object.rotation.y, 1.5708f);
         
     }
     
@@ -519,9 +511,9 @@ enum
    // modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
    // _rotation += self.timeSinceLastUpdate * 0.1f;
     
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.xRotation, 1, 0,0);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.yRotation, 0, 1,0);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.zRotation, 0, 0,1);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.rotation.x, 1, 0,0);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.rotation.y, 0, 1,0);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.rotation.z, 0, 0,1);
     modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, gameObject.scale.x, gameObject.scale.y, gameObject.scale.z);
     modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, RENDER_MODEL_SCALE, RENDER_MODEL_SCALE, RENDER_MODEL_SCALE);
     //modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 25.0f, 25.0f, 25.0f); //temp; should use object scale

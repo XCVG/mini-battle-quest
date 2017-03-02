@@ -30,7 +30,7 @@
     self.movable = true;
     self.scale = GLKVector3Make(ENEMY_DEFAULT_SCALE, ENEMY_DEFAULT_SCALE, ENEMY_DEFAULT_SCALE);
     self.size = 64.0f;
-    self.xRotation = 0.8f;
+    self.rotation = GLKVector3Make(0.8f, self.rotation.y, self.rotation.z);
     return self;
 }
 

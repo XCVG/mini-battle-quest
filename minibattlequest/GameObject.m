@@ -28,7 +28,7 @@
     _state = STATE_SPAWNING;
     _position.x = 0.0f;
     _position.y = 0.0f;
-    _zPosition = 0.0f;
+    _position.z = 0.0f;
     _velocity.x = 0.0f;
     _velocity.y = 0.0f;
     _scale = GLKVector3Make(1.0f, 1.0f, 1.0f);
@@ -46,10 +46,7 @@
     
     if(self.movable)
     {
-        MBQPoint2D newPosition;
-        newPosition.x = self.position.x + (data->timeSinceLast * self.velocity.x);
-        newPosition.y = self.position.y + (data->timeSinceLast * self.velocity.y);
-        self.position = newPosition;
+        self.position = GLKVector3Make(self.position.x + self.velocity.x * data->timeSinceLast, self.position.y + self.velocity.y * data->timeSinceLast, self.position.z);
     }
     
     return outData;
@@ -61,8 +58,8 @@
     MBQObjectDisplayOut outData;
     //outData.modelHandle = self.modelHandle;
     outData.textureHandle = self.textureHandle;
-    outData.dPosition = GLKVector3Make(self.position.x, self.position.y, self.zPosition);
-    outData.dRotation = GLKVector3Make(0.0f, 0.0f, GLKMathDegreesToRadians(self.rotation)); //might need to negative this
+    outData.dPosition = GLKVector3Make(self.position.x, self.position.y, self.position.z);
+    outData.dRotation = GLKVector3Make(0.0f, 0.0f, GLKMathDegreesToRadians(self.rotation.y)); //might need to negative this
     outData.dScale = GLKVector3Make(1.0f, 1.0f, 1.0f);
     outData.numVertices = _numVertices;
     
