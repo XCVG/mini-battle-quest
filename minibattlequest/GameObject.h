@@ -53,7 +53,7 @@ typedef struct
 @property VertexInfo modelHandle;
 @property GLuint numVertices; //redundant
 //@property float modelxPos, modelyPos;
-
+@property GLKVector3 modelRotation;
 
 
 -(MBQObjectUpdateOut)update:(MBQObjectUpdateIn*)data;

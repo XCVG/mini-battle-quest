@@ -44,6 +44,7 @@
     self.solid = true;
     self.movable = true;
     self.health = PLAYER_DEFAULT_HEALTH;
+    self.modelRotation = GLKVector3Make(0.8f, 3.14f, 0.0f);
     _moveSpeed = DEFAULT_MOVE_SPEED;
     
     

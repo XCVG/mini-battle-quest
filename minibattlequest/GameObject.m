@@ -31,6 +31,7 @@
     _position.z = 0.0f;
     _velocity.x = 0.0f;
     _velocity.y = 0.0f;
+    _modelRotation = GLKVector3Make(0.0f, 0.0f, 0.0f);
     _scale = GLKVector3Make(1.0f, 1.0f, 1.0f);
     _health = GO_DEFAULT_HEALTH;
     _enabled = true;
