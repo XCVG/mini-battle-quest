@@ -44,6 +44,7 @@
     self.solid = true;
     self.movable = true;
     self.health = PLAYER_DEFAULT_HEALTH;
+    self.modelRotation = GLKVector3Make(0.8f, 3.14f, 0.0f);
     _moveSpeed = DEFAULT_MOVE_SPEED;
     
     
@@ -87,8 +88,7 @@
                 
                 if(!moved)
                 {
-                    MBQVect2D newVelocity = {0.0f,0.0f};
-                    self.velocity = newVelocity;
+                    self.velocity = GLKVector2Make(0.0f, 0.0f);
                     self.state = STATE_IDLING;
                 }
                 
@@ -102,7 +102,7 @@
                 //attacking
                 
                 //for testing: fire an arrow straight up and switch back to idle
-                MBQVect2D vector = {0.0f, 500.0f};
+                GLKVector2 vector = GLKVector2Make(0.0f, 500.0f);
                 [self fireArrow:vector intoList:data->newObjectArray];
                 
                 self.state = STATE_MOVING;
@@ -172,15 +172,13 @@
 }
 
 //TODO: fire an arrow down the target bearing
--(void)fireArrow:(MBQVect2D)vector intoList:(NSMutableArray*)list
+-(void)fireArrow:(GLKVector2)vector intoList:(NSMutableArray*)list
 {
     NSLog(@"Arrow Fired!");
     
     GameObject *arrow = [[ArrowObject alloc] init];
     
-    MBQPoint2D pos = self.position;
-    pos.y += 50.0f;
-    arrow.position = pos;
+    arrow.position = GLKVector3Make(self.position.x, self.position.y+50.0f, self.position.z);
 
     //TODO: deal with speed/magnitude maybe?
     arrow.velocity = vector;
@@ -213,48 +211,41 @@
         //reworked to use velocity
         if(fabsf(_target.x - self.position.x) > TARGET_THRESHOLD && _target.x > self.position.x)
         {
-            MBQVect2D newVelocity = {_moveSpeed,self.velocity.y};
-            self.velocity = newVelocity;
+            self.velocity = GLKVector2Make(_moveSpeed, self.velocity.y);
             
             moved = YES;
         }
         else if(fabsf(_target.x - self.position.x) > TARGET_THRESHOLD && _target.x < self.position.x)
         {
-            MBQVect2D newVelocity = {-_moveSpeed,self.velocity.y};
-            self.velocity = newVelocity;
+            self.velocity = GLKVector2Make(-_moveSpeed, self.velocity.y);
             
             moved = YES;
         }
         else
         {
-            MBQVect2D newVelocity = {0.0f,self.velocity.y};
-            self.velocity = newVelocity;
+            self.velocity = GLKVector2Make(0.0f, self.velocity.y);
         }
         
         if(fabsf(_target.y - self.position.y) > TARGET_THRESHOLD && _target.y > self.position.y)
         {
-            MBQVect2D newVelocity = {self.velocity.x,_moveSpeed};
-            self.velocity = newVelocity;
+            self.velocity = GLKVector2Make(self.velocity.x, _moveSpeed);
             
             moved = YES;
         }
         else if(fabsf(_target.y - self.position.y) > TARGET_THRESHOLD && _target.y < self.position.y)
         {
-            MBQVect2D newVelocity = {self.velocity.x,-_moveSpeed};
-            self.velocity = newVelocity;
+            self.velocity = GLKVector2Make(self.velocity.x, -_moveSpeed);
             
             moved = YES;
         }
         else
         {
-            MBQVect2D newVelocity = {self.velocity.x,0.0f};
-            self.velocity = newVelocity;
+            self.velocity = GLKVector2Make(self.velocity.x, 0.0f);
         }
         
         if(!moved)
         {
-            MBQVect2D newVelocity = {0.0f,0.0f};
-            self.velocity = newVelocity;
+            self.velocity = GLKVector2Make(0.0f, 0.0f);
         }
         
         return moved;

@@ -53,7 +53,7 @@
     {
         //type, x, y, don't use state because it's unused
         GameObject* go = (GameObject*)[[NSClassFromString([object valueForKey:@"type"]) alloc] init];
-        MBQPoint2D pos;
+        GLKVector3 pos;
         pos.x = [(NSNumber*)[object valueForKey:@"x"] floatValue];
         pos.y = [(NSNumber*)[object valueForKey:@"y"] floatValue];
         go.position =  pos;

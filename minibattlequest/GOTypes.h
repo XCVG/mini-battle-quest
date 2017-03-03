@@ -25,13 +25,6 @@ typedef struct MBQPoint2D{
     float y;
 } MBQPoint2D;
 
-//we could use an actual vector class, but this is (in theory) faster
-//I had some functions somewhere but don't know where to put them
-typedef struct MBQVect2D{
-    float x;
-    float y;
-} MBQVect2D;
-
 //for data passed into a GameObject during update()
 typedef struct MBQObjectUpdateIn{
     float timeSinceLast;

@@ -31,6 +31,7 @@
     self.solid = true;
     self.movable = true;
     self.size = 32.0f;
+    self.modelRotation = GLKVector3Make(0.0f, 0.0f, 1.5708f);
     self.scale = GLKVector3Make(ARROW_DEFAULT_SCALE, ARROW_DEFAULT_SCALE, ARROW_DEFAULT_SCALE);
     self.damage = 40;
     
