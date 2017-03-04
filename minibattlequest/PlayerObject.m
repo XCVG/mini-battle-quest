@@ -10,7 +10,7 @@
 #import "PlayerObject.h"
 #import "ArrowObject.h"
 
-#define TARGET_THRESHOLD 50.0f
+#define TARGET_THRESHOLD 32.0f
 #define DEFAULT_MOVE_SPEED 160.0f
 #define PLAYER_DEFAULT_HEALTH 180.0f
 #define PLAYER_DEFAULT_SCALE 25.0f
@@ -26,7 +26,8 @@
 {
     float _moveSpeed;
     
-    MBQPoint2D _target; //the place we want to go
+    GLKVector2 _moveTarget; //the place we want to go
+    BOOL _hasMoveTarget;
     
     id _currentTarget; //the enemy we want to hit
     
@@ -84,13 +85,7 @@
         case STATE_MOVING:
             //TODO: we should probably check this in all states, not just MOVING
             {
-                BOOL moved = [self checkMove];
-                
-                if(!moved)
-                {
-                    self.velocity = GLKVector2Make(0.0f, 0.0f);
-                    self.state = STATE_IDLING;
-                }
+                [self returnToIdle];
                 
                 [self searchForTargets];
                 [self attackTarget];
@@ -105,8 +100,7 @@
                 GLKVector2 vector = GLKVector2Make(0.0f, 500.0f);
                 [self fireArrow:vector intoList:data->newObjectArray];
                 
-                self.state = STATE_MOVING;
-                [self checkMove];
+                [self returnToIdle];
             }
             break;
         case STATE_PAINING:
@@ -199,56 +193,56 @@
     
     NSLog(output);
     
-    self.state = STATE_MOVING;
-    self->_target = newTarget;
+    [self startMove:GLKVector2Make(newTarget.x, newTarget.y)];
+
 }
 
+//TODO: may move some of these functions into GameObject if we want them to be common
+
+//determine direction and start moving
+-(void)startMove:(GLKVector2)target
+{
+    _moveTarget = target;
+    _hasMoveTarget = true;
+    
+    GLKVector2 velocity = GLKVector2Normalize(GLKVector2Subtract(_moveTarget, GLKVector2Make(self.position.x, self.position.y)));
+    velocity = GLKVector2MultiplyScalar(velocity, _moveSpeed);
+    self.velocity = velocity;
+    
+    if(self.state == STATE_IDLING)
+    {
+        self.state = STATE_MOVING;
+    }
+}
+
+//this checks and ends, but does not start, moving
 -(BOOL)checkMove
 {
     //"move" to target
-        BOOL moved = NO;
-        
-        //reworked to use velocity
-        if(fabsf(_target.x - self.position.x) > TARGET_THRESHOLD && _target.x > self.position.x)
-        {
-            self.velocity = GLKVector2Make(_moveSpeed, self.velocity.y);
-            
-            moved = YES;
-        }
-        else if(fabsf(_target.x - self.position.x) > TARGET_THRESHOLD && _target.x < self.position.x)
-        {
-            self.velocity = GLKVector2Make(-_moveSpeed, self.velocity.y);
-            
-            moved = YES;
-        }
-        else
-        {
-            self.velocity = GLKVector2Make(0.0f, self.velocity.y);
-        }
-        
-        if(fabsf(_target.y - self.position.y) > TARGET_THRESHOLD && _target.y > self.position.y)
-        {
-            self.velocity = GLKVector2Make(self.velocity.x, _moveSpeed);
-            
-            moved = YES;
-        }
-        else if(fabsf(_target.y - self.position.y) > TARGET_THRESHOLD && _target.y < self.position.y)
-        {
-            self.velocity = GLKVector2Make(self.velocity.x, -_moveSpeed);
-            
-            moved = YES;
-        }
-        else
-        {
-            self.velocity = GLKVector2Make(self.velocity.x, 0.0f);
-        }
-        
-        if(!moved)
-        {
-            self.velocity = GLKVector2Make(0.0f, 0.0f);
-        }
-        
-        return moved;
+    BOOL moved = YES;
+    
+    if(fabsf(_moveTarget.x - self.position.x) < TARGET_THRESHOLD && fabsf(_moveTarget.y - self.position.y) < TARGET_THRESHOLD)
+    {
+        //we're within the threshold, so stop moving and signal
+        self.velocity = GLKVector2Make(0, 0);
+        moved = NO;
+    }
+    
+    
+    return moved;
+}
+
+//returns to MOVING if moving, else returns to IDLE
+-(void)returnToIdle
+{
+    if([self checkMove])
+    {
+        self.state = STATE_MOVING;
+    }
+    else
+    {
+        self.state = STATE_IDLING;
+    }
 }
 
 @end
