@@ -203,7 +203,7 @@
 -(void)startMove:(GLKVector2)target
 {
     _moveTarget = target;
-    _hasMoveTarget = true;
+    _hasMoveTarget = YES;
     
     GLKVector2 velocity = GLKVector2Normalize(GLKVector2Subtract(_moveTarget, GLKVector2Make(self.position.x, self.position.y)));
     velocity = GLKVector2MultiplyScalar(velocity, _moveSpeed);
@@ -226,6 +226,7 @@
         //we're within the threshold, so stop moving and signal
         self.velocity = GLKVector2Make(0, 0);
         moved = NO;
+        _hasMoveTarget = NO;
     }
     
     
