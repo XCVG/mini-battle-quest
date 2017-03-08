@@ -45,6 +45,7 @@
     mapModel.music = [jsonObject valueForKey:@"music"];
     mapModel.background = [jsonObject valueForKey:@"background"];
     mapModel.length = [(NSNumber*)[jsonObject valueForKey:@"length"] floatValue];
+    mapModel.backgroundLength = [(NSNumber*)[jsonObject valueForKey:@"background_length"] floatValue];
     
     NSArray *jsonArrayOfGameObjects = [jsonObject valueForKey:@"objects"];
     

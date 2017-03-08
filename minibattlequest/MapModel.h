@@ -15,6 +15,7 @@
 @property NSString* music;
 @property NSString* background;
 @property float length;
+@property float backgroundLength;
 @property NSMutableArray* objects;
 
 @end

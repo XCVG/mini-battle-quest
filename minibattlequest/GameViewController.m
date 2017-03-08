@@ -547,11 +547,8 @@ enum
 
 - (void)renderBackground
 {
-    //TODO: we actually need to render the background twice
-    
-    //bg scroll pos should be scrollpos % length
-    //TODO separate from map length because that doesn't make sense
-    float bgScrollPos = fmodf(_scrollPos,_mapModel.length);
+    //bg scroll pos should be scrollpos % bg length
+    float bgScrollPos = fmodf(_scrollPos,_mapModel.backgroundLength);
     float bgLengthTransform;
     
     //draw once and then draw once ahead
@@ -582,7 +579,7 @@ enum
     glDrawArrays(GL_TRIANGLES, 0, 6);
     
     //repeat for the second BG draw
-    bgLengthTransform = ((bgScrollPos-_mapModel.length) / VIEWPORT_HEIGHT) / SCROLL_FACTOR;
+    bgLengthTransform = ((bgScrollPos-_mapModel.backgroundLength) / VIEWPORT_HEIGHT) / SCROLL_FACTOR;
     bgMvpm2 = GLKMatrix4Translate(bgMvpm, 0.0f, -bgLengthTransform, 0.0f); //scroll the background
     
     glUniformMatrix4fv(bgUloc, 1, 0, bgMvpm2.m);
@@ -649,7 +646,7 @@ enum
 {
     //load background
     _bgTexture = [self setupTexture:@"tex_bgtest.png"];
-    _bgLengthScale = 2.0f * (_mapModel.length / VIEWPORT_HEIGHT); //deal with different sized backgrounds
+    _bgLengthScale = 2.0f * (_mapModel.backgroundLength / VIEWPORT_HEIGHT); //deal with different sized backgrounds
     
     //TODO move this
     GLfloat bgVertices[] = {
