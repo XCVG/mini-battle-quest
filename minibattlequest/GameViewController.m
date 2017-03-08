@@ -582,7 +582,7 @@ enum
     glDrawArrays(GL_TRIANGLES, 0, 6);
     
     //repeat for the second BG draw
-    bgLengthTransform = ((bgScrollPos+_mapModel.length) / VIEWPORT_HEIGHT) / SCROLL_FACTOR;
+    bgLengthTransform = ((bgScrollPos-_mapModel.length) / VIEWPORT_HEIGHT) / SCROLL_FACTOR;
     bgMvpm2 = GLKMatrix4Translate(bgMvpm, 0.0f, -bgLengthTransform, 0.0f); //scroll the background
     
     glUniformMatrix4fv(bgUloc, 1, 0, bgMvpm2.m);
