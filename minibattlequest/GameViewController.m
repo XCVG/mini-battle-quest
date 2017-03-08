@@ -547,30 +547,51 @@ enum
 
 - (void)renderBackground
 {
+    //TODO: we actually need to render the background twice
+    
+    //bg scroll pos should be scrollpos % length
+    //TODO separate from map length because that doesn't make sense
+    float bgScrollPos = fmodf(_scrollPos,_mapModel.length);
+    float bgLengthTransform;
+    
+    //draw once and then draw once ahead
+    
+    //create base matrix
+    GLuint bgUloc = glGetUniformLocation(_bgProgram, "modelViewProjectionMatrix");
+    GLKMatrix4 bgMvpm = GLKMatrix4Identity;
+    GLKMatrix4 bgMvpm2;
+    bgMvpm = GLKMatrix4MakeTranslation(-1.0f, -1.0f, 0.0f); //position the background
+    bgMvpm = GLKMatrix4Scale(bgMvpm, 2.0f, _bgLengthScale, 1.0f); //scale the background
+    
     //bind the background data in preparation to render
     glBindVertexArrayOES(_bgVertexArray);
     glUseProgram(_bgProgram);
-    
-    //matrix stuff
-    GLuint bgUloc = glGetUniformLocation(_bgProgram, "modelViewProjectionMatrix");
-    
-    GLKMatrix4 bgMvpm = GLKMatrix4Identity;
-    bgMvpm = GLKMatrix4MakeTranslation(-1.0f, -1.0f, 0.0f); //position the background
-    bgMvpm = GLKMatrix4Scale(bgMvpm, 2.0f, _bgLengthScale, 1.0f); //scale the background
-    float bgLengthTransform = (_scrollPos / VIEWPORT_HEIGHT) / SCROLL_FACTOR;
-    bgMvpm = GLKMatrix4Translate(bgMvpm, 0.0f, -bgLengthTransform, 0.0f); //scroll the background
-    
-    glUniformMatrix4fv(bgUloc, 1, 0, bgMvpm.m);
     
     //texture setup
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _bgTexture);
     glUniform1i(_bgTexUniform, 0);
+
+    //transform for first BG draw
+    bgLengthTransform = (bgScrollPos / VIEWPORT_HEIGHT) / SCROLL_FACTOR;
+    bgMvpm2 = GLKMatrix4Translate(bgMvpm, 0.0f, -bgLengthTransform, 0.0f); //scroll the background
+    
+    glUniformMatrix4fv(bgUloc, 1, 0, bgMvpm2.m);
     
     //draw it!
     glDrawArrays(GL_TRIANGLES, 0, 6);
     
-    glClear(GL_DEPTH_BUFFER_BIT); //clear the depth buffer so the background is behind everything
+    //repeat for the second BG draw
+    bgLengthTransform = ((bgScrollPos+_mapModel.length) / VIEWPORT_HEIGHT) / SCROLL_FACTOR;
+    bgMvpm2 = GLKMatrix4Translate(bgMvpm, 0.0f, -bgLengthTransform, 0.0f); //scroll the background
+    
+    glUniformMatrix4fv(bgUloc, 1, 0, bgMvpm2.m);
+    
+    //draw it!
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    
+    //clear the depth buffer so the background is behind everything
+    glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 
