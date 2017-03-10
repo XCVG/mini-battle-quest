@@ -42,6 +42,12 @@
 {
     MBQObjectUpdateOut outData = [super update:data];
     
+    //destroy if offscreen
+    if(!data->visibleOnScreen)
+    {
+        NSLog(@"Arrow offscreen, killing self.");
+        self.enabled = false;
+    }
     
     return outData;
 }
