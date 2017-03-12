@@ -16,6 +16,7 @@
 #define PLAYER_DEFAULT_HEALTH 180.0f
 #define PLAYER_DEFAULT_SCALE 25.0f
 #define PLAYER_BOUNCE_FACTOR 0.5f
+#define PLAYER_BOUNCE_DELAY 1.0f
 
 @interface PlayerObject()
 {
@@ -119,6 +120,16 @@
         case STATE_DEAD:
             self.enabled = false;
             break;
+        case STATE_BOUNCING:
+            {
+                if(_elapsed >= PLAYER_BOUNCE_DELAY)
+                {
+                    self.velocity = GLKVector2Make(0, 0);
+                    self.state = STATE_IDLING;
+                    _elapsed = 0;
+                }
+            }
+            break;
         default:
             //do nothing
             break;
@@ -147,6 +158,7 @@
     if ([otherObject isKindOfClass:[WallObject class]])
     {
         _hasMoveTarget = NO;
+        self.state = STATE_BOUNCING;
         self.velocity = GLKVector2Make(-self.velocity.x*PLAYER_BOUNCE_FACTOR, -self.velocity.y*PLAYER_BOUNCE_FACTOR);
     }
     
