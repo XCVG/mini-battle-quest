@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "PlayerObject.h"
 #import "ArrowObject.h"
+#import "WallObject.h"
 
 #define TARGET_THRESHOLD 32.0f
 #define DEFAULT_MOVE_SPEED 160.0f
 #define PLAYER_DEFAULT_HEALTH 180.0f
 #define PLAYER_DEFAULT_SCALE 25.0f
+#define PLAYER_BOUNCE_FACTOR 0.5f
 
 @interface PlayerObject()
 {
@@ -135,6 +137,19 @@
     //NSLog(output);
     
     return dataOut;
+}
+
+-(void)onCollision:(GameObject*)otherObject
+{
+    NSLog(@"Player hit something!");
+    
+    //if the other thing is a wall, stop me!
+    if ([otherObject isKindOfClass:[WallObject class]])
+    {
+        _hasMoveTarget = NO;
+        self.velocity = GLKVector2Make(-self.velocity.x*PLAYER_BOUNCE_FACTOR, -self.velocity.y*PLAYER_BOUNCE_FACTOR);
+    }
+    
 }
 
 //check health
