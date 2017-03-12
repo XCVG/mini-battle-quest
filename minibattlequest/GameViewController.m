@@ -645,7 +645,7 @@ enum
 - (void)setupBackground
 {
     //load background
-    _bgTexture = [self setupTexture:@"tex_bgtest.png"];
+    _bgTexture = [self setupTexture:_mapModel.background];
     _bgLengthScale = 2.0f * (_mapModel.backgroundLength / VIEWPORT_HEIGHT); //deal with different sized backgrounds
     
     //TODO move this

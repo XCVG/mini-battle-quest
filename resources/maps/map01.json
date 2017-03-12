@@ -2,7 +2,7 @@
   "name": "Awesome Map",
   "music": "m_dm2ttl",
   "length": 2560,
-  "background": "blue",
+  "background": "tex_bg_grass.png",
   "background_length": 2560,
   "objects": [
     {
