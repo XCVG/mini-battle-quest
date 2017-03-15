@@ -46,4 +46,13 @@
     return outData;
 }
 
+-(void)onCollision:(GameObject*)otherObject
+{
+    NSLog(@"Something hit a wall!");
+    
+    //do nothing for now; the other object will deal with it
+    
+    
+}
+
 @end

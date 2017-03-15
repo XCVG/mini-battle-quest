@@ -9,11 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "PlayerObject.h"
 #import "ArrowObject.h"
+#import "WallObject.h"
 
 #define TARGET_THRESHOLD 32.0f
 #define DEFAULT_MOVE_SPEED 160.0f
 #define PLAYER_DEFAULT_HEALTH 180.0f
 #define PLAYER_DEFAULT_SCALE 25.0f
+#define PLAYER_BOUNCE_FACTOR 0.5f
+#define PLAYER_BOUNCE_DELAY 1.0f
 
 @interface PlayerObject()
 {
@@ -117,6 +120,16 @@
         case STATE_DEAD:
             self.enabled = false;
             break;
+        case STATE_BOUNCING:
+            {
+                if(_elapsed >= PLAYER_BOUNCE_DELAY)
+                {
+                    self.velocity = GLKVector2Make(0, 0);
+                    self.state = STATE_IDLING;
+                    _elapsed = 0;
+                }
+            }
+            break;
         default:
             //do nothing
             break;
@@ -135,6 +148,20 @@
     //NSLog(output);
     
     return dataOut;
+}
+
+-(void)onCollision:(GameObject*)otherObject
+{
+    NSLog(@"Player hit something!");
+    
+    //if the other thing is a wall, stop me!
+    if ([otherObject isKindOfClass:[WallObject class]])
+    {
+        _hasMoveTarget = NO;
+        self.state = STATE_BOUNCING;
+        self.velocity = GLKVector2Make(-self.velocity.x*PLAYER_BOUNCE_FACTOR, -self.velocity.y*PLAYER_BOUNCE_FACTOR);
+    }
+    
 }
 
 //check health
