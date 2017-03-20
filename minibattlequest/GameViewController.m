@@ -83,6 +83,9 @@ enum
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
 
+@property (weak, nonatomic) IBOutlet UIButton *toggleWeaponButton;
+
+
 -(void)handleViewportTap:(UITapGestureRecognizer *)tapGestureRecognizer;
 - (void)setupGL;
 - (void)tearDownGL;
@@ -119,6 +122,10 @@ enum
     
     SystemSoundID HitSfx;
     SystemSoundID ShootArrowSfx;
+    
+    /* Attack button images. */
+    UIImage *_attackButtonWeaponImage;
+    UIImage *_attackButtonShieldImage;
 }
 
 - (void)viewDidLoad
@@ -152,6 +159,9 @@ enum
     AudioServicesCreateSystemSoundID((__bridge CFURLRef) hitSoundPathURL, &HitSfx);
     AudioServicesCreateSystemSoundID((__bridge CFURLRef) shootArrowSoundPathURL, &ShootArrowSfx);
     
+    /* Get attack button images. */
+    _attackButtonWeaponImage = [UIImage imageNamed:@"mbq_img_button_action_bow.png"];
+    _attackButtonShieldImage = [UIImage imageNamed:@"mbq_img_button_action_shield.png"];
 }
 
 - (void)dealloc
@@ -601,6 +611,21 @@ enum
     MBQPoint2D scaledTapPoint = [self getPointInWorldSpace:tapPoint];
     [_player moveToTarget:scaledTapPoint];
 }
+
+- (IBAction)onToggleWeaponButton:(UIButton *)sender
+{
+    _player.isUsingWeapon = !_player.isUsingWeapon;
+    
+    if (_player.isUsingWeapon)
+    {
+        [_toggleWeaponButton setImage:_attackButtonWeaponImage forState:UIControlStateNormal];
+    }
+    else
+    {
+        [_toggleWeaponButton setImage:_attackButtonShieldImage forState:UIControlStateNormal];
+    }
+}
+
 
 #pragma mark -  Rendering setup
 

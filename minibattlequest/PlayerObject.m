@@ -50,7 +50,7 @@
     self.health = PLAYER_DEFAULT_HEALTH;
     self.modelRotation = GLKVector3Make(0.8f, 3.14f, 0.0f);
     _moveSpeed = DEFAULT_MOVE_SPEED;
-    
+    _isUsingWeapon = NO;
     
     return self;
 }
@@ -79,8 +79,11 @@
             
             //TODO search for and attack enemies
             //[self checkMove];
-            [self searchForTargets];
-            [self attackTarget];
+            if (_isUsingWeapon)
+            {
+                [self searchForTargets];
+                [self attackTarget];
+            }
             
             //TODO health check (may need to be in multiple parts)
             
@@ -90,8 +93,11 @@
             {
                 [self returnToIdle];
                 
-                [self searchForTargets];
-                [self attackTarget];
+                if (_isUsingWeapon)
+                {
+                    [self searchForTargets];
+                    [self attackTarget];
+                }
             }
             break;
         case STATE_FIRING:
@@ -162,6 +168,10 @@
         self.velocity = GLKVector2Make(-self.velocity.x*PLAYER_BOUNCE_FACTOR, -self.velocity.y*PLAYER_BOUNCE_FACTOR);
     }
     
+    /*  --- TODO : READ ME! ---
+        When implementing taking damage from enemies, check self.isUsingWeapon. 
+        if (self.isUsingWeapon == NO), then the player's shield is up, and we should 
+        take no damage! */
 }
 
 //check health

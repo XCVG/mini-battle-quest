@@ -13,6 +13,7 @@
 
 @interface PlayerObject : GameObject
 @property MBQWeapon weapon;
+@property BOOL isUsingWeapon;
 
 -(void)moveToTarget:(MBQPoint2D)target;
 
