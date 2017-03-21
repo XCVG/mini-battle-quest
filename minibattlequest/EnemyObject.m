@@ -16,9 +16,9 @@
 #define TARGET_THRESHOLD 32.0f
 #define DEFAULT_MOVE_SPEED 160.0f
 
-#define ENEMY_FIRE_CHANCE 0.4f
-#define ENEMY_MOVE_CHANCE 0.4f
-#define ENEMY_ABORTMOVE_CHANCE 0.01f
+#define ENEMY_FIRE_CHANCE 0.1f
+#define ENEMY_MOVE_CHANCE 0.1f
+#define ENEMY_ABORTMOVE_CHANCE 0.05f
 #define ENEMY_DEFAULT_ARROWVELOCITY 500.0f
 
 @interface EnemyObject()
@@ -86,6 +86,10 @@
                 {
                     self.velocity = GLKVector2Make(-_moveSpeed, 0);
                 }
+                
+                //TODO: random chance to switch direction or continue and not track
+                
+                //TODO: abort movement on 
                 
                 //stop movement on reaching threshold or going too far
                 if(fabsf(((GameObject*)data->player).position.x - self.position.x) < TARGET_THRESHOLD
@@ -172,7 +176,7 @@
     if(diceRoll <= ENEMY_MOVE_CHANCE)
     {
         //move
-        NSLog(@"Enemy Move!");
+        //NSLog(@"Enemy Move!");
         self.state = STATE_MOVING;
         return;
     }
@@ -180,7 +184,7 @@
     if(diceRoll <= ENEMY_FIRE_CHANCE)
     {
         //fire
-        NSLog(@"Enemy Fire!");
+        //NSLog(@"Enemy Fire!");
         self.state = STATE_FIRING;
         return;
     }
@@ -194,6 +198,7 @@
     GameObject *arrow = [[ArrowObject alloc] init];
     
     arrow.position = GLKVector3Make(self.position.x, self.position.y-50.0f, self.position.z);
+    arrow.rotation = GLKVector3Make(arrow.rotation.x, arrow.rotation.y, arrow.rotation.z+M_PI);
     
     //TODO: deal with speed/magnitude maybe?
     arrow.velocity = vector;
