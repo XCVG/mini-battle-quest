@@ -397,6 +397,8 @@ enum
     objectDataIn.timeSinceLast = self.timeSinceLastUpdate;
     objectDataIn.player = _player;
     objectDataIn.newObjectArray = _gameObjectsToAdd;
+    objectDataIn.rightEdge = VIEWPORT_WIDTH;
+    objectDataIn.topEdge = VIEWPORT_HEIGHT;
     
     //Denis: do we want to collide first, collide after, or collide during?
     

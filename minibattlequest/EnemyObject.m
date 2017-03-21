@@ -19,6 +19,8 @@
 #define ENEMY_FIRE_CHANCE 0.1f
 #define ENEMY_MOVE_CHANCE 0.1f
 #define ENEMY_ABORTMOVE_CHANCE 0.05f
+#define ENEMY_REVERSEMOVE_CHANCE 0.05f
+#define ENEMY_CONTINUEMOVE_CHANCE 0.05f
 #define ENEMY_DEFAULT_ARROWVELOCITY 500.0f
 
 @interface EnemyObject()
@@ -76,6 +78,8 @@
             break;
         case STATE_MOVING:
             {
+                float diceRoll;
+                
                 //move
                 //follow the player, don't go offscreen
                 if(self.position.x < ((GameObject*)data->player).position.x)
@@ -87,9 +91,27 @@
                     self.velocity = GLKVector2Make(-_moveSpeed, 0);
                 }
                 
-                //TODO: random chance to switch direction or continue and not track
+                //abort movement on reaching edge of screen
+                if(self.position.x < 0 || self.position.x > data->rightEdge)
+                {
+                    self.velocity = GLKVector2Make(0, 0);
+                    self.state = STATE_IDLING;
+                    
+                    break;
+                }
                 
-                //TODO: abort movement on 
+                //random chance to switch direction or continue and not track
+                diceRoll = (double)arc4random() / UINT32_MAX;
+                if(diceRoll <= ENEMY_REVERSEMOVE_CHANCE)
+                {
+                    self.velocity = GLKVector2Make(-self.velocity.x, self.velocity.y);
+                    break;
+                }
+                diceRoll = (double)arc4random() / UINT32_MAX;
+                if(diceRoll <= ENEMY_CONTINUEMOVE_CHANCE)
+                {
+                    break;
+                }
                 
                 //stop movement on reaching threshold or going too far
                 if(fabsf(((GameObject*)data->player).position.x - self.position.x) < TARGET_THRESHOLD
@@ -101,7 +123,7 @@
                 }
                 
                 //occasionally abort movement
-                float diceRoll = (double)arc4random() / UINT32_MAX;
+                diceRoll = (double)arc4random() / UINT32_MAX;
                 if(diceRoll <= ENEMY_ABORTMOVE_CHANCE)
                 {
                     self.velocity = GLKVector2Make(0, 0);
