@@ -28,6 +28,8 @@ typedef struct MBQPoint2D{
 //for data passed into a GameObject during update()
 typedef struct MBQObjectUpdateIn{
     float timeSinceLast;
+    float topEdge;
+    float rightEdge;
     BOOL visibleOnScreen;
     __unsafe_unretained id player; //id because circular references and header files... the dumbest reason for a cast ever
     __unsafe_unretained NSMutableArray *newObjectArray; //objects can put new objects here
