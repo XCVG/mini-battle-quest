@@ -213,7 +213,7 @@ enum
   //  NSLog(@"initializing player");
     _player = [[PlayerObject alloc] init];
     [_gameObjectsToAdd addObject:_player];
-    _player.position = GLKVector3Make(360.0f, 40.0f, 0.0f);
+    _player.position = GLKVector3Make(360.0f, 240.0f, 0.0f);
     
     
     // initisalize an enemy - may not be needed if spawned later
