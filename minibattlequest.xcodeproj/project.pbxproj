@@ -34,8 +34,6 @@
 		7E5D73D21E8227400030CF97 /* Player_Texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E5D73D11E8227400030CF97 /* Player_Texture.png */; };
 		830058DF1E74FAA300405A91 /* tex_bg_grass.png in Resources */ = {isa = PBXBuildFile; fileRef = 830058DE1E74FAA300405A91 /* tex_bg_grass.png */; };
 		83D367731E62517300784CD8 /* ArrowObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D367721E62517300784CD8 /* ArrowObject.m */; };
-		83D546A71E5E2BD500A056F5 /* MeeseeksObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D546A21E5E2BD500A056F5 /* MeeseeksObject.m */; };
-		83D546A81E5E2BD500A056F5 /* SpambotObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D546A41E5E2BD500A056F5 /* SpambotObject.m */; };
 		83D546A91E5E2BD500A056F5 /* WallObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D546A61E5E2BD500A056F5 /* WallObject.m */; };
 		83D546B01E5E2BE600A056F5 /* BGShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 83D546AA1E5E2BE600A056F5 /* BGShader.fsh */; };
 		83D546B11E5E2BE600A056F5 /* BGShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 83D546AB1E5E2BE600A056F5 /* BGShader.vsh */; };
@@ -99,10 +97,6 @@
 		830058DE1E74FAA300405A91 /* tex_bg_grass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tex_bg_grass.png; path = resources/textures/tex_bg_grass.png; sourceTree = "<group>"; };
 		83D367711E62517300784CD8 /* ArrowObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrowObject.h; sourceTree = "<group>"; };
 		83D367721E62517300784CD8 /* ArrowObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrowObject.m; sourceTree = "<group>"; };
-		83D546A11E5E2BD500A056F5 /* MeeseeksObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeeseeksObject.h; sourceTree = "<group>"; };
-		83D546A21E5E2BD500A056F5 /* MeeseeksObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeeseeksObject.m; sourceTree = "<group>"; };
-		83D546A31E5E2BD500A056F5 /* SpambotObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpambotObject.h; sourceTree = "<group>"; };
-		83D546A41E5E2BD500A056F5 /* SpambotObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpambotObject.m; sourceTree = "<group>"; };
 		83D546A51E5E2BD500A056F5 /* WallObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WallObject.h; sourceTree = "<group>"; };
 		83D546A61E5E2BD500A056F5 /* WallObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WallObject.m; sourceTree = "<group>"; };
 		83D546AA1E5E2BE600A056F5 /* BGShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BGShader.fsh; sourceTree = "<group>"; };
@@ -278,10 +272,6 @@
 			children = (
 				83D367711E62517300784CD8 /* ArrowObject.h */,
 				83D367721E62517300784CD8 /* ArrowObject.m */,
-				83D546A11E5E2BD500A056F5 /* MeeseeksObject.h */,
-				83D546A21E5E2BD500A056F5 /* MeeseeksObject.m */,
-				83D546A31E5E2BD500A056F5 /* SpambotObject.h */,
-				83D546A41E5E2BD500A056F5 /* SpambotObject.m */,
 				83D546A51E5E2BD500A056F5 /* WallObject.h */,
 				83D546A61E5E2BD500A056F5 /* WallObject.m */,
 				83DF1F841E43DA790042F3D7 /* GOTypes.h */,
@@ -467,7 +457,6 @@
 				83D546B31E5E2BE600A056F5 /* MapModel.m in Sources */,
 				6D5043FE1E3FE695001F8AE6 /* MainMenuViewController.m in Sources */,
 				83D367731E62517300784CD8 /* ArrowObject.m in Sources */,
-				83D546A81E5E2BD500A056F5 /* SpambotObject.m in Sources */,
 				6D5044151E3FE90B001F8AE6 /* LeaderboardViewController.m in Sources */,
 				6DCB13581E54E6C300CB5AA8 /* LeaderboardScore+CoreDataClass.m in Sources */,
 				C2E9614D1E37D81A0098A95D /* AppDelegate.m in Sources */,
@@ -478,7 +467,6 @@
 				83F92B931E4126AD0064411B /* GameObject.m in Sources */,
 				6DCB13601E54E7D100CB5AA8 /* CoreDataTableViewController.m in Sources */,
 				83F92B9A1E412CF40064411B /* EnemyObject.m in Sources */,
-				83D546A71E5E2BD500A056F5 /* MeeseeksObject.m in Sources */,
 				83D546B21E5E2BE600A056F5 /* MapLoadHelper.m in Sources */,
 				C2E9614A1E37D81A0098A95D /* main.m in Sources */,
 				83F92B981E412BD40064411B /* PlayerObject.m in Sources */,

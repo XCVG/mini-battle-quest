@@ -14,8 +14,6 @@
 #import "PlayerObject.h"
 #import "EnemyObject.h"
 #import "ArrowObject.h"
-#import "MeeseeksObject.h"
-#import "SpambotObject.h"
 
 #import <AudioToolbox/AudioToolbox.h>
 
