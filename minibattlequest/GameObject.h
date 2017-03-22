@@ -55,6 +55,8 @@ typedef struct
 //@property float modelxPos, modelyPos;
 @property GLKVector3 modelRotation;
 
+@property float maxHealth;
+
 
 -(MBQObjectUpdateOut)update:(MBQObjectUpdateIn*)data;
 -(MBQObjectDisplayOut)display:(MBQObjectDisplayIn*)data;

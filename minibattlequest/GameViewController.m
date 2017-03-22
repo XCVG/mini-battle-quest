@@ -84,6 +84,7 @@ enum
 @property (strong, nonatomic) GLKBaseEffect *effect;
 
 @property (weak, nonatomic) IBOutlet UIButton *toggleWeaponButton;
+@property (weak, nonatomic) IBOutlet UIProgressView *playerHealthBar;
 
 
 -(void)handleViewportTap:(UITapGestureRecognizer *)tapGestureRecognizer;
@@ -470,6 +471,8 @@ enum
         
     }
 
+    /* Update player health bar. */
+    [_playerHealthBar setProgress:(_player.health / _player.maxHealth)];
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
