@@ -96,6 +96,7 @@ enum
 - (void)tearDownGL;
 - (bool)CheckCollision;
 - (void)endRound;
+- (void)savePlayerScore;
 
 - (BOOL)loadShaders;
 - (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
@@ -206,6 +207,13 @@ enum
     return YES;
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self savePlayerScore];
+}
+
 - (void)setupGame
 {
     NSLog(@"Starting game...");
@@ -258,13 +266,18 @@ enum
  */
 - (void) endRound
 {
-    /* Write the player's score to the database. */
+    /* Return to the main menu. */
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+/**
+    Save the player's current score to the database.
+ */
+- (void)savePlayerScore
+{
     [[MBQDataManager instance] performWithDocument:^(UIManagedDocument *document) {
         [LeaderboardScore addScoreWithValue:_playerScore inManagedObjectContext:document.managedObjectContext];
     }];
-    
-    /* Return to the main menu. */
-    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)setupGL
