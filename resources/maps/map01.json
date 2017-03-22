@@ -9,25 +9,30 @@
       "type": "EnemyObject",
       "x": 360,
       "y": 1600,
-      "state": "dormant"
+      "z": 64,
+      "scaleX": 2.5,
+      "rotX": 1.6,
+      "rotY": 1.6
     },
       {
       "type": "WallObject",
       "x": 360,
       "y": 600,
-      "state": "dormant"
+      "scaleX": 600,
+      "scaleY": 1.5,
+      "scaleZ": 5.5,
+      "size":128
       },
       {
       "type": "EnemyObject",
       "x": 32,
-      "y": 1000,
-      "state": "dormant"
+      "y": 1000
       },
       {
       "type": "EnemyObject",
       "x": 600,
       "y": 400,
-      "state": "dormant"
+      "texture":"tex_bgtest.png"
       }
   ]
 }
