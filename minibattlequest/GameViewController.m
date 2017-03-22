@@ -88,7 +88,6 @@ enum
     VertexInfo playerVert, enemyVert, arrowVert;
     
     // Lighting parameters
-    /* specify lighting parameters here...e.g., GLKVector3 flashlightPosition; */
     GLKVector3 flashlightPosition;
     GLKVector3 diffuseLightPosition;
     GLKVector4 diffuseComponent;
@@ -96,10 +95,6 @@ enum
     GLKVector4 specularComponent;
     GLKVector4 ambientComponent;
     GLKVector4 fogColor, fogIntensity;
-    
-    //GLuint  _sphereVertexArray, _cubeVertexArray;
-   // GLuint  _sphereVertexBuffer, _cubeVertexBuffer;
-    
     SystemSoundID soundEffect;
 }
 @property (strong, nonatomic) EAGLContext *context;
@@ -131,7 +126,6 @@ enum
     //game variables
     NSMutableArray *_gameObjects;
     PlayerObject *_player;
-    EnemyObject  *_enemy;
     NSMutableArray *_gameObjectsInView;
     NSMutableArray *_gameObjectsToAdd;
     
@@ -252,23 +246,6 @@ enum
     _player.textureName = @"Player_Texture.png";
     
     
-    // initisalize an enemy - may not be needed if spawned later
-    _enemy = [[EnemyObject alloc] init];
-   [_gameObjectsToAdd addObject:_enemy];
-    _enemy.position = GLKVector3Make(32.0f, 1000.0f, 0.0f);
-    _enemy.modelName = @"EnemyWizard";
-    _enemy.textureName = @"EnemyWizard_Texture.png";
-
-    
-    //testing for dynamic enemy spawning
-    NSLog(@"creating test objects");
-    EnemyObject *myEnemy = [[EnemyObject alloc] init];
-    [_gameObjectsToAdd addObject:myEnemy];
-    myEnemy.position = GLKVector3Make(600.0f, 400.0f, 0.0f);
-    myEnemy.modelName = @"EnemyWizard";
-    myEnemy.textureName = @"EnemyWizard_Texture.png";
-
-    
     //load map from file
     NSLog(@"loading map from file");
     _mapModel = [MapLoadHelper loadObjectsFromMap:@"map01"];
@@ -334,11 +311,8 @@ enum
     diffuseLightPosition = GLKVector3Make(1.0, 1.0, 1.0);
     diffuseComponent = GLKVector4Make(0.4, 0.8, 0.4, 1.0);
     shininess = 50.0;
-    
     fogIntensity = GLKVector4Make(0, 0, 0, 1.0);
     fogColor = GLKVector4Make(0.5f, 0.5f, 0.5f, 1);
-    
-    
     ambientComponent = GLKVector4Make(0.5, 0.5, 0.5, 1.0);
     
 
@@ -421,28 +395,6 @@ enum
     NSLog(@"Binding GL for: %@", NSStringFromClass([object class]));
 
     object.modelHandle = [self loadModel :object.modelName :object.textureName];
-    //object.modelHandle = [self loadModel :@"player" :@"Player_White.png"];
-    /*
-    //for debugging
-    NSLog(@"Binding GL for: %@", NSStringFromClass([object class]));
-    
-    //determine model based on what the object is
-    if([object isKindOfClass:[PlayerObject class]])
-    {
-        object.modelHandle = playerVert;
-     
-    }
-    else if([object isKindOfClass:[EnemyObject class]])
-    {
-        object.modelHandle = enemyVert;
-    }
-    else if([object isKindOfClass:[ArrowObject class]])
-    {
-        object.modelHandle = arrowVert;
-                
-    }
-     */
-    
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods
@@ -783,9 +735,7 @@ enum
     int fCount = 0;
     int i = 0;
     NSScanner *scanner;
-    
-    
-    
+
     //populate the vtnf arrays with values from the obj file
     for (NSString* line in allLinedStrings) {
         scanner = [NSScanner scannerWithString:line];
@@ -1148,8 +1098,8 @@ enum
 }
 
 #pragma mark -  OpenGL ES 2 textures and stuff
+//old setup texture function (left it here incase new one will cause trouble with background - Denis
 /*
-//setup texture for background
 -(GLuint)setupTexture:(NSString *)fileName {
 
     //load CGimage

@@ -16,6 +16,18 @@
       "x": 360,
       "y": 600,
       "state": "dormant"
+      },
+      {
+      "type": "EnemyObject",
+      "x": 32,
+      "y": 1000,
+      "state": "dormant"
+      },
+      {
+      "type": "EnemyObject",
+      "x": 600,
+      "y": 400,
+      "state": "dormant"
       }
   ]
 }

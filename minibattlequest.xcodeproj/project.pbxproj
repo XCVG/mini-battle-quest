@@ -24,6 +24,8 @@
 		6DCB13591E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB13571E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m */; };
 		6DCB135C1E54E76B00CB5AA8 /* LeaderboardScore+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB135B1E54E76B00CB5AA8 /* LeaderboardScore+Util.m */; };
 		6DCB13601E54E7D100CB5AA8 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB135F1E54E7D100CB5AA8 /* CoreDataTableViewController.m */; };
+		7E4F44EA1E82F58000BA87C0 /* crateCube.obj in Resources */ = {isa = PBXBuildFile; fileRef = 7E4F44E91E82F58000BA87C0 /* crateCube.obj */; };
+		7E4F44EC1E82F59400BA87C0 /* crate.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7E4F44EB1E82F59400BA87C0 /* crate.jpg */; };
 		7E5D73C81E8217E40030CF97 /* player.obj in Resources */ = {isa = PBXBuildFile; fileRef = 7E5D73C71E8217E40030CF97 /* player.obj */; };
 		7E5D73CA1E8217ED0030CF97 /* Player_White.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E5D73C91E8217ED0030CF97 /* Player_White.png */; };
 		7E5D73CC1E8218470030CF97 /* EnemyWizard_Texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E5D73CB1E8218470030CF97 /* EnemyWizard_Texture.png */; };
@@ -86,6 +88,8 @@
 		6DCB135B1E54E76B00CB5AA8 /* LeaderboardScore+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LeaderboardScore+Util.m"; sourceTree = "<group>"; };
 		6DCB135E1E54E7D100CB5AA8 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
 		6DCB135F1E54E7D100CB5AA8 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
+		7E4F44E91E82F58000BA87C0 /* crateCube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = crateCube.obj; path = ../IOS_Ass2/IOS_Ass2/crateCube.obj; sourceTree = "<group>"; };
+		7E4F44EB1E82F59400BA87C0 /* crate.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = crate.jpg; path = ../IOS_Ass2/IOS_Ass2/crate.jpg; sourceTree = "<group>"; };
 		7E5D73C71E8217E40030CF97 /* player.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = player.obj; path = resources/models/player.obj; sourceTree = "<group>"; };
 		7E5D73C91E8217ED0030CF97 /* Player_White.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Player_White.png; path = resources/textures/Player_White.png; sourceTree = "<group>"; };
 		7E5D73CB1E8218470030CF97 /* EnemyWizard_Texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EnemyWizard_Texture.png; path = resources/textures/EnemyWizard_Texture.png; sourceTree = "<group>"; };
@@ -221,6 +225,7 @@
 				7E5D73CF1E821FC90030CF97 /* Arrow.obj */,
 				7E5D73CD1E82184B0030CF97 /* EnemyWizard.obj */,
 				7E5D73C71E8217E40030CF97 /* player.obj */,
+				7E4F44E91E82F58000BA87C0 /* crateCube.obj */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -236,6 +241,7 @@
 		83D546B71E5E2C3D00A056F5 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				7E4F44EB1E82F59400BA87C0 /* crate.jpg */,
 				7E5D73D11E8227400030CF97 /* Player_Texture.png */,
 				7E5D73CB1E8218470030CF97 /* EnemyWizard_Texture.png */,
 				7E5D73C91E8217ED0030CF97 /* Player_White.png */,
@@ -419,6 +425,7 @@
 				6D50440C1E3FE7B2001F8AE6 /* mbq_icon_bow.png in Resources */,
 				6D5044121E3FE7B2001F8AE6 /* mbq_title_logo.png in Resources */,
 				A79905E61E805E9B003653E3 /* mbq_img_button_action_bow.png in Resources */,
+				7E4F44EA1E82F58000BA87C0 /* crateCube.obj in Resources */,
 				C2E961571E37D81A0098A95D /* Main.storyboard in Resources */,
 				7E5D73D01E821FC90030CF97 /* Arrow.obj in Resources */,
 				7E5D73CE1E82184B0030CF97 /* EnemyWizard.obj in Resources */,
@@ -426,6 +433,7 @@
 				7E5D73C81E8217E40030CF97 /* player.obj in Resources */,
 				7E5D73D21E8227400030CF97 /* Player_Texture.png in Resources */,
 				6D50440F1E3FE7B2001F8AE6 /* mbq_icon_sword.png in Resources */,
+				7E4F44EC1E82F59400BA87C0 /* crate.jpg in Resources */,
 				C2E961511E37D81A0098A95D /* Shader.vsh in Resources */,
 				83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */,
 				6D50440D1E3FE7B2001F8AE6 /* mbq_icon_health.png in Resources */,
