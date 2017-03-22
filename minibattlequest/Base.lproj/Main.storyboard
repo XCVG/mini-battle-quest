@@ -117,22 +117,53 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="27D-el-Xfe">
                                 <rect key="frame" x="60" y="577" width="254" height="70"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="Bjj-Br-JlX"/>
+                                    <constraint firstAttribute="height" constant="70" id="3Ft-PM-oP1"/>
                                 </constraints>
                                 <state key="normal" image="mbq_img_button_action_shield.png"/>
                                 <connections>
                                     <action selector="onToggleWeaponButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="aSP-eD-cTe"/>
                                 </connections>
                             </button>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="57d-oP-IJ7">
+                                <rect key="frame" x="64" y="20" width="295" height="5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="5" id="qgH-9x-C1M"/>
+                                </constraints>
+                                <color key="progressTintColor" red="1" green="0.21575751265116405" blue="0.38087077110049672" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="trackTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </progressView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mbq_icon_health.png" translatesAutoresizingMaskIntoConstraints="NO" id="lQo-g5-d36">
+                                <rect key="frame" x="16" y="8" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="bk1-mE-V8J"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6J7-wH-aem">
+                                <rect key="frame" x="16" y="63" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.048744206985001745" green="0.064077004867764104" blue="0.4146899287564767" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="27D-el-Xfe" secondAttribute="bottom" constant="20" symbolic="YES" id="ciN-Ur-b1p"/>
-                            <constraint firstItem="27D-el-Xfe" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="qCW-bI-zCA"/>
-                            <constraint firstItem="27D-el-Xfe" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leadingMargin" constant="44" id="z3j-0j-BfP"/>
+                            <constraint firstItem="6J7-wH-aem" firstAttribute="leading" secondItem="lQo-g5-d36" secondAttribute="leading" id="13N-fC-jDY"/>
+                            <constraint firstItem="27D-el-Xfe" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leadingMargin" constant="44" id="305-yf-CIY"/>
+                            <constraint firstAttribute="bottom" secondItem="27D-el-Xfe" secondAttribute="bottom" constant="20" symbolic="YES" id="5aj-dG-cR1"/>
+                            <constraint firstItem="27D-el-Xfe" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="NMz-xr-ZtF"/>
+                            <constraint firstItem="57d-oP-IJ7" firstAttribute="trailing" secondItem="3se-qz-xqx" secondAttribute="trailingMargin" id="URC-Zk-wJb"/>
+                            <constraint firstItem="6J7-wH-aem" firstAttribute="trailing" secondItem="57d-oP-IJ7" secondAttribute="trailing" id="Vcu-gB-eWj"/>
+                            <constraint firstItem="57d-oP-IJ7" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leadingMargin" constant="48" id="VsT-Pt-N37"/>
+                            <constraint firstItem="57d-oP-IJ7" firstAttribute="top" secondItem="3se-qz-xqx" secondAttribute="top" constant="20" symbolic="YES" id="bVV-2l-v1w"/>
+                            <constraint firstItem="6J7-wH-aem" firstAttribute="top" secondItem="lQo-g5-d36" secondAttribute="bottom" constant="15" id="ek1-Ow-HpK"/>
+                            <constraint firstItem="lQo-g5-d36" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" constant="8" symbolic="YES" id="iUm-fb-5nj"/>
+                            <constraint firstItem="57d-oP-IJ7" firstAttribute="leading" secondItem="lQo-g5-d36" secondAttribute="trailing" constant="8" symbolic="YES" id="pLk-EE-A2F"/>
+                            <constraint firstItem="lQo-g5-d36" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leadingMargin" id="smV-IH-3kF"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="playerHealthBar" destination="57d-oP-IJ7" id="fK3-xZ-MSj"/>
+                        <outlet property="scoreLabel" destination="6J7-wH-aem" id="BlK-GO-mll"/>
                         <outlet property="toggleWeaponButton" destination="27D-el-Xfe" id="8E0-Lk-8Q4"/>
                     </connections>
                 </viewController>
@@ -163,6 +194,7 @@
     <resources>
         <image name="mbq_button_wide_red.png" width="399" height="76"/>
         <image name="mbq_home_bg_ws.png" width="401" height="712"/>
+        <image name="mbq_icon_health.png" width="400" height="400"/>
         <image name="mbq_img_button_action_shield.png" width="600" height="200"/>
         <image name="mbq_title_logo_framed.png" width="328" height="385"/>
     </resources>

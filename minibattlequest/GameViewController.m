@@ -19,6 +19,9 @@
 
 #import <AudioToolbox/AudioToolbox.h>
 
+#import "MBQDataManager.h"
+#import "LeaderboardScore+Util.h"
+
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 //this was, in retrospect, a really, really bad idea
@@ -103,12 +106,16 @@ enum
 @property (strong, nonatomic) GLKBaseEffect *effect;
 
 @property (weak, nonatomic) IBOutlet UIButton *toggleWeaponButton;
+@property (weak, nonatomic) IBOutlet UIProgressView *playerHealthBar;
+@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
 
 -(void)handleViewportTap:(UITapGestureRecognizer *)tapGestureRecognizer;
 - (void)setupGL;
 - (void)tearDownGL;
 - (bool)CheckCollision;
+- (void)endRound;
+- (void)savePlayerScore;
 
 - (BOOL)loadShaders;
 - (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
@@ -133,6 +140,7 @@ enum
     
     BOOL _running;
     
+    int _playerScore;
     
     //viewport pseudoconstants
     float _screenToViewportX;
@@ -218,6 +226,13 @@ enum
     return YES;
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self savePlayerScore];
+}
+
 - (void)setupGame
 {
     NSLog(@"Starting game...");
@@ -269,6 +284,25 @@ enum
     [self.view addGestureRecognizer:tapGesture];
     
     NSLog(@"..done!");
+}
+
+/**
+    End the round and record the player's score when the player dies.
+ */
+- (void) endRound
+{
+    /* Return to the main menu. */
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+/**
+    Save the player's current score to the database.
+ */
+- (void)savePlayerScore
+{
+    [[MBQDataManager instance] performWithDocument:^(UIManagedDocument *document) {
+        [LeaderboardScore addScoreWithValue:_playerScore inManagedObjectContext:document.managedObjectContext];
+    }];
 }
 
 - (void)setupGL
@@ -430,6 +464,11 @@ enum
         GameObject *go = _gameObjects[i];
         if(!go.enabled)
         {
+            if (go == _player)
+            {
+                [self endRound];
+            }
+            
             [_gameObjects removeObjectAtIndex:i];
         }
     }
@@ -524,6 +563,12 @@ enum
         
     }
 
+    /* Update player health bar. */
+    [_playerHealthBar setProgress:(_player.health / _player.maxHealth)];
+    
+    /* Update score label. */
+    _playerScore = (int)_player.position.y;
+    [_scoreLabel setText:[NSString stringWithFormat:@"Score: %i", _playerScore]];
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect

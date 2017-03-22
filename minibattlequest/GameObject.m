@@ -33,6 +33,7 @@
     _velocity.y = 0.0f;
     _modelRotation = GLKVector3Make(0.0f, 0.0f, 0.0f);
     _scale = GLKVector3Make(1.0f, 1.0f, 1.0f);
+    _maxHealth = GO_DEFAULT_HEALTH;
     _health = GO_DEFAULT_HEALTH;
     _enabled = true;
     _visible = true;
@@ -78,6 +79,16 @@
 -(void)destroy
 {
     self.enabled = NO;
+}
+
+-(void)takeDamage:(float)damage
+{
+    self.health -= damage;
+    
+    if (self.health <= 0)
+    {
+        [self destroy];
+    }
 }
 
 @end

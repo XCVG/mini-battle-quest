@@ -13,7 +13,7 @@
 
 #define TARGET_THRESHOLD 32.0f
 #define DEFAULT_MOVE_SPEED 160.0f
-#define PLAYER_DEFAULT_HEALTH 180.0f
+#define PLAYER_DEFAULT_HEALTH 500.0f
 #define PLAYER_DEFAULT_SCALE 25.0f
 #define PLAYER_BOUNCE_FACTOR 0.5f
 #define PLAYER_BOUNCE_DELAY 1.0f
@@ -47,6 +47,7 @@
     self.visible = true;
     self.solid = true;
     self.movable = true;
+    self.maxHealth = PLAYER_DEFAULT_HEALTH;
     self.health = PLAYER_DEFAULT_HEALTH;
     self.modelRotation = GLKVector3Make(0.8f, 3.14f, 0.0f);
     _moveSpeed = DEFAULT_MOVE_SPEED;
@@ -167,11 +168,14 @@
         self.state = STATE_BOUNCING;
         self.velocity = GLKVector2Make(-self.velocity.x*PLAYER_BOUNCE_FACTOR, -self.velocity.y*PLAYER_BOUNCE_FACTOR);
     }
+    /* If the other thing is an arrow and I don't have my shield up, damage me! */
+    else if ([otherObject isKindOfClass:[ArrowObject class]] && self.isUsingWeapon)
+    {
+        ArrowObject * myArrow = (ArrowObject*)otherObject;
+        [self takeDamage:myArrow.damage];
+        NSLog(@"Player Health: %f", self.health);
+    }
     
-    /*  --- TODO : READ ME! ---
-        When implementing taking damage from enemies, check self.isUsingWeapon. 
-        if (self.isUsingWeapon == NO), then the player's shield is up, and we should 
-        take no damage! */
 }
 
 //check health

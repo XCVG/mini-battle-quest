@@ -56,12 +56,15 @@ typedef struct
 //@property float modelxPos, modelyPos;
 @property GLKVector3 modelRotation;
 
+@property float maxHealth;
+
 
 -(MBQObjectUpdateOut)update:(MBQObjectUpdateIn*)data;
 -(MBQObjectDisplayOut)display:(MBQObjectDisplayIn*)data;
 
 -(bool)checkCollisionBetweenObject:(GameObject *)one and:(GameObject *)two; //MICHAEL'S Collision function declaration
 -(void)onCollision:(GameObject*)otherObject;
+-(void)takeDamage:(float)damage;
 -(void)destroy;
 
 @end
