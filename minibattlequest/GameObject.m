@@ -37,6 +37,8 @@
     _enabled = true;
     _visible = true;
     _solid = false;
+    _modelName = @"EnemyWizard";
+    _textureName = @"EnemyWizard_Texture.png";
     
     return self;
 }
@@ -58,7 +60,7 @@
 {
     MBQObjectDisplayOut outData;
     //outData.modelHandle = self.modelHandle;
-    outData.textureHandle = self.textureHandle;
+   // outData.textureHandle = self.textureHandle;
     outData.dPosition = GLKVector3Make(self.position.x, self.position.y, self.position.z);
     outData.dRotation = GLKVector3Make(0.0f, 0.0f, GLKMathDegreesToRadians(self.rotation.y)); //might need to negative this
     outData.dScale = GLKVector3Make(1.0f, 1.0f, 1.0f);

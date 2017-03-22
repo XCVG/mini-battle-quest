@@ -31,12 +31,14 @@ typedef struct
 {
     GLuint vArray; //pointer to vertex array
     GLuint vBuffer; //pointer to vertex buffer
+    GLuint textureHandle;//the texture of the object
     int   length; //# of vertices
 
 } VertexInfo;
+@property NSString* textureName; //file name of the texture image
+@property NSString* modelName; //file name of the obj model file
 
 @property GameObjectState state;
-//TODO rework into vectors
 @property GLKVector3 position;
 @property GLKVector3 rotation;
 @property GLKVector3 scale;
@@ -47,7 +49,6 @@ typedef struct
 @property BOOL solid; //collide if solid
 @property BOOL movable; //move if movable
 @property float health;
-@property GLuint textureHandle;
 
 //used for model stuff. Now Accessed directly from here instead of using MBQobjectout bullshit
 @property VertexInfo modelHandle;

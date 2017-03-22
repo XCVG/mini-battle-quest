@@ -35,6 +35,9 @@
     self.scale = GLKVector3Make(ARROW_DEFAULT_SCALE, ARROW_DEFAULT_SCALE, ARROW_DEFAULT_SCALE);
     self.damage = 40;
     
+    self.modelName = @"Arrow";
+    self.textureName = @"EnemyWizard_Texture.png";
+    
     return self;
 }
 

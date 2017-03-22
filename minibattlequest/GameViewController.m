@@ -16,7 +16,6 @@
 #import "ArrowObject.h"
 #import "MeeseeksObject.h"
 #import "SpambotObject.h"
-#include "ModelData.m"
 
 #import <AudioToolbox/AudioToolbox.h>
 
@@ -38,11 +37,21 @@
 //TODO global and specific scale as well as default scale
 
 
-// Uniform index.
+// Shader uniform indices
 enum
 {
     UNIFORM_MODELVIEWPROJECTION_MATRIX,
     UNIFORM_NORMAL_MATRIX,
+    UNIFORM_MODELVIEW_MATRIX,
+    UNIFORM_TEXTURE,
+    UNIFORM_FLASHLIGHT_POSITION,
+    UNIFORM_DIFFUSE_LIGHT_POSITION,
+    UNIFORM_SHININESS,
+    UNIFORM_AMBIENT_COMPONENT,
+    UNIFORM_DIFFUSE_COMPONENT,
+    UNIFORM_SPECULAR_COMPONENT,
+    UNIFORM_FOG_COLOR,
+    UNIFORM_FOG_INTENSITY,
     NUM_UNIFORMS
 };
 GLint uniforms[NUM_UNIFORMS];
@@ -74,6 +83,16 @@ enum
     float _rotation;
     
     VertexInfo playerVert, enemyVert, arrowVert;
+    
+    // Lighting parameters
+    /* specify lighting parameters here...e.g., GLKVector3 flashlightPosition; */
+    GLKVector3 flashlightPosition;
+    GLKVector3 diffuseLightPosition;
+    GLKVector4 diffuseComponent;
+    float shininess;
+    GLKVector4 specularComponent;
+    GLKVector4 ambientComponent;
+    GLKVector4 fogColor, fogIntensity;
     
     //GLuint  _sphereVertexArray, _cubeVertexArray;
    // GLuint  _sphereVertexBuffer, _cubeVertexBuffer;
@@ -214,12 +233,16 @@ enum
     _player = [[PlayerObject alloc] init];
     [_gameObjectsToAdd addObject:_player];
     _player.position = GLKVector3Make(360.0f, 240.0f, 0.0f);
+    _player.modelName = @"player";
+    _player.textureName = @"Player_Texture.png";
     
     
     // initisalize an enemy - may not be needed if spawned later
     _enemy = [[EnemyObject alloc] init];
    [_gameObjectsToAdd addObject:_enemy];
     _enemy.position = GLKVector3Make(32.0f, 1000.0f, 0.0f);
+    _enemy.modelName = @"EnemyWizard";
+    _enemy.textureName = @"EnemyWizard_Texture.png";
 
     
     //testing for dynamic enemy spawning
@@ -227,6 +250,8 @@ enum
     EnemyObject *myEnemy = [[EnemyObject alloc] init];
     [_gameObjectsToAdd addObject:myEnemy];
     myEnemy.position = GLKVector3Make(600.0f, 400.0f, 0.0f);
+    myEnemy.modelName = @"EnemyWizard";
+    myEnemy.textureName = @"EnemyWizard_Texture.png";
 
     
     //load map from file
@@ -250,7 +275,39 @@ enum
 {
     [EAGLContext setCurrentContext:self.context];
     
-    [self loadShaders]; //load original shader
+   
+ 
+    
+     [self loadShaders]; //load original shader
+    
+    // Get uniform locations.
+    uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX] = glGetUniformLocation(_program, "modelViewProjectionMatrix");
+    uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(_program, "normalMatrix");
+    uniforms[UNIFORM_MODELVIEW_MATRIX] = glGetUniformLocation(_program, "modelViewMatrix");
+    
+    uniforms[UNIFORM_TEXTURE] = glGetUniformLocation(_program, "texture");
+    uniforms[UNIFORM_FLASHLIGHT_POSITION] = glGetUniformLocation(_program, "flashlightPosition");
+    uniforms[UNIFORM_DIFFUSE_LIGHT_POSITION] = glGetUniformLocation(_program, "diffuseLightPosition");
+    uniforms[UNIFORM_SHININESS] = glGetUniformLocation(_program, "shininess");
+    uniforms[UNIFORM_AMBIENT_COMPONENT] = glGetUniformLocation(_program, "ambientComponent");
+    uniforms[UNIFORM_DIFFUSE_COMPONENT] = glGetUniformLocation(_program, "diffuseComponent");
+    uniforms[UNIFORM_SPECULAR_COMPONENT] = glGetUniformLocation(_program, "specularComponent");
+    uniforms[UNIFORM_FOG_INTENSITY] = glGetUniformLocation(_program, "fogIntensity");
+    uniforms[UNIFORM_FOG_COLOR] = glGetUniformLocation(_program, "fogColor");
+    
+    // Set up lighting parameters
+    flashlightPosition = GLKVector3Make(0.0, 0.0, 0.1f);
+    diffuseLightPosition = GLKVector3Make(1.0, 1.0, 1.0);
+    diffuseComponent = GLKVector4Make(0.4, 0.8, 0.4, 1.0);
+    shininess = 50.0;
+    
+    fogIntensity = GLKVector4Make(0, 0, 0, 1.0);
+    fogColor = GLKVector4Make(0.5f, 0.5f, 0.5f, 1);
+    
+    
+    ambientComponent = GLKVector4Make(0.5, 0.5, 0.5, 1.0);
+    
+
     [self loadBGShaders]; //load background shader
     
     //useless GLKit stuff
@@ -261,16 +318,7 @@ enum
     [self setupBackground]; //actually setup the background
     
     glEnable(GL_DEPTH_TEST);
-    
-    
-    playerVert.length = sizeof(p2_pos) / 12;
-    [self setupVertices:(VertexInfo*)&playerVert :p2_pos :p2_norm];
-    
-    enemyVert.length = sizeof(wizard_pos) / 12;
-    [self setupVertices:(VertexInfo*)&enemyVert :wizard_pos :wizard_norm];
-    
-    arrowVert.length = sizeof(arrow_pos) / 12;
-    [self setupVertices:(VertexInfo*)&arrowVert :arrow_pos :arrow_norm];
+
 }
 
 -(void)calculateRatios
@@ -336,7 +384,11 @@ enum
 //Associate gameobjects with models
 -(void)bindObject:(GameObject*)object
 {
+    NSLog(@"Binding GL for: %@", NSStringFromClass([object class]));
 
+    object.modelHandle = [self loadModel :object.modelName :object.textureName];
+    //object.modelHandle = [self loadModel :@"player" :@"Player_White.png"];
+    /*
     //for debugging
     NSLog(@"Binding GL for: %@", NSStringFromClass([object class]));
     
@@ -344,6 +396,7 @@ enum
     if([object isKindOfClass:[PlayerObject class]])
     {
         object.modelHandle = playerVert;
+     
     }
     else if([object isKindOfClass:[EnemyObject class]])
     {
@@ -354,6 +407,7 @@ enum
         object.modelHandle = arrowVert;
                 
     }
+     */
     
 }
 
@@ -497,13 +551,13 @@ enum
         
     }
     //what does this line do?
-    glBindVertexArrayOES(enemyVert.vArray);
+    //glBindVertexArrayOES(enemyVert.vArray);
 }
 
 -(void)renderObject:(GameObject*)gameObject
 {
     
-    //glBindVertexArrayOES(data.modelHandle);
+    glBindVertexArrayOES(gameObject.modelHandle.vArray);
     glUseProgram(_program); //should probably provide options
     
     //float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
@@ -533,26 +587,28 @@ enum
     
     _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
     
-    
-    //draw!
-    
-    //glBindVertexArrayOES(playerVert.vArray);
-    glBindVertexArrayOES(gameObject.modelHandle.vArray);
-    glUseProgram(_program);
-    
+    // Set up uniforms
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
     glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
+    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEW_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
+    glUniform3fv(uniforms[UNIFORM_FLASHLIGHT_POSITION], 1, flashlightPosition.v);
+    glUniform3fv(uniforms[UNIFORM_DIFFUSE_LIGHT_POSITION], 1, diffuseLightPosition.v);
+    glUniform4fv(uniforms[UNIFORM_DIFFUSE_COMPONENT], 1, diffuseComponent.v);
+    glUniform1f(uniforms[UNIFORM_SHININESS], shininess);
+    glUniform4fv(uniforms[UNIFORM_SPECULAR_COMPONENT], 1, specularComponent.v);
+    glUniform4fv(uniforms[UNIFORM_AMBIENT_COMPONENT], 1, ambientComponent.v);
+    glUniform4fv(uniforms[UNIFORM_FOG_INTENSITY], 1, fogIntensity.v);
+    glUniform4fv(uniforms[UNIFORM_FOG_COLOR], 1, fogColor.v);
     
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, gameObject.modelHandle.textureHandle);
+    glUniform1i(uniforms[UNIFORM_TEXTURE], 0);
     
-    // NSLog(@"moduleHandel array Size: %u", s);
-
-    
-    glDrawArrays(GL_TRIANGLES, 0, gameObject.modelHandle.length);//need to change 256 to actual array size
-    
-    //glDrawArrays(GL_TRIANGLES, 0, 1024); //will probably have to deal with this 36 somewhere
-    
-    
+    //draw!
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gameObject.modelHandle.vBuffer);
+    glDrawArrays(GL_TRIANGLES, 0, gameObject.modelHandle.length);
     glBindVertexArrayOES(0);
+
 }
 
 #pragma mark - Rendering methods
@@ -630,44 +686,166 @@ enum
 
 
 #pragma mark -  Rendering setup
-
-//merges the positiona nd normal array and binds the model vertex info
--(void)setupVertices:(VertexInfo*)vertexInfoStruct :(GLfloat*)posArray : (GLfloat*)normArray
+/*
+ Loads model vtnf arrays from the obj file, and sets up the vertex buffer, and uses the provided image for texture
+ Parameters:
+ filename - string file name of the obj model - DON'T INCLUDE THE EXTENSION!(ie "crate" instead of "crate.obj")
+ textureName - string name of the texture image file - this one should have the extension included
+ */
+-(VertexInfo)loadModel :(NSString*) fileName :(NSString*) textureName
 {
-    glGenVertexArraysOES(1, &vertexInfoStruct->vArray);
-    glBindVertexArrayOES(vertexInfoStruct->vArray);
+    NSString* fileRoot = [[NSBundle mainBundle]
+                          pathForResource:fileName ofType:@"obj"];
     
-    glGenBuffers(1, &vertexInfoStruct->vBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexInfoStruct->vBuffer);
-
-    long size = playerVert.length * 6;
-    GLfloat mixedArray[size];
-    int j = 0;
-    int k = 0;
-    for(int i = 0; i < size; i++){
-        //NSLog(@"%u", i%6);
-        if(i%6 < 3){
-            mixedArray[i] = posArray[j];
-            j++;
-        }else{
-            mixedArray[i] = normArray[k];
-            k++;
+    NSString* fileContents =
+    [NSString stringWithContentsOfFile:fileRoot
+                              encoding:NSUTF8StringEncoding error:nil];
+    
+    // separate by new line
+    NSArray* allLinedStrings =
+    [fileContents componentsSeparatedByCharactersInSet:
+     [NSCharacterSet newlineCharacterSet]];
+    
+    
+    int tLength = 0;
+    int vLength = 0;
+    int nLength = 0;
+    int fLength = 0;
+    
+    //determine the length of the vtnf arrays
+    for (NSString* line in allLinedStrings) {
+        if (line.length > 1 && [line characterAtIndex:0] == 'v' && [line characterAtIndex:1] == 't') {
+            tLength+= 2;
         }
-        //NSLog(@"%.2f", mixedArray[i]);
+        else if (line.length > 1 && [line characterAtIndex:0] == 'v' && [line characterAtIndex:1] == 'n') {
+            nLength+= 3;
+        }
+        else if (line.length > 1 && [line characterAtIndex:0] == 'v' && [line characterAtIndex:1] == ' ') {
+            vLength+= 3;
+        }
+        else if (line.length > 1 && [line characterAtIndex:0] == 'f'){
+            
+            fLength+= 9;
+        }
     }
+    float vArray[vLength];
+    float nArray[nLength];
+    float tArray[tLength];
+    int fArray[fLength];
+    int tCount = 0;
+    int vCount = 0;
+    int nCount = 0;
+    int fCount = 0;
+    int i = 0;
+    NSScanner *scanner;
+    
+    
+    
+    //populate the vtnf arrays with values from the obj file
+    for (NSString* line in allLinedStrings) {
+        scanner = [NSScanner scannerWithString:line];
+        
+        if (line.length > 1 && [line characterAtIndex:0] == 'v' && [line characterAtIndex:1] == 't') {
+            [scanner scanUpToString:@" " intoString:NULL];
+            
+            for(i = 0; i < 2; i++){
+                [scanner setScanLocation:[scanner scanLocation] + 1];
+                [scanner scanFloat:&tArray[tCount]];
+                tCount++;
+            }
+        }
+        else if (line.length > 1 && [line characterAtIndex:0] == 'v' && [line characterAtIndex:1] == 'n') {
+            [scanner scanUpToString:@" " intoString:NULL];
+            
+            for(i = 0; i < 3; i++){
+                [scanner setScanLocation:[scanner scanLocation] + 1];
+                [scanner scanFloat:&nArray[nCount]];
+                nCount++;
+            }
+        }
+        else if (line.length > 1 && [line characterAtIndex:0] == 'v' && [line characterAtIndex:1] == ' ') {
+            [scanner scanUpToString:@" " intoString:NULL];
+            
+            for(i = 0; i < 3; i++){
+                [scanner setScanLocation:[scanner scanLocation] + 1];
+                [scanner scanFloat:&vArray[vCount]];
+                vCount++;
+            }
+            
+        }
+        else if (line.length > 1 && [line characterAtIndex:0] == 'f'){
+            [scanner scanUpToString:@" " intoString:NULL];
+            
+            for(i = 0; i <9; i++){
+                [scanner setScanLocation:[scanner scanLocation] + 1];
+                [scanner scanInt:&fArray[fCount]];
+                fCount++;
+            }
+        }
+    }
+    //build the combined vnt array based on the vertices specified in the fArray
+    float mixedArray[(fLength/3)*8];
+    int mCount = 0;
+    vCount = 0;
+    tCount = 0;
+    nCount = 0;
+    tCount = 0;
+    for(i=0; i < fLength; i++){
+        if(i%3 == 0){
+            mixedArray[mCount] = vArray[(fArray[i]-1)*3];
+            mCount++;
+            mixedArray[mCount] = vArray[(fArray[i]-1)*3 + 1];
+            mCount++;
+            mixedArray[mCount] = vArray[(fArray[i]-1)*3 + 2];
+            mCount++;
+        }
+        else if(i%3 == 2){
+            mixedArray[mCount] = nArray[(fArray[i]-1)*3];
+            mCount++;
+            mixedArray[mCount] = nArray[(fArray[i]-1)*3 + 1];
+            mCount++;
+            mixedArray[mCount] = nArray[(fArray[i]-1)*3 + 2];
+            mCount++;
+        }
+        else if(i%3 == 1){
+            mixedArray[mCount] = tArray[(fArray[i]-1)*2];
+            mCount++;
+            mixedArray[mCount] = 1-tArray[(fArray[i]-1)*2 + 1];
+            mCount++;
+        }
+    }
+    
+    VertexInfo vertexInfoStruct;
+    vertexInfoStruct.length = fLength/3;
+    //NSLog(@"%u", vertexInfoStruct.length);
+    
+    glGenVertexArraysOES(1, &vertexInfoStruct.vArray);
+    glBindVertexArrayOES(vertexInfoStruct.vArray);
+    
+    glGenBuffers(1, &vertexInfoStruct.vBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexInfoStruct.vBuffer);
     
     //load array into buffer
     glBufferData(GL_ARRAY_BUFFER, sizeof(mixedArray), mixedArray, GL_STATIC_DRAW);
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 32, BUFFER_OFFSET(0));
+    
+    glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
+    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 32, BUFFER_OFFSET(12));
+    
     glEnableVertexAttribArray(GLKVertexAttribNormal);
-    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
+    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 32, BUFFER_OFFSET(20));
+    
     
     glBindVertexArrayOES(0);
-
+    
+    // Load in and set texture
+    vertexInfoStruct.textureHandle = [self setupTexture:textureName];
+    
+    return vertexInfoStruct;
+    
 }
-
 
 - (void)setupBackground
 {
@@ -805,6 +983,7 @@ enum
     // This needs to be done prior to linking.
     glBindAttribLocation(_program, GLKVertexAttribPosition, "position");
     glBindAttribLocation(_program, GLKVertexAttribNormal, "normal");
+    glBindAttribLocation(_program, GLKVertexAttribTexCoord0, "texCoordIn");
     
     // Link program.
     if (![self linkProgram:_program]) {
@@ -924,7 +1103,8 @@ enum
 }
 
 #pragma mark -  OpenGL ES 2 textures and stuff
-
+/*
+//setup texture for background
 -(GLuint)setupTexture:(NSString *)fileName {
 
     //load CGimage
@@ -958,6 +1138,37 @@ enum
     
     free(glTexData);
     return glTexName;
+}
+ */
+- (GLuint)setupTexture:(NSString *)fileName
+{
+    CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
+    if (!spriteImage) {
+        NSLog(@"Failed to load image %@", fileName);
+        exit(1);
+    }
+    
+    size_t width = CGImageGetWidth(spriteImage);
+    size_t height = CGImageGetHeight(spriteImage);
+    
+    GLubyte *spriteData = (GLubyte *) calloc(width*height*4, sizeof(GLubyte));
+    
+    CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4, CGImageGetColorSpace(spriteImage), kCGImageAlphaPremultipliedLast);
+    
+    CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), spriteImage);
+    
+    CGContextRelease(spriteContext);
+    
+    GLuint texName;
+    glGenTextures(1, &texName);
+    glBindTexture(GL_TEXTURE_2D, texName);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
+    
+    free(spriteData);
+    return texName;
 }
 
 #pragma mark - MBQ utility methods
