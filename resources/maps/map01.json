@@ -8,20 +8,12 @@
     {
       "type": "EnemyObject",
       "x": 360,
-      "y": 1600,
-      "z": 64,
-      "scaleX": 2.5,
-      "rotX": 1.6,
-      "rotY": 1.6
+      "y": 1600
     },
       {
       "type": "WallObject",
       "x": 360,
-      "y": 600,
-      "scaleX": 600,
-      "scaleY": 1.5,
-      "scaleZ": 5.5,
-      "size":128
+      "y": 600
       },
       {
       "type": "EnemyObject",
@@ -31,8 +23,7 @@
       {
       "type": "EnemyObject",
       "x": 600,
-      "y": 400,
-      "texture":"tex_bgtest.png"
+      "y": 400
       }
   ]
 }
