@@ -61,6 +61,7 @@ typedef struct
 
 -(bool)checkCollisionBetweenObject:(GameObject *)one and:(GameObject *)two; //MICHAEL'S Collision function declaration
 -(void)onCollision:(GameObject*)otherObject;
+-(void)takeDamage:(float)damage;
 -(void)destroy;
 
 @end

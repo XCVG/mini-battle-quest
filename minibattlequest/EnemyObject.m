@@ -180,18 +180,6 @@
     }
 }
 
--(void)takeDamage:(float)damage
-{
-    self.health -= damage;
-    NSLog(@"Ouch! Health: %f",self.health);
-    
-    if (self.health <= 0)
-    {
-        NSLog(@"I dun gone died!");
-        [self destroy];
-    }
-}
-
 -(void)decideAction
 {
     float diceRoll = (double)arc4random() / UINT32_MAX;

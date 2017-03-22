@@ -78,4 +78,14 @@
     self.enabled = NO;
 }
 
+-(void)takeDamage:(float)damage
+{
+    self.health -= damage;
+    
+    if (self.health <= 0)
+    {
+        [self destroy];
+    }
+}
+
 @end

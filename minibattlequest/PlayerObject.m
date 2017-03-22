@@ -167,11 +167,14 @@
         self.state = STATE_BOUNCING;
         self.velocity = GLKVector2Make(-self.velocity.x*PLAYER_BOUNCE_FACTOR, -self.velocity.y*PLAYER_BOUNCE_FACTOR);
     }
+    /* If the other thing is an arrow and I don't have my shield up, damage me! */
+    else if ([otherObject isKindOfClass:[ArrowObject class]] && self.isUsingWeapon)
+    {
+        ArrowObject * myArrow = (ArrowObject*)otherObject;
+        [self takeDamage:myArrow.damage];
+        NSLog(@"Player Health: %f", self.health);
+    }
     
-    /*  --- TODO : READ ME! ---
-        When implementing taking damage from enemies, check self.isUsingWeapon. 
-        if (self.isUsingWeapon == NO), then the player's shield is up, and we should 
-        take no damage! */
 }
 
 //check health
