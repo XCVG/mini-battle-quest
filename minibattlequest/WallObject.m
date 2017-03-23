@@ -28,8 +28,8 @@
     self.movable = false;
     self.size = 64.0f;
     self.scale = GLKVector3Make(WALL_DEFAULT_SCALE, WALL_DEFAULT_SCALE, WALL_DEFAULT_SCALE);
-    self.modelName = @"EnemyWizard";
-    self.textureName = @"EnemyWizard_Texture.png";
+    self.modelName = @"crateCube";
+    self.textureName = @"crate.jpg";
     return self;
 }
 
