@@ -50,6 +50,9 @@
     _moveSpeed = DEFAULT_MOVE_SPEED;
     _arrowVelocity = ENEMY_DEFAULT_ARROWVELOCITY;
     _arrowDamageOverride = -1;
+    self.modelName = @"EnemyWizard";
+    self.textureName = @"EnemyWizard_Texture.png";
+    
     return self;
 }
 

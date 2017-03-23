@@ -8,26 +8,22 @@
     {
       "type": "EnemyObject",
       "x": 360,
-      "y": 1600,
-      "state": "dormant"
+      "y": 1600
     },
       {
       "type": "WallObject",
       "x": 360,
-      "y": 600,
-      "state": "dormant"
+      "y": 600
       },
       {
       "type": "EnemyObject",
       "x": 32,
-      "y": 1000,
-      "state": "dormant"
+      "y": 1000
       },
       {
       "type": "EnemyObject",
       "x": 600,
-      "y": 400,
-      "state": "dormant"
+      "y": 400
       }
   ]
 }

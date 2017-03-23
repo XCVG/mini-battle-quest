@@ -59,6 +59,44 @@
         pos.y = [(NSNumber*)[object valueForKey:@"y"] floatValue];
         go.position =  pos;
         
+        //additional, dependent modifiers
+        if([object objectForKey:@"z"])
+            go.position = GLKVector3Make(pos.x, pos.y, [(NSNumber*)[object valueForKey:@"z"] floatValue]);
+        
+        if([object objectForKey:@"scaleX"])
+            go.scale = GLKVector3Make([(NSNumber*)[object valueForKey:@"scaleX"] floatValue], go.scale.y, go.scale.z);
+        
+        if([object objectForKey:@"scaleY"])
+            go.scale = GLKVector3Make(go.scale.x, [(NSNumber*)[object valueForKey:@"scaleY"] floatValue], go.scale.z);
+        
+        if([object objectForKey:@"scaleZ"])
+            go.scale = GLKVector3Make(go.scale.x, go.scale.y, [(NSNumber*)[object valueForKey:@"scaleZ"] floatValue]);
+        
+        if([object objectForKey:@"rotX"])
+            go.rotation = GLKVector3Make([(NSNumber*)[object valueForKey:@"rotX"] floatValue], go.rotation.y, go.rotation.z);
+        
+        if([object objectForKey:@"rotY"])
+            go.rotation = GLKVector3Make(go.rotation.x, [(NSNumber*)[object valueForKey:@"rotY"] floatValue], go.rotation.z);
+        
+        if([object objectForKey:@"rotZ"])
+            go.rotation = GLKVector3Make(go.rotation.x, go.rotation.y, [(NSNumber*)[object valueForKey:@"rotZ"] floatValue]);
+        
+        if([object objectForKey:@"texture"])
+            go.textureName = [object valueForKey:@"texture"];
+        
+        if([object objectForKey:@"model"])
+            go.modelName = [object valueForKey:@"model"];
+        
+        if([object objectForKey:@"health"])
+        {
+            float newHealth = [(NSNumber*)[object valueForKey:@"health"] floatValue];
+            go.maxHealth = newHealth;
+            go.health = newHealth;
+        }
+        
+        if([object objectForKey:@"size"])
+            go.size = [(NSNumber*)[object valueForKey:@"size"] floatValue];
+        
         [objects addObject:go];
     }
     

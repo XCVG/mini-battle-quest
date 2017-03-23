@@ -52,6 +52,8 @@
     self.modelRotation = GLKVector3Make(0.8f, 3.14f, 0.0f);
     _moveSpeed = DEFAULT_MOVE_SPEED;
     _isUsingWeapon = NO;
+    self.modelName = @"player";
+    self.textureName = @"Player_Texture.png";
     
     return self;
 }
