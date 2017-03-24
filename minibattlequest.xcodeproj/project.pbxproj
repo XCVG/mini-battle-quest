@@ -24,6 +24,10 @@
 		6DCB13591E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB13571E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m */; };
 		6DCB135C1E54E76B00CB5AA8 /* LeaderboardScore+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB135B1E54E76B00CB5AA8 /* LeaderboardScore+Util.m */; };
 		6DCB13601E54E7D100CB5AA8 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB135F1E54E7D100CB5AA8 /* CoreDataTableViewController.m */; };
+		71E85B841E84A65000842F97 /* Bow_Texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 71E85B801E84A65000842F97 /* Bow_Texture.png */; };
+		71E85B851E84A65000842F97 /* Bow.obj in Resources */ = {isa = PBXBuildFile; fileRef = 71E85B811E84A65000842F97 /* Bow.obj */; };
+		71E85B861E84A65000842F97 /* Shield_Texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 71E85B821E84A65000842F97 /* Shield_Texture.png */; };
+		71E85B871E84A65000842F97 /* Shield.obj in Resources */ = {isa = PBXBuildFile; fileRef = 71E85B831E84A65000842F97 /* Shield.obj */; };
 		7E5D73C81E8217E40030CF97 /* player.obj in Resources */ = {isa = PBXBuildFile; fileRef = 7E5D73C71E8217E40030CF97 /* player.obj */; };
 		7E5D73CA1E8217ED0030CF97 /* Player_White.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E5D73C91E8217ED0030CF97 /* Player_White.png */; };
 		7E5D73CC1E8218470030CF97 /* EnemyWizard_Texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E5D73CB1E8218470030CF97 /* EnemyWizard_Texture.png */; };
@@ -86,6 +90,10 @@
 		6DCB135B1E54E76B00CB5AA8 /* LeaderboardScore+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LeaderboardScore+Util.m"; sourceTree = "<group>"; };
 		6DCB135E1E54E7D100CB5AA8 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
 		6DCB135F1E54E7D100CB5AA8 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
+		71E85B801E84A65000842F97 /* Bow_Texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Bow_Texture.png; path = "/Volumes/MICHAEL USB/Mini Battle Quest/Bow_Texture.png"; sourceTree = "<absolute>"; };
+		71E85B811E84A65000842F97 /* Bow.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Bow.obj; path = "../../../../../Volumes/MICHAEL USB/Mini Battle Quest/Bow.obj"; sourceTree = "<group>"; };
+		71E85B821E84A65000842F97 /* Shield_Texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Shield_Texture.png; path = "/Volumes/MICHAEL USB/Mini Battle Quest/Shield_Texture.png"; sourceTree = "<absolute>"; };
+		71E85B831E84A65000842F97 /* Shield.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Shield.obj; path = "../../../../../Volumes/MICHAEL USB/Mini Battle Quest/Shield.obj"; sourceTree = "<group>"; };
 		7E5D73C71E8217E40030CF97 /* player.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = player.obj; path = resources/models/player.obj; sourceTree = "<group>"; };
 		7E5D73C91E8217ED0030CF97 /* Player_White.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Player_White.png; path = resources/textures/Player_White.png; sourceTree = "<group>"; };
 		7E5D73CB1E8218470030CF97 /* EnemyWizard_Texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EnemyWizard_Texture.png; path = resources/textures/EnemyWizard_Texture.png; sourceTree = "<group>"; };
@@ -216,6 +224,8 @@
 		7E5D73C61E8217D50030CF97 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				71E85B811E84A65000842F97 /* Bow.obj */,
+				71E85B831E84A65000842F97 /* Shield.obj */,
 				7E5D73CF1E821FC90030CF97 /* Arrow.obj */,
 				7E6DFBE41E84428D00AE4024 /* crateCube.obj */,
 				7E5D73CD1E82184B0030CF97 /* EnemyWizard.obj */,
@@ -235,6 +245,8 @@
 		83D546B71E5E2C3D00A056F5 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				71E85B801E84A65000842F97 /* Bow_Texture.png */,
+				71E85B821E84A65000842F97 /* Shield_Texture.png */,
 				7E6DFBE61E84429800AE4024 /* crate.jpg */,
 				7E5D73D11E8227400030CF97 /* Player_Texture.png */,
 				7E5D73CB1E8218470030CF97 /* EnemyWizard_Texture.png */,
@@ -417,11 +429,14 @@
 				A79905E61E805E9B003653E3 /* mbq_img_button_action_bow.png in Resources */,
 				7E6DFBE51E84428D00AE4024 /* crateCube.obj in Resources */,
 				C2E961571E37D81A0098A95D /* Main.storyboard in Resources */,
+				71E85B841E84A65000842F97 /* Bow_Texture.png in Resources */,
 				7E5D73D01E821FC90030CF97 /* Arrow.obj in Resources */,
 				7E5D73CE1E82184B0030CF97 /* EnemyWizard.obj in Resources */,
 				DDD6BCDB1E625674007C8CCB /* QuestThroughTime.mp3 in Resources */,
+				71E85B861E84A65000842F97 /* Shield_Texture.png in Resources */,
 				7E5D73C81E8217E40030CF97 /* player.obj in Resources */,
 				7E5D73D21E8227400030CF97 /* Player_Texture.png in Resources */,
+				71E85B871E84A65000842F97 /* Shield.obj in Resources */,
 				6D50440F1E3FE7B2001F8AE6 /* mbq_icon_sword.png in Resources */,
 				7E6DFBE71E84429800AE4024 /* crate.jpg in Resources */,
 				C2E961511E37D81A0098A95D /* Shader.vsh in Resources */,
@@ -431,6 +446,7 @@
 				83D546BB1E5E2C5800A056F5 /* tex_bgtest.png in Resources */,
 				830058DF1E74FAA300405A91 /* tex_bg_grass.png in Resources */,
 				6D50440B1E3FE7B2001F8AE6 /* mbq_home_bg.png in Resources */,
+				71E85B851E84A65000842F97 /* Bow.obj in Resources */,
 				985689B91E662D7F00D0A8D5 /* ShootArrow.mp3 in Resources */,
 				C2E961591E37D81A0098A95D /* Assets.xcassets in Resources */,
 				6D5044101E3FE7B2001F8AE6 /* mbq_title_logo_clear.png in Resources */,
