@@ -35,7 +35,7 @@ void main()
 //  Copyright © 2017 Denis Turitsa. All rights reserved.
 //
 
-precision mediump float;
+//precision mediump float;
 
 attribute vec4 position;
 attribute vec3 normal;
