@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "ArrowObject.h"
 
-//#define ARROW_DEFAULT_SCALE 35.0f
-#define ARROW_DEFAULT_SCALE 13.0f
+#define ARROW_DEFAULT_SCALE 35.0f
+
 
 @interface ArrowObject()
 {
@@ -38,8 +38,8 @@
     
 //    self.modelName = @"Arrow";
 //    self.textureName = @"EnemyWizard_Texture.png";
-    self.modelName = @"Fireball";
-    self.textureName = @"Fireball_Texture.png";
+    self.modelName = @"Arrow";
+    self.textureName = @"crate.jpg";
     
     return self;
 }

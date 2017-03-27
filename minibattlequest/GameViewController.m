@@ -83,7 +83,7 @@ enum
     GLKMatrix3 _normalMatrix;
     float _rotation;
     
-    VertexInfo playerVert, enemyVert, arrowVert;
+    VertexInfo fireBallVert, arrowVert;
     
     // Lighting parameters
     GLKVector3 flashlightPosition;
@@ -313,18 +313,16 @@ enum
     fogColor = GLKVector4Make(0.5f, 0.5f, 0.5f, 1);
     ambientComponent = GLKVector4Make(0.5, 0.5, 0.5, 1.0);
     
-
     [self loadBGShaders]; //load background shader
-    
-    //useless GLKit stuff
-    self.effect = [[GLKBaseEffect alloc] init];
-    self.effect.light0.enabled = GL_TRUE;
-    self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
     
     [self setupBackground]; //actually setup the background
     
     glEnable(GL_DEPTH_TEST);
+    
 
+    //setup vertex buffers for projectiles so you don't have to remake them every time you shoot
+    arrowVert = [self loadModel :@"Arrow" :@"crate.jpg"];
+    fireBallVert = [self loadModel :@"Fireball" :@"Fireball_Texture.png"];
 }
 
 -(void)calculateRatios
@@ -351,11 +349,11 @@ enum
     
     //TODO Loop this
     //teardown vertex arrays and buffers
-    glDeleteBuffers(1, &playerVert.vBuffer);
-    glDeleteVertexArraysOES(1, &playerVert.vArray);
     
-    glDeleteBuffers(1, &enemyVert.vBuffer);
-    glDeleteVertexArraysOES(1, &enemyVert.vArray);
+   // glDeleteBuffers(1, &playerVert.vBuffer);
+    //glDeleteVertexArraysOES(1, &playerVert.vArray);
+    
+
     
     self.effect = nil;
     
@@ -390,9 +388,16 @@ enum
 //Associate gameobjects with models
 -(void)bindObject:(GameObject*)object
 {
-    NSLog(@"Binding GL for: %@", NSStringFromClass([object class]));
 
-    object.modelHandle = [self loadModel :object.modelName :object.textureName];
+    NSLog(@"Binding GL for: %@", NSStringFromClass([object class]));
+    if([object.modelName  isEqual: @"Arrow"]){
+        object.modelHandle = arrowVert;
+    }else if([object.modelName  isEqual: @"Fireball"]){
+        object.modelHandle = fireBallVert;
+    }else{
+        object.modelHandle = [self loadModel :object.modelName :object.textureName];
+    }
+    
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods
@@ -418,7 +423,7 @@ enum
             {
                 [self endRound];
             }
-            
+
             [_gameObjects removeObjectAtIndex:i];
         }
     }
@@ -545,8 +550,6 @@ enum
         }
         
     }
-    //what does this line do?
-    //glBindVertexArrayOES(enemyVert.vArray);
 }
 
 -(void)renderObject:(GameObject*)gameObject
@@ -567,8 +570,12 @@ enum
     //GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
     GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(gameObject.position.x, gameObject.position.y, 1.5f);
     
-   // modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-   // _rotation += self.timeSinceLastUpdate * 0.1f;
+    if([gameObject isKindOfClass:[ArrowObject class]]){
+        modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
+        _rotation += self.timeSinceLastUpdate * 2.0f;
+
+    }
+    
     
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.rotation.x+gameObject.modelRotation.x, 1, 0,0);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.rotation.y+gameObject.modelRotation.y, 0, 1,0);

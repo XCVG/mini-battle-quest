@@ -132,16 +132,18 @@
                     self.velocity = GLKVector2Make(0, 0);
                     self.state = STATE_IDLING;
                 }
-                
             }
             break;
         case STATE_FIRING:
             {
-                //fire an arrow
                 GLKVector2 vector = GLKVector2Make(0.0f, -_arrowVelocity);
                 ArrowObject *arrow = [self fireArrow:vector intoList:data->newObjectArray];
                 if(_arrowDamageOverride>0)
                     arrow.damage = _arrowDamageOverride;
+                
+                arrow.modelName = @"Fireball";
+                arrow.textureName = @"Fireball_Texture.png";
+                arrow.scale = GLKVector3Make(10.0f, 10.0f, 10.0f);
                 self.state = STATE_IDLING;
             }
             break;
