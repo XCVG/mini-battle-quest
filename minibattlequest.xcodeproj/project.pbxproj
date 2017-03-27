@@ -32,6 +32,8 @@
 		7E5D73D21E8227400030CF97 /* Player_Texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E5D73D11E8227400030CF97 /* Player_Texture.png */; };
 		7E6DFBE51E84428D00AE4024 /* crateCube.obj in Resources */ = {isa = PBXBuildFile; fileRef = 7E6DFBE41E84428D00AE4024 /* crateCube.obj */; };
 		7E6DFBE71E84429800AE4024 /* crate.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7E6DFBE61E84429800AE4024 /* crate.jpg */; };
+		7EBEC0801E88955800089352 /* Fireball.obj in Resources */ = {isa = PBXBuildFile; fileRef = 7EBEC07F1E88955800089352 /* Fireball.obj */; };
+		7EBEC0821E88956100089352 /* Fireball_Texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EBEC0811E88956100089352 /* Fireball_Texture.png */; };
 		830058DF1E74FAA300405A91 /* tex_bg_grass.png in Resources */ = {isa = PBXBuildFile; fileRef = 830058DE1E74FAA300405A91 /* tex_bg_grass.png */; };
 		83D367731E62517300784CD8 /* ArrowObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D367721E62517300784CD8 /* ArrowObject.m */; };
 		83D546A91E5E2BD500A056F5 /* WallObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D546A61E5E2BD500A056F5 /* WallObject.m */; };
@@ -94,6 +96,8 @@
 		7E5D73D11E8227400030CF97 /* Player_Texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Player_Texture.png; path = resources/textures/Player_Texture.png; sourceTree = "<group>"; };
 		7E6DFBE41E84428D00AE4024 /* crateCube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = crateCube.obj; path = resources/models/crateCube.obj; sourceTree = "<group>"; };
 		7E6DFBE61E84429800AE4024 /* crate.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = crate.jpg; path = resources/textures/crate.jpg; sourceTree = "<group>"; };
+		7EBEC07F1E88955800089352 /* Fireball.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Fireball.obj; path = resources/models/Fireball.obj; sourceTree = "<group>"; };
+		7EBEC0811E88956100089352 /* Fireball_Texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Fireball_Texture.png; path = resources/textures/Fireball_Texture.png; sourceTree = "<group>"; };
 		830058DE1E74FAA300405A91 /* tex_bg_grass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tex_bg_grass.png; path = resources/textures/tex_bg_grass.png; sourceTree = "<group>"; };
 		83D367711E62517300784CD8 /* ArrowObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrowObject.h; sourceTree = "<group>"; };
 		83D367721E62517300784CD8 /* ArrowObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrowObject.m; sourceTree = "<group>"; };
@@ -216,6 +220,7 @@
 		7E5D73C61E8217D50030CF97 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7EBEC07F1E88955800089352 /* Fireball.obj */,
 				7E5D73CF1E821FC90030CF97 /* Arrow.obj */,
 				7E6DFBE41E84428D00AE4024 /* crateCube.obj */,
 				7E5D73CD1E82184B0030CF97 /* EnemyWizard.obj */,
@@ -235,6 +240,7 @@
 		83D546B71E5E2C3D00A056F5 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				7EBEC0811E88956100089352 /* Fireball_Texture.png */,
 				7E6DFBE61E84429800AE4024 /* crate.jpg */,
 				7E5D73D11E8227400030CF97 /* Player_Texture.png */,
 				7E5D73CB1E8218470030CF97 /* EnemyWizard_Texture.png */,
@@ -413,6 +419,7 @@
 			files = (
 				6D50440E1E3FE7B2001F8AE6 /* mbq_icon_shield.png in Resources */,
 				6D50440C1E3FE7B2001F8AE6 /* mbq_icon_bow.png in Resources */,
+				7EBEC0801E88955800089352 /* Fireball.obj in Resources */,
 				6D5044121E3FE7B2001F8AE6 /* mbq_title_logo.png in Resources */,
 				A79905E61E805E9B003653E3 /* mbq_img_button_action_bow.png in Resources */,
 				7E6DFBE51E84428D00AE4024 /* crateCube.obj in Resources */,
@@ -422,6 +429,7 @@
 				DDD6BCDB1E625674007C8CCB /* QuestThroughTime.mp3 in Resources */,
 				7E5D73C81E8217E40030CF97 /* player.obj in Resources */,
 				7E5D73D21E8227400030CF97 /* Player_Texture.png in Resources */,
+				7EBEC0821E88956100089352 /* Fireball_Texture.png in Resources */,
 				6D50440F1E3FE7B2001F8AE6 /* mbq_icon_sword.png in Resources */,
 				7E6DFBE71E84429800AE4024 /* crate.jpg in Resources */,
 				C2E961511E37D81A0098A95D /* Shader.vsh in Resources */,
