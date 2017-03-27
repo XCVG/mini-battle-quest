@@ -124,6 +124,8 @@ enum
     //game variables
     NSMutableArray *_gameObjects;
     PlayerObject *_player;
+    GameObject *_shield;
+    GameObject *_bow;
     NSMutableArray *_gameObjectsInView;
     NSMutableArray *_gameObjectsToAdd;
     
@@ -243,6 +245,21 @@ enum
     _player.modelName = @"player";
     _player.textureName = @"Player_Texture.png";
     
+    _shield = [[GameObject alloc] init];
+    [_gameObjectsToAdd addObject:_shield];
+    _shield.position = GLKVector3Make(360.0f, 240.0f, 0.0f);
+    _shield.rotation = GLKVector3Make(1.0f,0,0);
+    _shield.scale = GLKVector3Make(50.0f, 50.0f, 50.0f);
+    _shield.modelName = @"Shield";
+    _shield.textureName = @"Shield_Texture.png";
+    
+//    _bow = [[GameObject alloc] init];
+//    [_gameObjectsToAdd addObject:_bow];
+//    _bow.position = GLKVector3Make(360.0f, 240.0f, 0.0f);
+//    _bow.rotation = GLKVector3Make(1.0f,0,0);
+//    _bow.scale = GLKVector3Make(50.0f, 50.0f, 50.0f);
+//    _bow.modelName = @"Bow";
+//    _bow.textureName = @"Bow_Texture.png";
     
     //load map from file
     NSLog(@"loading map from file");
@@ -524,6 +541,10 @@ enum
     /* Update score label. */
     _playerScore = (int)_player.position.y;
     [_scoreLabel setText:[NSString stringWithFormat:@"Score: %i", _playerScore]];
+    
+    /* Update Weapon positions relative to player's position. */
+    _bow.position = GLKVector3Make(_player.position.x, _player.position.y + 25.0f, _player.position.z);
+    _shield.position = GLKVector3Make(_player.position.x, _player.position.y + 50.0f, _player.position.z);
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
@@ -679,10 +700,30 @@ enum
     if (_player.isUsingWeapon)
     {
         [_toggleWeaponButton setImage:_attackButtonWeaponImage forState:UIControlStateNormal];
+        
+        //Remove shield and add the bow
+        _shield.enabled = false;
+        _bow = [[GameObject alloc] init];
+        [_gameObjectsToAdd addObject:_bow];
+        _bow.position = GLKVector3Make(360.0f, 240.0f, 0.0f);
+        _bow.rotation = GLKVector3Make(1.0f,0,0);
+        _bow.scale = GLKVector3Make(50.0f, 50.0f, 50.0f);
+        _bow.modelName = @"Bow";
+        _bow.textureName = @"Bow_Texture.png";
     }
     else
     {
         [_toggleWeaponButton setImage:_attackButtonShieldImage forState:UIControlStateNormal];
+        
+        //Remove the bow and add the shield
+        _bow.enabled = false;
+        _shield = [[GameObject alloc] init];
+        [_gameObjectsToAdd addObject:_shield];
+        _shield.position = GLKVector3Make(360.0f, 240.0f, 0.0f);
+        _shield.rotation = GLKVector3Make(1.0f,0,0);
+        _shield.scale = GLKVector3Make(50.0f, 50.0f, 50.0f);
+        _shield.modelName = @"Shield";
+        _shield.textureName = @"Shield_Texture.png";
     }
 }
 
