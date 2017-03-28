@@ -94,7 +94,6 @@ enum
     GLKVector4 specularComponent;
     GLKVector4 ambientComponent;
     GLKVector4 fogColor, fogIntensity;
-    SystemSoundID soundEffect;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -147,7 +146,6 @@ enum
     
     NSURL *bgMusicPath;
     
-    SystemSoundID HitSfx;
     SystemSoundID BowEquipSfx;
     SystemSoundID ShieldEquipSfx;
     
@@ -177,8 +175,6 @@ enum
     [self setupGL];
     
     //audio paths
-    NSString *hitSoundPath = [[NSBundle mainBundle] pathForResource:@"Hit" ofType:@"mp3"];
-    NSURL *hitSoundPathURL = [NSURL fileURLWithPath : hitSoundPath];
     
     NSString *bowEquipSoundPath = [[NSBundle mainBundle] pathForResource:@"BowEquip" ofType:@"mp3"];
     NSURL *bowEquipSoundPathURL = [NSURL fileURLWithPath : bowEquipSoundPath];
@@ -192,7 +188,6 @@ enum
     [self.backgroundMusic play];
     
     //create audio
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) hitSoundPathURL, &HitSfx);
     AudioServicesCreateSystemSoundID((__bridge CFURLRef) bowEquipSoundPathURL, &BowEquipSfx);
     AudioServicesCreateSystemSoundID((__bridge CFURLRef) shieldEquipSoundPathURL, &ShieldEquipSfx);
     
@@ -206,7 +201,6 @@ enum
     [self tearDownGame];
     [self tearDownGL];
     
-    AudioServicesDisposeSystemSoundID(HitSfx);
     AudioServicesDisposeSystemSoundID(BowEquipSfx);
     AudioServicesDisposeSystemSoundID(ShieldEquipSfx);
     
@@ -526,7 +520,6 @@ enum
                 //call oncollide function for first object only
                 //still need to make the oncollide function
                 
-                AudioServicesPlaySystemSound(HitSfx);
             }
         }
     }

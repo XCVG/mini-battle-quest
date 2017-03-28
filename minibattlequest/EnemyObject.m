@@ -38,6 +38,7 @@
     float _arrowDamageOverride;
     
     SystemSoundID FireballSfx;
+    SystemSoundID HitSfx;
 }
 
 //we should override these (are they virtual by default like Java or not like C++?)
@@ -58,7 +59,11 @@
     
     NSString *fireballSoundPath = [[NSBundle mainBundle] pathForResource:@"Fireball" ofType:@"mp3"];
     NSURL *fireballSoundPathURL = [NSURL fileURLWithPath : fireballSoundPath];
+    NSString *hitSoundPath = [[NSBundle mainBundle] pathForResource:@"Hit" ofType:@"mp3"];
+    NSURL *hitSoundPathURL = [NSURL fileURLWithPath : hitSoundPath];
+    
     AudioServicesCreateSystemSoundID((__bridge CFURLRef) fireballSoundPathURL, &FireballSfx);
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef) hitSoundPathURL, &HitSfx);
     
     return self;
 }
@@ -189,6 +194,7 @@
         //lose health points
         ArrowObject * myArrow = (ArrowObject*)otherObject;
         [self takeDamage:myArrow.damage];
+        AudioServicesPlaySystemSound(HitSfx);
     }
 }
 
