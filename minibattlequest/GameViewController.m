@@ -600,10 +600,11 @@ enum
     }
     
     
+    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, gameObject.scale.x, gameObject.scale.y, gameObject.scale.z);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.rotation.x+gameObject.modelRotation.x, 1, 0,0);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.rotation.y+gameObject.modelRotation.y, 0, 1,0);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, gameObject.rotation.z+gameObject.modelRotation.z, 0, 0,1);
-    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, gameObject.scale.x, gameObject.scale.y, gameObject.scale.z);
+    
     modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, RENDER_MODEL_SCALE, RENDER_MODEL_SCALE, RENDER_MODEL_SCALE);
     //modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 25.0f, 25.0f, 25.0f); //temp; should use object scale
     modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);

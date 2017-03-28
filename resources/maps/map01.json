@@ -1,29 +1,120 @@
 {
-  "name": "Awesome Map",
-  "music": "m_dm2ttl",
-  "length": 2560,
-  "background": "tex_bg_grass.png",
-  "background_length": 2560,
-  "objects": [
-    {
-      "type": "EnemyObject",
-      "x": 360,
-      "y": 1600
-    },
-      {
-      "type": "WallObject",
-      "x": 360,
-      "y": 600
-      },
-      {
-      "type": "EnemyObject",
-      "x": 32,
-      "y": 1000
-      },
-      {
-      "type": "EnemyObject",
-      "x": 600,
-      "y": 400
-      }
-  ]
+    "name": "Awesome Map",
+    "music": "m_dm2ttl",
+    "length": 7200,
+    "background": "tex_bg_grass.png",
+    "background_length": 2560,
+    "objects": [
+                {
+                "type": "WallObject",
+                "x": 360,
+                "y": 600,
+                "scaleY": 20,
+                "scaleX": 20,
+                "rotX": 0.5,
+                "size": 128,
+                "texture": "happyTree_Texture.png",
+                "model": "happyTree"
+                },
+                {
+                "type": "EnemyObject",
+                "x": 360,
+                "y": 1000
+                },
+                {
+                "type": "EnemyObject",
+                "x": 600,
+                "y": 400
+                },
+                {
+                "type": "WallObject",
+                "x": 32,
+                "y": 1600
+                },
+                {
+                "type": "WallObject",
+                "x": 96,
+                "y": 1600
+                },
+                {
+                "type": "EnemyObject",
+                "x": 200,
+                "y": 2000
+                },
+                {
+                "type": "EnemyObject",
+                "x": 400,
+                "y": 2000
+                },
+                {
+                "type": "EnemyObject",
+                "x": 400,
+                "y": 3200
+                },
+                {
+                "type": "EnemyObject",
+                "x": 300,
+                "y": 2800
+                },
+                {
+                "type": "EnemyObject",
+                "x": 620,
+                "y": 3400
+                },
+                {
+                "type": "EnemyObject",
+                "x": 360,
+                "y": 4800
+                },
+                {
+                "type": "EnemyObject",
+                "x": 360,
+                "y": 4600
+                },
+                {
+                "type": "EnemyObject",
+                "x": 360,
+                "y": 4400
+                },
+                {
+                "type": "EnemyObject",
+                "x": 120,
+                "y": 5500
+                },
+                {
+                "type": "EnemyObject",
+                "x": 600,
+                "y": 5500
+                },
+                {
+                "type": "WallObject",
+                "x": 32,
+                "y": 6500
+                },
+                {
+                "type": "WallObject",
+                "x": 96,
+                "y": 6500
+                },
+                {
+                "type": "WallObject",
+                "x": 688,
+                "y": 6500
+                },
+                {
+                "type": "WallObject",
+                "x": 624,
+                "y": 6500
+                },
+                {
+                "type": "EnemyObject",
+                "x": 360,
+                "y": 6800,
+                "size": 128,
+                "health": 250,
+                "scaleX": 50,
+                "scaleY": 50,
+                "scaleZ": 50
+                }
+                ]
 }
