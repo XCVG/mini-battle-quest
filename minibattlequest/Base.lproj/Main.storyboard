@@ -31,7 +31,7 @@
                                 </constraints>
                                 <state key="normal" title="START" backgroundImage="mbq_button_wide_red.png"/>
                                 <connections>
-                                    <segue destination="BV1-FR-VrT" kind="show" id="p8R-FK-7nk"/>
+                                    <segue destination="BV1-FR-VrT" kind="show" identifier="GameViewSegue" id="p8R-FK-7nk"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iAm-I5-Mqw">
@@ -86,7 +86,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="heb-PX-Eix" id="ygp-J3-DxQ">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>

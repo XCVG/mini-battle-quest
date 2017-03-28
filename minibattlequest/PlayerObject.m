@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AudioToolbox/AudioToolbox.h>
 #import "PlayerObject.h"
 #import "ArrowObject.h"
 #import "WallObject.h"
@@ -35,6 +36,8 @@
     id _currentTarget; //the enemy we want to hit
     
     float _elapsed; //elapsed; temporary for testing
+    
+    SystemSoundID ShootArrowSfx;
 }
 
 //we should override these (are they virtual by default like Java or not like C++?)
@@ -54,6 +57,10 @@
     _isUsingWeapon = NO;
     self.modelName = @"player";
     self.textureName = @"Player_Texture.png";
+    
+    NSString *shootArrowSoundPath = [[NSBundle mainBundle] pathForResource:@"ShootArrow" ofType:@"mp3"];
+    NSURL *shootArrowSoundPathURL = [NSURL fileURLWithPath : shootArrowSoundPath];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef) shootArrowSoundPathURL, &ShootArrowSfx);
     
     return self;
 }
@@ -222,6 +229,8 @@
     
     [list addObject:arrow];
     
+    AudioServicesPlaySystemSound(ShootArrowSfx);
+    
 }
 
 -(void)moveToTarget:(MBQPoint2D)newTarget
@@ -287,6 +296,11 @@
     {
         self.state = STATE_IDLING;
     }
+}
+
+-(void)dealloc
+{
+    AudioServicesDisposeSystemSoundID(ShootArrowSfx);
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AudioToolbox/AudioToolbox.h>
 #import "EnemyObject.h"
 #import "ArrowObject.h"
 
@@ -35,6 +36,8 @@
     float _moveSpeed;
     float _arrowVelocity;
     float _arrowDamageOverride;
+    
+    SystemSoundID FireballSfx;
 }
 
 //we should override these (are they virtual by default like Java or not like C++?)
@@ -52,6 +55,10 @@
     _arrowDamageOverride = -1;
     self.modelName = @"EnemyWizard";
     self.textureName = @"EnemyWizard_Texture.png";
+    
+    NSString *fireballSoundPath = [[NSBundle mainBundle] pathForResource:@"Fireball" ofType:@"mp3"];
+    NSURL *fireballSoundPathURL = [NSURL fileURLWithPath : fireballSoundPath];
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef) fireballSoundPathURL, &FireballSfx);
     
     return self;
 }
@@ -220,8 +227,15 @@
     
     [list addObject:arrow];
     
+    AudioServicesPlaySystemSound(FireballSfx);
+    
     return arrow;
     
+}
+
+-(void)dealloc
+{
+    AudioServicesDisposeSystemSoundID(FireballSfx);
 }
 
 @end

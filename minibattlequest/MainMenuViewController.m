@@ -63,4 +63,20 @@
     [self.backgroundMusic play];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.backgroundMusic play];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+    if([segue.identifier  isEqual: @"GameViewSegue"])
+    {
+        [self.backgroundMusic stop];
+        self.backgroundMusic.currentTime = 0;
+    }
+    
+}
+
 @end

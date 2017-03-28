@@ -16,6 +16,7 @@
 #import "ArrowObject.h"
 
 #import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
 
 #import "MBQDataManager.h"
 #import "LeaderboardScore+Util.h"
@@ -102,6 +103,7 @@ enum
 @property (weak, nonatomic) IBOutlet UIProgressView *playerHealthBar;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
+@property (strong, nonatomic) AVAudioPlayer *backgroundMusic;
 
 -(void)handleViewportTap:(UITapGestureRecognizer *)tapGestureRecognizer;
 - (void)setupGL;
@@ -143,8 +145,11 @@ enum
     float _screenToViewportY;
     float _screenActualHeight;
     
+    NSURL *bgMusicPath;
+    
     SystemSoundID HitSfx;
-    SystemSoundID ShootArrowSfx;
+    SystemSoundID BowEquipSfx;
+    SystemSoundID ShieldEquipSfx;
     
     /* Attack button images. */
     UIImage *_attackButtonWeaponImage;
@@ -175,12 +180,21 @@ enum
     NSString *hitSoundPath = [[NSBundle mainBundle] pathForResource:@"Hit" ofType:@"mp3"];
     NSURL *hitSoundPathURL = [NSURL fileURLWithPath : hitSoundPath];
     
-    NSString *shootArrowSoundPath = [[NSBundle mainBundle] pathForResource:@"ShootArrow" ofType:@"mp3"];
-    NSURL *shootArrowSoundPathURL = [NSURL fileURLWithPath : shootArrowSoundPath];
+    NSString *bowEquipSoundPath = [[NSBundle mainBundle] pathForResource:@"BowEquip" ofType:@"mp3"];
+    NSURL *bowEquipSoundPathURL = [NSURL fileURLWithPath : bowEquipSoundPath];
+    
+    NSString *shieldEquipSoundPath = [[NSBundle mainBundle] pathForResource:@"ShieldEquip" ofType:@"mp3"];
+    NSURL *shieldEquipSoundPathURL = [NSURL fileURLWithPath : shieldEquipSoundPath];
+    
+    bgMusicPath = [[NSBundle mainBundle] URLForResource:@"ValiantWind" withExtension:@"mp3"];
+    self.backgroundMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:bgMusicPath error:nil];
+    self.backgroundMusic.numberOfLoops = -1;
+    [self.backgroundMusic play];
     
     //create audio
     AudioServicesCreateSystemSoundID((__bridge CFURLRef) hitSoundPathURL, &HitSfx);
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) shootArrowSoundPathURL, &ShootArrowSfx);
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef) bowEquipSoundPathURL, &BowEquipSfx);
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef) shieldEquipSoundPathURL, &ShieldEquipSfx);
     
     /* Get attack button images. */
     _attackButtonWeaponImage = [UIImage imageNamed:@"mbq_img_button_action_bow.png"];
@@ -191,6 +205,10 @@ enum
 {
     [self tearDownGame];
     [self tearDownGL];
+    
+    AudioServicesDisposeSystemSoundID(HitSfx);
+    AudioServicesDisposeSystemSoundID(BowEquipSfx);
+    AudioServicesDisposeSystemSoundID(ShieldEquipSfx);
     
     if ([EAGLContext currentContext] == self.context) {
         [EAGLContext setCurrentContext:nil];
@@ -703,6 +721,7 @@ enum
     if (_player.isUsingWeapon)
     {
         [_toggleWeaponButton setImage:_attackButtonWeaponImage forState:UIControlStateNormal];
+        AudioServicesPlaySystemSound(BowEquipSfx);
         
         //Put bow infront, and but shield on your back
         _bow.rotation = GLKVector3Make(1.0f,0,0.5f);
@@ -716,6 +735,7 @@ enum
     else
     {
         [_toggleWeaponButton setImage:_attackButtonShieldImage forState:UIControlStateNormal];
+        AudioServicesPlaySystemSound(ShieldEquipSfx);
         
         //Put shield infront, and but bow on your back
         _shield.rotation = GLKVector3Make(1.0f,0,0);
