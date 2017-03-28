@@ -250,10 +250,8 @@ enum
     _shield.position = GLKVector3Make(360.0f, 240.0f, 0.0f);
     _shield.rotation = GLKVector3Make(1.0f,0,0);
     _shield.scale = GLKVector3Make(50.0f, 50.0f, 50.0f);
-    //_shield.modelName = @"Shield";
-    //_shield.textureName = @"Shield_Texture.png";
-    _shield.modelName = @"crateCube";
-    _shield.textureName = @"crate.jpg";
+    _shield.modelName = @"Shield";
+    _shield.textureName = @"Shield_Texture.png";
     
 //    _bow = [[GameObject alloc] init];
 //    [_gameObjectsToAdd addObject:_bow];
@@ -273,7 +271,7 @@ enum
     _gameObjectsInView = [[NSMutableArray alloc]init];
     [self refreshGameObjectsInView];
     
-    //create player move touch handler
+    //create player move touch hand.ler
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleViewportTap:)];
     [self.view addGestureRecognizer:tapGesture];
     
@@ -710,10 +708,10 @@ enum
         _bow.position = GLKVector3Make(360.0f, 240.0f, 0.0f);
         _bow.rotation = GLKVector3Make(1.0f,0,0);
         _bow.scale = GLKVector3Make(50.0f, 50.0f, 50.0f);
-        //_bow.modelName = @"Bow";
-        //_bow.textureName = @"Bow_Texture.png";
-        _bow.modelName = @"crateCube";
-        _bow.textureName = @"crate.jpg";
+        _bow.modelName = @"Bow";
+        _bow.textureName = @"Bow_Texture.png";
+//        _bow.modelName = @"crateCube";
+//        _bow.textureName = @"crate.jpg";
     }
     else
     {
@@ -726,10 +724,10 @@ enum
         _shield.position = GLKVector3Make(360.0f, 240.0f, 0.0f);
         _shield.rotation = GLKVector3Make(1.0f,0,0);
         _shield.scale = GLKVector3Make(50.0f, 50.0f, 50.0f);
-        //_shield.modelName = @"Shield";
-        //_shield.textureName = @"Shield_Texture.png";
-        _shield.modelName = @"crateCube";
-        _shield.textureName = @"crate.jpg";
+        _shield.modelName = @"Shield";
+        _shield.textureName = @"Shield_Texture.png";
+//        _shield.modelName = @"crateCube";
+//        _shield.textureName = @"crate.jpg";
     }
 }
 

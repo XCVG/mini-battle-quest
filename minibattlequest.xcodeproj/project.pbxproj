@@ -24,6 +24,10 @@
 		6DCB13591E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB13571E54E6C300CB5AA8 /* LeaderboardScore+CoreDataProperties.m */; };
 		6DCB135C1E54E76B00CB5AA8 /* LeaderboardScore+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB135B1E54E76B00CB5AA8 /* LeaderboardScore+Util.m */; };
 		6DCB13601E54E7D100CB5AA8 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB135F1E54E7D100CB5AA8 /* CoreDataTableViewController.m */; };
+		71BF4B431E89E2C100F5A572 /* Shield.obj in Resources */ = {isa = PBXBuildFile; fileRef = 71BF4B421E89E2C100F5A572 /* Shield.obj */; };
+		71BF4B451E89E2DA00F5A572 /* Bow.obj in Resources */ = {isa = PBXBuildFile; fileRef = 71BF4B441E89E2DA00F5A572 /* Bow.obj */; };
+		71BF4B4C1E89E5F200F5A572 /* Bow_Texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 71BF4B4A1E89E5F200F5A572 /* Bow_Texture.png */; };
+		71BF4B4D1E89E5F200F5A572 /* Shield_Texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 71BF4B4B1E89E5F200F5A572 /* Shield_Texture.png */; };
 		7E5D73C81E8217E40030CF97 /* player.obj in Resources */ = {isa = PBXBuildFile; fileRef = 7E5D73C71E8217E40030CF97 /* player.obj */; };
 		7E5D73CA1E8217ED0030CF97 /* Player_White.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E5D73C91E8217ED0030CF97 /* Player_White.png */; };
 		7E5D73CC1E8218470030CF97 /* EnemyWizard_Texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E5D73CB1E8218470030CF97 /* EnemyWizard_Texture.png */; };
@@ -88,6 +92,10 @@
 		6DCB135B1E54E76B00CB5AA8 /* LeaderboardScore+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LeaderboardScore+Util.m"; sourceTree = "<group>"; };
 		6DCB135E1E54E7D100CB5AA8 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
 		6DCB135F1E54E7D100CB5AA8 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
+		71BF4B421E89E2C100F5A572 /* Shield.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Shield.obj; path = resources/models/Shield.obj; sourceTree = "<group>"; };
+		71BF4B441E89E2DA00F5A572 /* Bow.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Bow.obj; path = resources/models/Bow.obj; sourceTree = "<group>"; };
+		71BF4B4A1E89E5F200F5A572 /* Bow_Texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Bow_Texture.png; path = resources/textures/Bow_Texture.png; sourceTree = "<group>"; };
+		71BF4B4B1E89E5F200F5A572 /* Shield_Texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Shield_Texture.png; path = resources/textures/Shield_Texture.png; sourceTree = "<group>"; };
 		7E5D73C71E8217E40030CF97 /* player.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = player.obj; path = resources/models/player.obj; sourceTree = "<group>"; };
 		7E5D73C91E8217ED0030CF97 /* Player_White.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Player_White.png; path = resources/textures/Player_White.png; sourceTree = "<group>"; };
 		7E5D73CB1E8218470030CF97 /* EnemyWizard_Texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = EnemyWizard_Texture.png; path = resources/textures/EnemyWizard_Texture.png; sourceTree = "<group>"; };
@@ -220,6 +228,8 @@
 		7E5D73C61E8217D50030CF97 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				71BF4B421E89E2C100F5A572 /* Shield.obj */,
+				71BF4B441E89E2DA00F5A572 /* Bow.obj */,
 				7EBEC07F1E88955800089352 /* Fireball.obj */,
 				7E5D73CF1E821FC90030CF97 /* Arrow.obj */,
 				7E6DFBE41E84428D00AE4024 /* crateCube.obj */,
@@ -240,6 +250,8 @@
 		83D546B71E5E2C3D00A056F5 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				71BF4B4A1E89E5F200F5A572 /* Bow_Texture.png */,
+				71BF4B4B1E89E5F200F5A572 /* Shield_Texture.png */,
 				7EBEC0811E88956100089352 /* Fireball_Texture.png */,
 				7E6DFBE61E84429800AE4024 /* crate.jpg */,
 				7E5D73D11E8227400030CF97 /* Player_Texture.png */,
@@ -389,7 +401,7 @@
 				TargetAttributes = {
 					C2E961441E37D8190098A95D = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = FZCYERA5X5;
+						DevelopmentTeam = UPKG8H324Y;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -424,13 +436,16 @@
 				A79905E61E805E9B003653E3 /* mbq_img_button_action_bow.png in Resources */,
 				7E6DFBE51E84428D00AE4024 /* crateCube.obj in Resources */,
 				C2E961571E37D81A0098A95D /* Main.storyboard in Resources */,
+				71BF4B451E89E2DA00F5A572 /* Bow.obj in Resources */,
 				7E5D73D01E821FC90030CF97 /* Arrow.obj in Resources */,
+				71BF4B431E89E2C100F5A572 /* Shield.obj in Resources */,
 				7E5D73CE1E82184B0030CF97 /* EnemyWizard.obj in Resources */,
 				DDD6BCDB1E625674007C8CCB /* QuestThroughTime.mp3 in Resources */,
 				7E5D73C81E8217E40030CF97 /* player.obj in Resources */,
 				7E5D73D21E8227400030CF97 /* Player_Texture.png in Resources */,
 				7EBEC0821E88956100089352 /* Fireball_Texture.png in Resources */,
 				6D50440F1E3FE7B2001F8AE6 /* mbq_icon_sword.png in Resources */,
+				71BF4B4C1E89E5F200F5A572 /* Bow_Texture.png in Resources */,
 				7E6DFBE71E84429800AE4024 /* crate.jpg in Resources */,
 				C2E961511E37D81A0098A95D /* Shader.vsh in Resources */,
 				83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */,
@@ -442,6 +457,7 @@
 				985689B91E662D7F00D0A8D5 /* ShootArrow.mp3 in Resources */,
 				C2E961591E37D81A0098A95D /* Assets.xcassets in Resources */,
 				6D5044101E3FE7B2001F8AE6 /* mbq_title_logo_clear.png in Resources */,
+				71BF4B4D1E89E5F200F5A572 /* Shield_Texture.png in Resources */,
 				83D546B01E5E2BE600A056F5 /* BGShader.fsh in Resources */,
 				A79905E71E805E9B003653E3 /* mbq_img_button_action_shield.png in Resources */,
 				C2E9615C1E37D81A0098A95D /* LaunchScreen.storyboard in Resources */,
@@ -597,11 +613,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = FZCYERA5X5;
+				DEVELOPMENT_TEAM = UPKG8H324Y;
 				INFOPLIST_FILE = minibattlequest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = denis.test;
+				PRODUCT_BUNDLE_IDENTIFIER = anything.something;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -610,11 +626,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = FZCYERA5X5;
+				DEVELOPMENT_TEAM = UPKG8H324Y;
 				INFOPLIST_FILE = minibattlequest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = denis.test;
+				PRODUCT_BUNDLE_IDENTIFIER = anything.something;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
