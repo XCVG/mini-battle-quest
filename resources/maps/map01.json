@@ -11,6 +11,7 @@
                 "y": 600,
                 "scaleY": 20,
                 "scaleX": 20,
+                "scaleZ": 20,
                 "rotX": 0.5,
                 "size": 128,
                 "texture": "happyTree_Texture.png",
@@ -28,13 +29,20 @@
                 },
                 {
                 "type": "WallObject",
-                "x": 32,
-                "y": 1600
+                "x": 150,
+                "y": 1500,
+                "scaleY": 20,
+                "scaleX": 20,
+                "scaleZ": 20,
+                "rotX": 0.5,
+                "size": 128,
+                "texture": "happyTree_Texture2.png",
+                "model": "happyTree"
                 },
                 {
                 "type": "WallObject",
                 "x": 96,
-                "y": 1600
+                "y": 1800
                 },
                 {
                 "type": "EnemyObject",
@@ -44,7 +52,7 @@
                 {
                 "type": "EnemyObject",
                 "x": 400,
-                "y": 2000
+                "y": 2200
                 },
                 {
                 "type": "EnemyObject",
@@ -79,7 +87,7 @@
                 {
                 "type": "EnemyObject",
                 "x": 120,
-                "y": 5500
+                "y": 5300
                 },
                 {
                 "type": "EnemyObject",
@@ -110,11 +118,12 @@
                 "type": "EnemyObject",
                 "x": 360,
                 "y": 6800,
-                "size": 128,
-                "health": 250,
-                "scaleX": 50,
-                "scaleY": 50,
-                "scaleZ": 50
+                "size": 100,
+                "health": 400,
+                "scaleX": 40,
+                "scaleY": 40,
+                "scaleZ": 40,
+                "texture": "EnemyWizard_Texture2.png"
                 }
                 ]
 }

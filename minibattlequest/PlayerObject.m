@@ -13,11 +13,12 @@
 #import "WallObject.h"
 
 #define TARGET_THRESHOLD 32.0f
-#define DEFAULT_MOVE_SPEED 160.0f
+#define DEFAULT_MOVE_SPEED 250.0f
 #define PLAYER_DEFAULT_HEALTH 500.0f
 #define PLAYER_DEFAULT_SCALE 25.0f
 #define PLAYER_BOUNCE_FACTOR 0.5f
 #define PLAYER_BOUNCE_DELAY 1.0f
+#define PLAYER_ARROW_SPEED 1000.0f
 
 @interface PlayerObject()
 {
@@ -54,6 +55,7 @@
     self.maxHealth = PLAYER_DEFAULT_HEALTH;
     self.health = PLAYER_DEFAULT_HEALTH;
     self.modelRotation = GLKVector3Make(0.8f, 3.14f, 0.0f);
+    self.size = 69.0f;
     _moveSpeed = DEFAULT_MOVE_SPEED;
     _isUsingWeapon = NO;
     self.modelName = @"player";
@@ -121,7 +123,7 @@
                 //attacking
                 
                 //for testing: fire an arrow straight up and switch back to idle
-                GLKVector2 vector = GLKVector2Make(0.0f, 500.0f);
+                GLKVector2 vector = GLKVector2Make(0.0f, PLAYER_ARROW_SPEED);
                 [self fireArrow:vector intoList:data->newObjectArray];
                 
                 [self returnToIdle];

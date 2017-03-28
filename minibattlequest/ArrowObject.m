@@ -68,7 +68,12 @@
 -(void)onCollision:(GameObject*)otherObject
 {
     NSLog(@"Arrow Hit an Object!");
-    [self destroy];
+    
+    /* Only destroy the other object if it is NOT another arrow. */
+    if (![otherObject isKindOfClass:[ArrowObject class]])
+    {
+        [self destroy];
+    }
 }
 
 @end
