@@ -17,7 +17,7 @@
 #define TARGET_THRESHOLD 32.0f
 #define DEFAULT_MOVE_SPEED 160.0f
 
-#define ENEMY_FIRE_CHANCE 0.1f
+#define ENEMY_FIRE_CHANCE 0.05f
 #define ENEMY_MOVE_CHANCE 0.1f
 #define ENEMY_ABORTMOVE_CHANCE 0.05f
 #define ENEMY_REVERSEMOVE_CHANCE 0.05f
@@ -78,7 +78,7 @@
             //do any spawning animation etc here
             
             //go straight to idle
-            self.state = STATE_IDLING;
+            self.state = STATE_DORMANT;
             break;
         case STATE_DORMANT:
             //go active when you go on screen
@@ -87,6 +87,13 @@
             break;
         case STATE_IDLING:
             {
+                if(!data->visibleOnScreen)
+                {
+                    self.state = STATE_DORMANT;
+                    break;
+                }
+                
+                
                 //decide to move or fire
                 [self decideAction];
             }

@@ -641,7 +641,7 @@
 				INFOPLIST_FILE = minibattlequest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = denis.turitsa.h;
+				PRODUCT_BUNDLE_IDENTIFIER = kevin.han;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -654,7 +654,7 @@
 				INFOPLIST_FILE = minibattlequest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = denis.turitsa.h;
+				PRODUCT_BUNDLE_IDENTIFIER = kevin.han;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
