@@ -21,6 +21,8 @@
 #import "MBQDataManager.h"
 #import "LeaderboardScore+Util.h"
 
+#import "EndgameViewController.h"
+
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 //this was, in retrospect, a really, really bad idea
@@ -35,6 +37,11 @@
 #define SCROLL_FACTOR 2.0f
 
 #define RENDER_MODEL_SCALE 1.0f
+
+#define ENEMY_SCORE_VALUE 1000
+#define BOSS_SCORE_VALUE 5000
+
+#define ENDGAME_SEGUE_IDENTIFIER @"GameToEndgame"
 
 //TODO global and specific scale as well as default scale
 
@@ -108,7 +115,7 @@ enum
 - (void)setupGL;
 - (void)tearDownGL;
 - (bool)CheckCollision;
-- (void)endRound;
+- (void)endRoundWithPlayerVictory:(BOOL)playerWon;
 - (void)savePlayerScore;
 
 - (BOOL)loadShaders;
@@ -138,6 +145,8 @@ enum
     BOOL _running;
     
     int _playerScore;
+    int _enemyKillScore;
+    BOOL _didPlayerWin;
     
     //viewport pseudoconstants
     float _screenToViewportX;
@@ -194,6 +203,8 @@ enum
     /* Get attack button images. */
     _attackButtonWeaponImage = [UIImage imageNamed:@"mbq_img_button_action_bow.png"];
     _attackButtonShieldImage = [UIImage imageNamed:@"mbq_img_button_action_shield.png"];
+    
+    _didPlayerWin = NO;
 }
 
 - (void)dealloc
@@ -232,13 +243,6 @@ enum
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [self savePlayerScore];
 }
 
 - (void)setupGame
@@ -295,10 +299,15 @@ enum
 /**
     End the round and record the player's score when the player dies.
  */
-- (void) endRound
+- (void) endRoundWithPlayerVictory:(BOOL)playerWon
 {
-    /* Return to the main menu. */
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    _playerScore = _enemyKillScore;
+    
+    [self savePlayerScore];
+    
+    _didPlayerWin = playerWon;
+    
+    [self performSegueWithIdentifier:ENDGAME_SEGUE_IDENTIFIER sender:self];
 }
 
 /**
@@ -309,6 +318,27 @@ enum
     [[MBQDataManager instance] performWithDocument:^(UIManagedDocument *document) {
         [LeaderboardScore addScoreWithValue:_playerScore inManagedObjectContext:document.managedObjectContext];
     }];
+}
+
+/**
+    If segueing to the endgame view controller, pass the appropriate text depending on 
+    whether the player won or lost.
+ */
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.destinationViewController isKindOfClass:[EndgameViewController class]])
+    {
+        EndgameViewController *endView = (EndgameViewController *)segue.destinationViewController;
+        
+        if (_didPlayerWin)
+        {
+            endView.textToDisplay = [NSString stringWithFormat:@"A winner is you with %i points!", _playerScore];
+        }
+        else
+        {
+            endView.textToDisplay = [NSString stringWithFormat:@"Wow, what a loser, you only got %i points!", _playerScore];
+        }
+    }
 }
 
 - (void)setupGL
@@ -450,11 +480,28 @@ enum
         GameObject *go = _gameObjects[i];
         if(!go.enabled)
         {
+            /* If the boss enemhy is being removed, end the round with a win. */
+            /* WE NEED A BETTER WAY TO CHECK IF IT'S THE BOSS. */
+            if ([go isKindOfClass:[EnemyObject class]])
+            {
+                EnemyObject *enemy = (EnemyObject *)go;
+                if ([enemy.textureName isEqualToString:@"EnemyWizard_Texture2.png"])
+                {
+                    _enemyKillScore += BOSS_SCORE_VALUE;
+                    [self endRoundWithPlayerVictory:YES];
+                }
+                else
+                {
+                    _enemyKillScore += ENEMY_SCORE_VALUE;
+                }
+            }
+            
+            /* If the player is being removed, end the round with a loss. */
             if (go == _player)
             {
-                [self endRound];
+                [self endRoundWithPlayerVictory:NO];
             }
-
+            
             [_gameObjects removeObjectAtIndex:i];
         }
     }
@@ -552,7 +599,7 @@ enum
     [_playerHealthBar setProgress:(_player.health / _player.maxHealth)];
     
     /* Update score label. */
-    _playerScore = (int)_player.position.y;
+    _playerScore = _enemyKillScore;
     [_scoreLabel setText:[NSString stringWithFormat:@"Score: %i", _playerScore]];
     
     /* Update Weapon positions relative to player's position. */

@@ -57,6 +57,8 @@
 		83F92B9A1E412CF40064411B /* EnemyObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F92B991E412CF40064411B /* EnemyObject.m */; };
 		985689B71E662D6200D0A8D5 /* Hit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 985689B61E662D6200D0A8D5 /* Hit.mp3 */; };
 		985689B91E662D7F00D0A8D5 /* ShootArrow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 985689B81E662D7F00D0A8D5 /* ShootArrow.mp3 */; };
+		A7450EB91E959E100038AD57 /* EndgameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7450EB81E959E100038AD57 /* EndgameViewController.m */; };
+		A7450EBD1E95A1CA0038AD57 /* mbq_endgame_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = A7450EBC1E95A1CA0038AD57 /* mbq_endgame_bg.png */; };
 		A79905E61E805E9B003653E3 /* mbq_img_button_action_bow.png in Resources */ = {isa = PBXBuildFile; fileRef = A79905E41E805E9B003653E3 /* mbq_img_button_action_bow.png */; };
 		A79905E71E805E9B003653E3 /* mbq_img_button_action_shield.png in Resources */ = {isa = PBXBuildFile; fileRef = A79905E51E805E9B003653E3 /* mbq_img_button_action_shield.png */; };
 		C2E9614A1E37D81A0098A95D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C2E961491E37D81A0098A95D /* main.m */; };
@@ -141,6 +143,9 @@
 		83F92B9B1E412CFF0064411B /* EnemyObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnemyObject.h; sourceTree = "<group>"; };
 		985689B61E662D6200D0A8D5 /* Hit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Hit.mp3; path = resources/Audio/Hit.mp3; sourceTree = "<group>"; };
 		985689B81E662D7F00D0A8D5 /* ShootArrow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = ShootArrow.mp3; path = resources/Audio/ShootArrow.mp3; sourceTree = "<group>"; };
+		A7450EB71E959E100038AD57 /* EndgameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndgameViewController.h; sourceTree = "<group>"; };
+		A7450EB81E959E100038AD57 /* EndgameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndgameViewController.m; sourceTree = "<group>"; };
+		A7450EBC1E95A1CA0038AD57 /* mbq_endgame_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_endgame_bg.png; path = resources/ui/mbq_endgame_bg.png; sourceTree = "<group>"; };
 		A79905E41E805E9B003653E3 /* mbq_img_button_action_bow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_img_button_action_bow.png; path = resources/ui/mbq_img_button_action_bow.png; sourceTree = "<group>"; };
 		A79905E51E805E9B003653E3 /* mbq_img_button_action_shield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mbq_img_button_action_shield.png; path = resources/ui/mbq_img_button_action_shield.png; sourceTree = "<group>"; };
 		C2E961451E37D81A0098A95D /* minibattlequest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minibattlequest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -212,6 +217,7 @@
 		6D4444411E3FE3A000B9FC2B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A7450EBC1E95A1CA0038AD57 /* mbq_endgame_bg.png */,
 				A79905E41E805E9B003653E3 /* mbq_img_button_action_bow.png */,
 				A79905E51E805E9B003653E3 /* mbq_img_button_action_shield.png */,
 				83F92B901E411D8D0064411B /* mbq_button_wide_red.png */,
@@ -237,6 +243,8 @@
 				6D5044141E3FE90B001F8AE6 /* LeaderboardViewController.m */,
 				6DCB135E1E54E7D100CB5AA8 /* CoreDataTableViewController.h */,
 				6DCB135F1E54E7D100CB5AA8 /* CoreDataTableViewController.m */,
+				A7450EB71E959E100038AD57 /* EndgameViewController.h */,
+				A7450EB81E959E100038AD57 /* EndgameViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -425,7 +433,7 @@
 				TargetAttributes = {
 					C2E961441E37D8190098A95D = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = FZCYERA5X5;
+						DevelopmentTeam = 7U4LBQ6ZEV;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -482,6 +490,7 @@
 				83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */,
 				6D50440D1E3FE7B2001F8AE6 /* mbq_icon_health.png in Resources */,
 				985689B71E662D6200D0A8D5 /* Hit.mp3 in Resources */,
+				A7450EBD1E95A1CA0038AD57 /* mbq_endgame_bg.png in Resources */,
 				7E32246F1E8AE8EC00D69125 /* EnemyWizard_Texture2.png in Resources */,
 				83D546BB1E5E2C5800A056F5 /* tex_bgtest.png in Resources */,
 				830058DF1E74FAA300405A91 /* tex_bg_grass.png in Resources */,
@@ -526,6 +535,7 @@
 				83D546B21E5E2BE600A056F5 /* MapLoadHelper.m in Sources */,
 				C2E9614A1E37D81A0098A95D /* main.m in Sources */,
 				83F92B981E412BD40064411B /* PlayerObject.m in Sources */,
+				A7450EB91E959E100038AD57 /* EndgameViewController.m in Sources */,
 				83D546A91E5E2BD500A056F5 /* WallObject.m in Sources */,
 				6D2FA0D31E54D4D70064595A /* MBQData.xcdatamodeld in Sources */,
 			);
@@ -645,11 +655,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = FZCYERA5X5;
+				DEVELOPMENT_TEAM = 7U4LBQ6ZEV;
 				INFOPLIST_FILE = minibattlequest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = denis.turitsa;
+				PRODUCT_BUNDLE_IDENTIFIER = one.does.not.simply.name.a.bundle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -658,11 +668,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = FZCYERA5X5;
+				DEVELOPMENT_TEAM = 7U4LBQ6ZEV;
 				INFOPLIST_FILE = minibattlequest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = denis.turitsa;
+				PRODUCT_BUNDLE_IDENTIFIER = one.does.not.simply.name.a.bundle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
