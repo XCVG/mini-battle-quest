@@ -40,6 +40,7 @@
     
     SystemSoundID ShootArrowSfx;
     SystemSoundID HitSfx;
+    SystemSoundID BlockSfx;
 }
 
 //we should override these (are they virtual by default like Java or not like C++?)
@@ -65,9 +66,12 @@
     NSURL *shootArrowSoundPathURL = [NSURL fileURLWithPath : shootArrowSoundPath];
     NSString *hitSoundPath = [[NSBundle mainBundle] pathForResource:@"Hit" ofType:@"mp3"];
     NSURL *hitSoundPathURL = [NSURL fileURLWithPath : hitSoundPath];
+    NSString *blockSoundPath = [[NSBundle mainBundle] pathForResource:@"Block" ofType:@"mp3"];
+    NSURL *blockSoundPathURL = [NSURL fileURLWithPath : blockSoundPath];
     
     AudioServicesCreateSystemSoundID((__bridge CFURLRef) shootArrowSoundPathURL, &ShootArrowSfx);
     AudioServicesCreateSystemSoundID((__bridge CFURLRef) hitSoundPathURL, &HitSfx);
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef) blockSoundPathURL, &BlockSfx);
     
     return self;
 }
@@ -191,6 +195,10 @@
         [self takeDamage:myArrow.damage];
         NSLog(@"Player Health: %f", self.health);
         AudioServicesPlaySystemSound(HitSfx);
+    }
+    else if ([otherObject isKindOfClass:[ArrowObject class]] && !self.isUsingWeapon)
+    {
+        AudioServicesPlaySystemSound(BlockSfx);
     }
     
 }

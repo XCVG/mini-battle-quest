@@ -157,6 +157,8 @@ enum
     
     SystemSoundID BowEquipSfx;
     SystemSoundID ShieldEquipSfx;
+    SystemSoundID VictorySound;
+    SystemSoundID DefeatSound;
     
     /* Attack button images. */
     UIImage *_attackButtonWeaponImage;
@@ -191,6 +193,12 @@ enum
     NSString *shieldEquipSoundPath = [[NSBundle mainBundle] pathForResource:@"ShieldEquip" ofType:@"mp3"];
     NSURL *shieldEquipSoundPathURL = [NSURL fileURLWithPath : shieldEquipSoundPath];
     
+    NSString *victorySoundPath = [[NSBundle mainBundle] pathForResource:@"Victory" ofType:@"mp3"];
+    NSURL *victorySoundPathURL = [NSURL fileURLWithPath : victorySoundPath];
+    
+    NSString *defeatSoundPath = [[NSBundle mainBundle] pathForResource:@"Defeat" ofType:@"mp3"];
+    NSURL *defeatSoundPathURL = [NSURL fileURLWithPath : defeatSoundPath];
+    
     bgMusicPath = [[NSBundle mainBundle] URLForResource:@"ValiantWind" withExtension:@"mp3"];
     self.backgroundMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:bgMusicPath error:nil];
     self.backgroundMusic.numberOfLoops = -1;
@@ -199,6 +207,8 @@ enum
     //create audio
     AudioServicesCreateSystemSoundID((__bridge CFURLRef) bowEquipSoundPathURL, &BowEquipSfx);
     AudioServicesCreateSystemSoundID((__bridge CFURLRef) shieldEquipSoundPathURL, &ShieldEquipSfx);
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef) victorySoundPathURL, &VictorySound);
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef) defeatSoundPathURL, &DefeatSound);
     
     /* Get attack button images. */
     _attackButtonWeaponImage = [UIImage imageNamed:@"mbq_img_button_action_bow.png"];
@@ -214,6 +224,8 @@ enum
     
     AudioServicesDisposeSystemSoundID(BowEquipSfx);
     AudioServicesDisposeSystemSoundID(ShieldEquipSfx);
+    AudioServicesDisposeSystemSoundID(VictorySound);
+    AudioServicesDisposeSystemSoundID(DefeatSound);
     
     if ([EAGLContext currentContext] == self.context) {
         [EAGLContext setCurrentContext:nil];
@@ -330,13 +342,18 @@ enum
     {
         EndgameViewController *endView = (EndgameViewController *)segue.destinationViewController;
         
+        [self.backgroundMusic stop];
+        self.backgroundMusic.currentTime = 0;
+        
         if (_didPlayerWin)
         {
             endView.textToDisplay = [NSString stringWithFormat:@"A winner is you with %i points!", _playerScore];
+            AudioServicesPlaySystemSound(VictorySound);
         }
         else
         {
             endView.textToDisplay = [NSString stringWithFormat:@"Wow, what a loser, you only got %i points!", _playerScore];
+            AudioServicesPlaySystemSound(DefeatSound);
         }
     }
 }
