@@ -70,8 +70,6 @@
 		C2E961591E37D81A0098A95D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2E961581E37D81A0098A95D /* Assets.xcassets */; };
 		C2E9615C1E37D81A0098A95D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2E9615A1E37D81A0098A95D /* LaunchScreen.storyboard */; };
 		C2E961651E37D89A0098A95D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2E961641E37D89A0098A95D /* CoreData.framework */; };
-		DD13A81E1E96D32700733533 /* Block.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD13A81A1E96D32700733533 /* Block.mp3 */; };
-		DD13A81F1E96D32700733533 /* Defeat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD13A81B1E96D32700733533 /* Defeat.mp3 */; };
 		DD13A8201E96D32700733533 /* RuthlessResilience.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD13A81C1E96D32700733533 /* RuthlessResilience.mp3 */; };
 		DD13A8211E96D32700733533 /* Victory.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD13A81D1E96D32700733533 /* Victory.mp3 */; };
 		DD7501B31E8A092800325445 /* BowEquip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD7501AF1E8A092800325445 /* BowEquip.mp3 */; };
@@ -79,6 +77,8 @@
 		DD7501B51E8A092800325445 /* ShieldEquip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD7501B11E8A092800325445 /* ShieldEquip.mp3 */; };
 		DD7501B61E8A092800325445 /* ValiantWind.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD7501B21E8A092800325445 /* ValiantWind.mp3 */; };
 		DDD6BCDB1E625674007C8CCB /* QuestThroughTime.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DDD6BCDA1E625674007C8CCB /* QuestThroughTime.mp3 */; };
+		DDF67F341E9D4A40009A390C /* Block.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DDF67F321E9D4A40009A390C /* Block.mp3 */; };
+		DDF67F351E9D4A40009A390C /* Defeat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DDF67F331E9D4A40009A390C /* Defeat.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -165,8 +165,6 @@
 		C2E9615B1E37D81A0098A95D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C2E9615D1E37D81A0098A95D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2E961641E37D89A0098A95D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		DD13A81A1E96D32700733533 /* Block.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Block.mp3; sourceTree = "<group>"; };
-		DD13A81B1E96D32700733533 /* Defeat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Defeat.mp3; sourceTree = "<group>"; };
 		DD13A81C1E96D32700733533 /* RuthlessResilience.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = RuthlessResilience.mp3; sourceTree = "<group>"; };
 		DD13A81D1E96D32700733533 /* Victory.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Victory.mp3; sourceTree = "<group>"; };
 		DD7501AF1E8A092800325445 /* BowEquip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = BowEquip.mp3; path = resources/Audio/BowEquip.mp3; sourceTree = "<group>"; };
@@ -174,6 +172,8 @@
 		DD7501B11E8A092800325445 /* ShieldEquip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = ShieldEquip.mp3; path = resources/Audio/ShieldEquip.mp3; sourceTree = "<group>"; };
 		DD7501B21E8A092800325445 /* ValiantWind.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = ValiantWind.mp3; path = resources/Audio/ValiantWind.mp3; sourceTree = "<group>"; };
 		DDD6BCDA1E625674007C8CCB /* QuestThroughTime.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = QuestThroughTime.mp3; path = resources/Audio/QuestThroughTime.mp3; sourceTree = "<group>"; };
+		DDF67F321E9D4A40009A390C /* Block.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Block.mp3; sourceTree = "<group>"; };
+		DDF67F331E9D4A40009A390C /* Defeat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Defeat.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -399,8 +399,8 @@
 		DDD6BCDC1E62569A007C8CCB /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				DD13A81A1E96D32700733533 /* Block.mp3 */,
-				DD13A81B1E96D32700733533 /* Defeat.mp3 */,
+				DDF67F321E9D4A40009A390C /* Block.mp3 */,
+				DDF67F331E9D4A40009A390C /* Defeat.mp3 */,
 				DD13A81C1E96D32700733533 /* RuthlessResilience.mp3 */,
 				DD13A81D1E96D32700733533 /* Victory.mp3 */,
 				DD7501AF1E8A092800325445 /* BowEquip.mp3 */,
@@ -474,6 +474,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D50440E1E3FE7B2001F8AE6 /* mbq_icon_shield.png in Resources */,
+				DDF67F351E9D4A40009A390C /* Defeat.mp3 in Resources */,
 				6D50440C1E3FE7B2001F8AE6 /* mbq_icon_bow.png in Resources */,
 				7EBEC0801E88955800089352 /* Fireball.obj in Resources */,
 				7E3224751E8AF81500D69125 /* happyTree_Texture2.png in Resources */,
@@ -481,7 +482,6 @@
 				DD13A8211E96D32700733533 /* Victory.mp3 in Resources */,
 				7E3224711E8AF76500D69125 /* happyTree_Texture.png in Resources */,
 				6D5044121E3FE7B2001F8AE6 /* mbq_title_logo.png in Resources */,
-				DD13A81F1E96D32700733533 /* Defeat.mp3 in Resources */,
 				A79905E61E805E9B003653E3 /* mbq_img_button_action_bow.png in Resources */,
 				7E6DFBE51E84428D00AE4024 /* crateCube.obj in Resources */,
 				7E3224731E8AF76C00D69125 /* Fireball_Texture.png in Resources */,
@@ -498,13 +498,13 @@
 				7E5D73C81E8217E40030CF97 /* player.obj in Resources */,
 				7E5D73D21E8227400030CF97 /* Player_Texture.png in Resources */,
 				6D50440F1E3FE7B2001F8AE6 /* mbq_icon_sword.png in Resources */,
-				DD13A81E1E96D32700733533 /* Block.mp3 in Resources */,
 				71BF4B4C1E89E5F200F5A572 /* Bow_Texture.png in Resources */,
 				DD7501B61E8A092800325445 /* ValiantWind.mp3 in Resources */,
 				7E6DFBE71E84429800AE4024 /* crate.jpg in Resources */,
 				C2E961511E37D81A0098A95D /* Shader.vsh in Resources */,
 				83F92B911E411D8D0064411B /* mbq_button_wide_red.png in Resources */,
 				6D50440D1E3FE7B2001F8AE6 /* mbq_icon_health.png in Resources */,
+				DDF67F341E9D4A40009A390C /* Block.mp3 in Resources */,
 				985689B71E662D6200D0A8D5 /* Hit.mp3 in Resources */,
 				A7450EBD1E95A1CA0038AD57 /* mbq_endgame_bg.png in Resources */,
 				7E32246F1E8AE8EC00D69125 /* EnemyWizard_Texture2.png in Resources */,
