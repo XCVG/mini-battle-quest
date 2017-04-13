@@ -91,4 +91,16 @@
     }
 }
 
+-(void)shrink
+{
+    float rate = 0.5f;
+    self.scale = GLKVector3Make(self.scale.x - rate, self.scale.y - rate, self.scale.z - rate);
+}
+
+-(void)spin
+{
+    float rate = 0.5f;
+    self.rotation = GLKVector3Make(self.rotation.x + rate, self.rotation.y + rate, self.rotation.z + rate);
+}
+
 @end

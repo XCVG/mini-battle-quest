@@ -497,7 +497,7 @@ enum
         GameObject *go = _gameObjects[i];
         if(!go.enabled)
         {
-            /* If the boss enemhy is being removed, end the round with a win. */
+            /* If the boss enemy is being removed, end the round with a win. */
             /* WE NEED A BETTER WAY TO CHECK IF IT'S THE BOSS. */
             if ([go isKindOfClass:[EnemyObject class]])
             {

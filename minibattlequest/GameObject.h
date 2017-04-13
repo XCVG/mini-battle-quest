@@ -66,6 +66,8 @@ typedef struct
 -(void)onCollision:(GameObject*)otherObject;
 -(void)takeDamage:(float)damage;
 -(void)destroy;
+-(void)shrink;
+-(void)spin;
 
 @end
 

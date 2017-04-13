@@ -171,11 +171,13 @@
             
             break;
         case STATE_DYING:
-            //TODO death animation
-
+            [self spin];
+            [self shrink];
+            if (self.scale.x < 0.1f)
+                self.state = STATE_DEAD;
             break;
         case STATE_DEAD:
-            self.enabled = false;
+            [self destroy];
             break;
         default:
             //do nothing
@@ -244,6 +246,16 @@
     
     return arrow;
     
+}
+
+-(void)takeDamage:(float)damage
+{
+    self.health -= damage;
+    
+    if (self.health <= 0)
+    {
+        self.state = STATE_DYING;
+    }
 }
 
 -(void)dealloc
