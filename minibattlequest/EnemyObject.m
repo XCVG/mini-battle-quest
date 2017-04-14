@@ -37,6 +37,8 @@
     float _arrowVelocity;
     float _arrowDamageOverride;
     
+    bool isBoss;
+    
     SystemSoundID FireballSfx;
     SystemSoundID HitSfx;
 }
@@ -162,7 +164,7 @@
                 
                 arrow.modelName = @"Fireball";
                 arrow.textureName = @"Fireball_Texture.png";
-                arrow.scale = GLKVector3Make(10.0f, 10.0f, 10.0f);
+//                arrow.scale = GLKVector3Make(10.0f, 10.0f, 10.0f);
                 self.state = STATE_IDLING;
             }
             break;
@@ -232,10 +234,16 @@
 {
     NSLog(@"Arrow Fired by enemy!");
     
-    GameObject *arrow = [[ArrowObject alloc] init];
+    ArrowObject *arrow = [[ArrowObject alloc] init];
     
     arrow.position = GLKVector3Make(self.position.x, self.position.y-50.0f, self.position.z);
     arrow.rotation = GLKVector3Make(arrow.rotation.x, arrow.rotation.y, arrow.rotation.z+M_PI);
+    if (self.isBoss) {
+        arrow.scale = GLKVector3Make(20,20,20);
+        arrow.damage = 80;
+    }
+    else
+        arrow.scale = GLKVector3Make(10,10,10);
     
     //TODO: deal with speed/magnitude maybe?
     arrow.velocity = vector;

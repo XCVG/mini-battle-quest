@@ -84,6 +84,9 @@
         if([object objectForKey:@"texture"])
             go.textureName = [object valueForKey:@"texture"];
         
+        if([object objectForKey:@"isBoss"])
+            go.isBoss = YES;
+        
         if([object objectForKey:@"model"])
             go.modelName = [object valueForKey:@"model"];
         

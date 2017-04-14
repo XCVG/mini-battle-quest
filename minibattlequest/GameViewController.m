@@ -154,6 +154,8 @@ enum
     float _screenActualHeight;
     
     NSURL *bgMusicPath;
+    NSURL *bgBossMusicPath;
+    BOOL _bossMusic;
     
     SystemSoundID BowEquipSfx;
     SystemSoundID ShieldEquipSfx;
@@ -200,9 +202,13 @@ enum
     NSURL *defeatSoundPathURL = [NSURL fileURLWithPath : defeatSoundPath];
     
     bgMusicPath = [[NSBundle mainBundle] URLForResource:@"ValiantWind" withExtension:@"mp3"];
+    bgBossMusicPath = [[NSBundle mainBundle] URLForResource:@"RuthlessResilience" withExtension:@"mp3"];
+    
     self.backgroundMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:bgMusicPath error:nil];
     self.backgroundMusic.numberOfLoops = -1;
     [self.backgroundMusic play];
+    
+    _bossMusic = false;
     
     //create audio
     AudioServicesCreateSystemSoundID((__bridge CFURLRef) bowEquipSoundPathURL, &BowEquipSfx);
@@ -576,6 +582,14 @@ enum
     {
         for (int j=0; j < _gameObjectsInView.count ; j++)
         {
+            if(((GameObject *)[_gameObjectsInView objectAtIndex:i]).isBoss && !_bossMusic)
+            {
+                [self.backgroundMusic stop];
+                self.backgroundMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:bgBossMusicPath error:nil];
+                self.backgroundMusic.numberOfLoops = -1;
+                [self.backgroundMusic play];
+                _bossMusic = true;
+            }
             if ((((GameObject *)[_gameObjectsInView objectAtIndex:i]).solid && ((GameObject *)[_gameObjectsInView objectAtIndex:j]).solid) &&
                 [self checkCollisionBetweenObject:_gameObjectsInView[i] and:_gameObjectsInView[j]]  && _gameObjectsInView[i] != _gameObjectsInView[j])
             {

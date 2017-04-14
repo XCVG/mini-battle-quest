@@ -49,6 +49,7 @@ typedef struct
 @property BOOL solid; //collide if solid
 @property BOOL movable; //move if movable
 @property float health;
+@property bool isBoss;
 
 //used for model stuff. Now Accessed directly from here instead of using MBQobjectout bullshit
 @property VertexInfo modelHandle;

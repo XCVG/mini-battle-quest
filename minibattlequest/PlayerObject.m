@@ -19,6 +19,7 @@
 #define PLAYER_BOUNCE_FACTOR 0.5f
 #define PLAYER_BOUNCE_DELAY 1.0f
 #define PLAYER_ARROW_SPEED 1000.0f
+#define PLAYER_FIRE_RATE 1.5f
 
 @interface PlayerObject()
 {
@@ -223,7 +224,7 @@
 -(void)attackTarget
 {
     //for testing: fire an arrow every few seconds
-    if(_elapsed > 2.0f)
+    if(_elapsed > PLAYER_FIRE_RATE)
     {
         self.state = STATE_FIRING;
         
