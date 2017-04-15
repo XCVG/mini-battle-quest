@@ -237,7 +237,7 @@
 {
     NSLog(@"Arrow Fired!");
     
-    GameObject *arrow = [[ArrowObject alloc] init];
+    ArrowObject *arrow = [[ArrowObject alloc] init];
     
     arrow.position = GLKVector3Make(self.position.x, self.position.y+50.0f, self.position.z);
 

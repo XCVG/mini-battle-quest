@@ -204,8 +204,10 @@
     {
         //lose health points
         ArrowObject * myArrow = (ArrowObject*)otherObject;
-        [self takeDamage:myArrow.damage];
-        AudioServicesPlaySystemSound(HitSfx);
+        if (!myArrow.isEnemy) {
+            [self takeDamage:myArrow.damage];
+            AudioServicesPlaySystemSound(HitSfx);
+        }
     }
 }
 
@@ -238,6 +240,7 @@
     
     arrow.position = GLKVector3Make(self.position.x, self.position.y-50.0f, self.position.z);
     arrow.rotation = GLKVector3Make(arrow.rotation.x, arrow.rotation.y, arrow.rotation.z+M_PI);
+    arrow.isEnemy = true;
     if (self.isBoss) {
         arrow.scale = GLKVector3Make(20,20,20);
         arrow.damage = 80;
@@ -262,6 +265,7 @@
     
     if (self.health <= 0)
     {
+        self.solid = false;
         self.state = STATE_DYING;
     }
 }

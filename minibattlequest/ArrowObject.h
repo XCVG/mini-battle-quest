@@ -13,6 +13,7 @@
 @interface ArrowObject : GameObject
 
 @property float damage;
+@property bool isEnemy; // prevents friendly fire
 
 @end
 
