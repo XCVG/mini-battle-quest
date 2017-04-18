@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
 #import "EnemyObject.h"
 #import "ArrowObject.h"
 
@@ -29,6 +30,9 @@
     
     
 }
+
+@property (strong, nonatomic) AVAudioPlayer *enemyAudio;
+
 @end
 
 @implementation EnemyObject
@@ -39,8 +43,8 @@
     
     bool isBoss;
     
-    SystemSoundID FireballSfx;
-    SystemSoundID HitSfx;
+    NSURL *sfxFireballPath;
+    NSURL *sfxHitPath;
 }
 
 //we should override these (are they virtual by default like Java or not like C++?)
@@ -59,13 +63,10 @@
     self.modelName = @"EnemyWizard";
     self.textureName = @"EnemyWizard_Texture.png";
     
-    NSString *fireballSoundPath = [[NSBundle mainBundle] pathForResource:@"Fireball" ofType:@"mp3"];
-    NSURL *fireballSoundPathURL = [NSURL fileURLWithPath : fireballSoundPath];
-    NSString *hitSoundPath = [[NSBundle mainBundle] pathForResource:@"Hit" ofType:@"mp3"];
-    NSURL *hitSoundPathURL = [NSURL fileURLWithPath : hitSoundPath];
+    sfxFireballPath = [[NSBundle mainBundle] URLForResource:@"Fireball" withExtension:@"mp3"];
+    sfxHitPath = [[NSBundle mainBundle] URLForResource:@"Hit" withExtension:@"mp3"];
     
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) fireballSoundPathURL, &FireballSfx);
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) hitSoundPathURL, &HitSfx);
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error: nil];
     
     return self;
 }
@@ -206,7 +207,10 @@
         ArrowObject * myArrow = (ArrowObject*)otherObject;
         if (!myArrow.isEnemy) {
             [self takeDamage:myArrow.damage];
-            AudioServicesPlaySystemSound(HitSfx);
+            [self.enemyAudio stop];
+            self.enemyAudio = [[AVAudioPlayer alloc] initWithContentsOfURL:sfxHitPath error:nil];
+            self.enemyAudio.numberOfLoops = 0;
+            [self.enemyAudio play];
         }
     }
 }
@@ -253,7 +257,10 @@
     
     [list addObject:arrow];
     
-    AudioServicesPlaySystemSound(FireballSfx);
+    [self.enemyAudio stop];
+    self.enemyAudio = [[AVAudioPlayer alloc] initWithContentsOfURL:sfxFireballPath error:nil];
+    self.enemyAudio.numberOfLoops = 0;
+    [self.enemyAudio play];
     
     return arrow;
     
@@ -268,11 +275,6 @@
         self.solid = false;
         self.state = STATE_DYING;
     }
-}
-
--(void)dealloc
-{
-    AudioServicesDisposeSystemSoundID(FireballSfx);
 }
 
 @end

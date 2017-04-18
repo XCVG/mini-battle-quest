@@ -110,6 +110,7 @@ enum
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
 @property (strong, nonatomic) AVAudioPlayer *backgroundMusic;
+@property (strong, nonatomic) AVAudioPlayer *sfxEquipmentPlayer;
 
 -(void)handleViewportTap:(UITapGestureRecognizer *)tapGestureRecognizer;
 - (void)setupGL;
@@ -155,12 +156,11 @@ enum
     
     NSURL *bgMusicPath;
     NSURL *bgBossMusicPath;
+    NSURL *sfxBowEquipPath;
+    NSURL *sfxShieldEquipPath;
+    NSURL *bgVictoryPath;
+    NSURL *bgDefeatPath;
     BOOL _bossMusic;
-    
-    SystemSoundID BowEquipSfx;
-    SystemSoundID ShieldEquipSfx;
-    SystemSoundID VictorySound;
-    SystemSoundID DefeatSound;
     
     /* Attack button images. */
     UIImage *_attackButtonWeaponImage;
@@ -188,21 +188,12 @@ enum
     [self setupGL];
     
     //audio paths
-    
-    NSString *bowEquipSoundPath = [[NSBundle mainBundle] pathForResource:@"BowEquip" ofType:@"mp3"];
-    NSURL *bowEquipSoundPathURL = [NSURL fileURLWithPath : bowEquipSoundPath];
-    
-    NSString *shieldEquipSoundPath = [[NSBundle mainBundle] pathForResource:@"ShieldEquip" ofType:@"mp3"];
-    NSURL *shieldEquipSoundPathURL = [NSURL fileURLWithPath : shieldEquipSoundPath];
-    
-    NSString *victorySoundPath = [[NSBundle mainBundle] pathForResource:@"Victory" ofType:@"mp3"];
-    NSURL *victorySoundPathURL = [NSURL fileURLWithPath : victorySoundPath];
-    
-    NSString *defeatSoundPath = [[NSBundle mainBundle] pathForResource:@"Defeat" ofType:@"mp3"];
-    NSURL *defeatSoundPathURL = [NSURL fileURLWithPath : defeatSoundPath];
-    
     bgMusicPath = [[NSBundle mainBundle] URLForResource:@"ValiantWind" withExtension:@"mp3"];
     bgBossMusicPath = [[NSBundle mainBundle] URLForResource:@"RuthlessResilience" withExtension:@"mp3"];
+    sfxBowEquipPath = [[NSBundle mainBundle] URLForResource:@"BowEquip" withExtension:@"mp3"];
+    sfxShieldEquipPath = [[NSBundle mainBundle] URLForResource:@"ShieldEquip" withExtension:@"mp3"];
+    bgVictoryPath = [[NSBundle mainBundle] URLForResource:@"Victory" withExtension:@"mp3"];
+    bgDefeatPath = [[NSBundle mainBundle] URLForResource:@"Defeat" withExtension:@"mp3"];
     
     self.backgroundMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:bgMusicPath error:nil];
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error: nil];
@@ -210,12 +201,6 @@ enum
     [self.backgroundMusic play];
     
     _bossMusic = false;
-    
-    //create audio
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) bowEquipSoundPathURL, &BowEquipSfx);
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) shieldEquipSoundPathURL, &ShieldEquipSfx);
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) victorySoundPathURL, &VictorySound);
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) defeatSoundPathURL, &DefeatSound);
     
     /* Get attack button images. */
     _attackButtonWeaponImage = [UIImage imageNamed:@"mbq_img_button_action_bow.png"];
@@ -228,11 +213,6 @@ enum
 {
     [self tearDownGame];
     [self tearDownGL];
-    
-    AudioServicesDisposeSystemSoundID(BowEquipSfx);
-    AudioServicesDisposeSystemSoundID(ShieldEquipSfx);
-    AudioServicesDisposeSystemSoundID(VictorySound);
-    AudioServicesDisposeSystemSoundID(DefeatSound);
     
     if ([EAGLContext currentContext] == self.context) {
         [EAGLContext setCurrentContext:nil];
@@ -355,12 +335,20 @@ enum
         if (_didPlayerWin)
         {
             endView.textToDisplay = [NSString stringWithFormat:@"A winner is you with %i points!", _playerScore];
-            AudioServicesPlaySystemSound(VictorySound);
+            //AudioServicesPlaySystemSound(VictorySound);
+            [self.backgroundMusic stop];
+            self.backgroundMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:bgVictoryPath error:nil];
+            self.backgroundMusic.numberOfLoops = 0;
+            [self.backgroundMusic play];
         }
         else
         {
             endView.textToDisplay = [NSString stringWithFormat:@"Wow, what a loser, you only got %i points!", _playerScore];
-            AudioServicesPlaySystemSound(DefeatSound);
+            //AudioServicesPlaySystemSound(DefeatSound);
+            [self.backgroundMusic stop];
+            self.backgroundMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:bgDefeatPath error:nil];
+            self.backgroundMusic.numberOfLoops = 0;
+            [self.backgroundMusic play];
         }
     }
 }
@@ -793,7 +781,10 @@ enum
     if (_player.isUsingWeapon)
     {
         [_toggleWeaponButton setImage:_attackButtonWeaponImage forState:UIControlStateNormal];
-        AudioServicesPlaySystemSound(BowEquipSfx);
+        [self.sfxEquipmentPlayer stop];
+        self.sfxEquipmentPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:sfxBowEquipPath error:nil];
+        self.sfxEquipmentPlayer.numberOfLoops = 0;
+        [self.sfxEquipmentPlayer play];
         
         //Put bow infront, and but shield on your back
         _bow.rotation = GLKVector3Make(1.0f,0,0.5f);
@@ -807,7 +798,10 @@ enum
     else
     {
         [_toggleWeaponButton setImage:_attackButtonShieldImage forState:UIControlStateNormal];
-        AudioServicesPlaySystemSound(ShieldEquipSfx);
+        [self.sfxEquipmentPlayer stop];
+        self.sfxEquipmentPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:sfxShieldEquipPath error:nil];
+        self.sfxEquipmentPlayer.numberOfLoops = 0;
+        [self.sfxEquipmentPlayer play];
         
         //Put shield infront, and but bow on your back
         _shield.rotation = GLKVector3Make(1.0f,0,0);
