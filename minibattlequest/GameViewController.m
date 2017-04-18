@@ -205,6 +205,7 @@ enum
     bgBossMusicPath = [[NSBundle mainBundle] URLForResource:@"RuthlessResilience" withExtension:@"mp3"];
     
     self.backgroundMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:bgMusicPath error:nil];
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error: nil];
     self.backgroundMusic.numberOfLoops = -1;
     [self.backgroundMusic play];
     

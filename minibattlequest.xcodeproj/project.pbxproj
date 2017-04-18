@@ -445,7 +445,7 @@
 				TargetAttributes = {
 					C2E961441E37D8190098A95D = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 7U4LBQ6ZEV;
+						DevelopmentTeam = UPKG8H324Y;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -671,11 +671,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7U4LBQ6ZEV;
+				DEVELOPMENT_TEAM = UPKG8H324Y;
 				INFOPLIST_FILE = minibattlequest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = one.does.not.simply.name.a.bundle;
+				PRODUCT_BUNDLE_IDENTIFIER = aqswdhasfllia.dsathtqahtwygahda;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -684,11 +684,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7U4LBQ6ZEV;
+				DEVELOPMENT_TEAM = UPKG8H324Y;
 				INFOPLIST_FILE = minibattlequest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = one.does.not.simply.name.a.bundle;
+				PRODUCT_BUNDLE_IDENTIFIER = aqswdhasfllia.dsathtqahtwygahda;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
