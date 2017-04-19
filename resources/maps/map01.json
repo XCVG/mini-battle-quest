@@ -123,7 +123,8 @@
                 "scaleX": 40,
                 "scaleY": 40,
                 "scaleZ": 40,
-                "texture": "EnemyWizard_Texture2.png"
+                "texture": "EnemyWizard_Texture2.png",
+                "isBoss": true
                 }
                 ]
 }

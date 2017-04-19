@@ -21,6 +21,8 @@
 #import "MBQDataManager.h"
 #import "LeaderboardScore+Util.h"
 
+#import "EndgameViewController.h"
+
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 //this was, in retrospect, a really, really bad idea
@@ -35,6 +37,11 @@
 #define SCROLL_FACTOR 2.0f
 
 #define RENDER_MODEL_SCALE 1.0f
+
+#define ENEMY_SCORE_VALUE 1000
+#define BOSS_SCORE_VALUE 5000
+
+#define ENDGAME_SEGUE_IDENTIFIER @"GameToEndgame"
 
 //TODO global and specific scale as well as default scale
 
@@ -103,12 +110,13 @@ enum
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
 @property (strong, nonatomic) AVAudioPlayer *backgroundMusic;
+@property (strong, nonatomic) AVAudioPlayer *sfxEquipmentPlayer;
 
 -(void)handleViewportTap:(UITapGestureRecognizer *)tapGestureRecognizer;
 - (void)setupGL;
 - (void)tearDownGL;
 - (bool)CheckCollision;
-- (void)endRound;
+- (void)endRoundWithPlayerVictory:(BOOL)playerWon;
 - (void)savePlayerScore;
 
 - (BOOL)loadShaders;
@@ -138,6 +146,8 @@ enum
     BOOL _running;
     
     int _playerScore;
+    int _enemyKillScore;
+    BOOL _didPlayerWin;
     
     //viewport pseudoconstants
     float _screenToViewportX;
@@ -145,9 +155,12 @@ enum
     float _screenActualHeight;
     
     NSURL *bgMusicPath;
-    
-    SystemSoundID BowEquipSfx;
-    SystemSoundID ShieldEquipSfx;
+    NSURL *bgBossMusicPath;
+    NSURL *sfxBowEquipPath;
+    NSURL *sfxShieldEquipPath;
+    NSURL *bgVictoryPath;
+    NSURL *bgDefeatPath;
+    BOOL _bossMusic;
     
     /* Attack button images. */
     UIImage *_attackButtonWeaponImage;
@@ -175,34 +188,31 @@ enum
     [self setupGL];
     
     //audio paths
-    
-    NSString *bowEquipSoundPath = [[NSBundle mainBundle] pathForResource:@"BowEquip" ofType:@"mp3"];
-    NSURL *bowEquipSoundPathURL = [NSURL fileURLWithPath : bowEquipSoundPath];
-    
-    NSString *shieldEquipSoundPath = [[NSBundle mainBundle] pathForResource:@"ShieldEquip" ofType:@"mp3"];
-    NSURL *shieldEquipSoundPathURL = [NSURL fileURLWithPath : shieldEquipSoundPath];
-    
     bgMusicPath = [[NSBundle mainBundle] URLForResource:@"ValiantWind" withExtension:@"mp3"];
+    bgBossMusicPath = [[NSBundle mainBundle] URLForResource:@"RuthlessResilience" withExtension:@"mp3"];
+    sfxBowEquipPath = [[NSBundle mainBundle] URLForResource:@"BowEquip" withExtension:@"mp3"];
+    sfxShieldEquipPath = [[NSBundle mainBundle] URLForResource:@"ShieldEquip" withExtension:@"mp3"];
+    bgVictoryPath = [[NSBundle mainBundle] URLForResource:@"Victory" withExtension:@"mp3"];
+    bgDefeatPath = [[NSBundle mainBundle] URLForResource:@"Defeat" withExtension:@"mp3"];
+    
     self.backgroundMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:bgMusicPath error:nil];
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error: nil];
     self.backgroundMusic.numberOfLoops = -1;
     [self.backgroundMusic play];
     
-    //create audio
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) bowEquipSoundPathURL, &BowEquipSfx);
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) shieldEquipSoundPathURL, &ShieldEquipSfx);
+    _bossMusic = false;
     
     /* Get attack button images. */
     _attackButtonWeaponImage = [UIImage imageNamed:@"mbq_img_button_action_bow.png"];
     _attackButtonShieldImage = [UIImage imageNamed:@"mbq_img_button_action_shield.png"];
+    
+    _didPlayerWin = NO;
 }
 
 - (void)dealloc
 {
     [self tearDownGame];
     [self tearDownGL];
-    
-    AudioServicesDisposeSystemSoundID(BowEquipSfx);
-    AudioServicesDisposeSystemSoundID(ShieldEquipSfx);
     
     if ([EAGLContext currentContext] == self.context) {
         [EAGLContext setCurrentContext:nil];
@@ -232,13 +242,6 @@ enum
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [self savePlayerScore];
 }
 
 - (void)setupGame
@@ -295,10 +298,15 @@ enum
 /**
     End the round and record the player's score when the player dies.
  */
-- (void) endRound
+- (void) endRoundWithPlayerVictory:(BOOL)playerWon
 {
-    /* Return to the main menu. */
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    _playerScore = _enemyKillScore;
+    
+    [self savePlayerScore];
+    
+    _didPlayerWin = playerWon;
+    
+    [self performSegueWithIdentifier:ENDGAME_SEGUE_IDENTIFIER sender:self];
 }
 
 /**
@@ -309,6 +317,40 @@ enum
     [[MBQDataManager instance] performWithDocument:^(UIManagedDocument *document) {
         [LeaderboardScore addScoreWithValue:_playerScore inManagedObjectContext:document.managedObjectContext];
     }];
+}
+
+/**
+    If segueing to the endgame view controller, pass the appropriate text depending on 
+    whether the player won or lost.
+ */
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.destinationViewController isKindOfClass:[EndgameViewController class]])
+    {
+        EndgameViewController *endView = (EndgameViewController *)segue.destinationViewController;
+        
+        [self.backgroundMusic stop];
+        self.backgroundMusic.currentTime = 0;
+        
+        if (_didPlayerWin)
+        {
+            endView.textToDisplay = [NSString stringWithFormat:@"A winner is you with %i points!", _playerScore];
+            //AudioServicesPlaySystemSound(VictorySound);
+            [self.backgroundMusic stop];
+            self.backgroundMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:bgVictoryPath error:nil];
+            self.backgroundMusic.numberOfLoops = 0;
+            [self.backgroundMusic play];
+        }
+        else
+        {
+            endView.textToDisplay = [NSString stringWithFormat:@"Wow, what a loser, you only got %i points!", _playerScore];
+            //AudioServicesPlaySystemSound(DefeatSound);
+            [self.backgroundMusic stop];
+            self.backgroundMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:bgDefeatPath error:nil];
+            self.backgroundMusic.numberOfLoops = 0;
+            [self.backgroundMusic play];
+        }
+    }
 }
 
 - (void)setupGL
@@ -450,11 +492,28 @@ enum
         GameObject *go = _gameObjects[i];
         if(!go.enabled)
         {
+            /* If the boss enemy is being removed, end the round with a win. */
+            /* WE NEED A BETTER WAY TO CHECK IF IT'S THE BOSS. */
+            if ([go isKindOfClass:[EnemyObject class]])
+            {
+                EnemyObject *enemy = (EnemyObject *)go;
+                if ([enemy.textureName isEqualToString:@"EnemyWizard_Texture2.png"])
+                {
+                    _enemyKillScore += BOSS_SCORE_VALUE;
+                    [self endRoundWithPlayerVictory:YES];
+                }
+                else
+                {
+                    _enemyKillScore += ENEMY_SCORE_VALUE;
+                }
+            }
+            
+            /* If the player is being removed, end the round with a loss. */
             if (go == _player)
             {
-                [self endRound];
+                [self endRoundWithPlayerVictory:NO];
             }
-
+            
             [_gameObjects removeObjectAtIndex:i];
         }
     }
@@ -512,6 +571,14 @@ enum
     {
         for (int j=0; j < _gameObjectsInView.count ; j++)
         {
+            if(((GameObject *)[_gameObjectsInView objectAtIndex:i]).isBoss && !_bossMusic)
+            {
+                [self.backgroundMusic stop];
+                self.backgroundMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:bgBossMusicPath error:nil];
+                self.backgroundMusic.numberOfLoops = -1;
+                [self.backgroundMusic play];
+                _bossMusic = true;
+            }
             if ((((GameObject *)[_gameObjectsInView objectAtIndex:i]).solid && ((GameObject *)[_gameObjectsInView objectAtIndex:j]).solid) &&
                 [self checkCollisionBetweenObject:_gameObjectsInView[i] and:_gameObjectsInView[j]]  && _gameObjectsInView[i] != _gameObjectsInView[j])
             {
@@ -552,7 +619,7 @@ enum
     [_playerHealthBar setProgress:(_player.health / _player.maxHealth)];
     
     /* Update score label. */
-    _playerScore = (int)_player.position.y;
+    _playerScore = _enemyKillScore;
     [_scoreLabel setText:[NSString stringWithFormat:@"Score: %i", _playerScore]];
     
     /* Update Weapon positions relative to player's position. */
@@ -714,7 +781,10 @@ enum
     if (_player.isUsingWeapon)
     {
         [_toggleWeaponButton setImage:_attackButtonWeaponImage forState:UIControlStateNormal];
-        AudioServicesPlaySystemSound(BowEquipSfx);
+        [self.sfxEquipmentPlayer stop];
+        self.sfxEquipmentPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:sfxBowEquipPath error:nil];
+        self.sfxEquipmentPlayer.numberOfLoops = 0;
+        [self.sfxEquipmentPlayer play];
         
         //Put bow infront, and but shield on your back
         _bow.rotation = GLKVector3Make(1.0f,0,0.5f);
@@ -728,7 +798,10 @@ enum
     else
     {
         [_toggleWeaponButton setImage:_attackButtonShieldImage forState:UIControlStateNormal];
-        AudioServicesPlaySystemSound(ShieldEquipSfx);
+        [self.sfxEquipmentPlayer stop];
+        self.sfxEquipmentPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:sfxShieldEquipPath error:nil];
+        self.sfxEquipmentPlayer.numberOfLoops = 0;
+        [self.sfxEquipmentPlayer play];
         
         //Put shield infront, and but bow on your back
         _shield.rotation = GLKVector3Make(1.0f,0,0);

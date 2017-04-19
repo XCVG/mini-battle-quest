@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
 #import "EnemyObject.h"
 #import "ArrowObject.h"
 
@@ -29,6 +30,9 @@
     
     
 }
+
+@property (strong, nonatomic) AVAudioPlayer *enemyAudio;
+
 @end
 
 @implementation EnemyObject
@@ -37,8 +41,10 @@
     float _arrowVelocity;
     float _arrowDamageOverride;
     
-    SystemSoundID FireballSfx;
-    SystemSoundID HitSfx;
+    bool isBoss;
+    
+    NSURL *sfxFireballPath;
+    NSURL *sfxHitPath;
 }
 
 //we should override these (are they virtual by default like Java or not like C++?)
@@ -57,13 +63,10 @@
     self.modelName = @"EnemyWizard";
     self.textureName = @"EnemyWizard_Texture.png";
     
-    NSString *fireballSoundPath = [[NSBundle mainBundle] pathForResource:@"Fireball" ofType:@"mp3"];
-    NSURL *fireballSoundPathURL = [NSURL fileURLWithPath : fireballSoundPath];
-    NSString *hitSoundPath = [[NSBundle mainBundle] pathForResource:@"Hit" ofType:@"mp3"];
-    NSURL *hitSoundPathURL = [NSURL fileURLWithPath : hitSoundPath];
+    sfxFireballPath = [[NSBundle mainBundle] URLForResource:@"Fireball" withExtension:@"mp3"];
+    sfxHitPath = [[NSBundle mainBundle] URLForResource:@"Hit" withExtension:@"mp3"];
     
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) fireballSoundPathURL, &FireballSfx);
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) hitSoundPathURL, &HitSfx);
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error: nil];
     
     return self;
 }
@@ -162,7 +165,7 @@
                 
                 arrow.modelName = @"Fireball";
                 arrow.textureName = @"Fireball_Texture.png";
-                arrow.scale = GLKVector3Make(10.0f, 10.0f, 10.0f);
+//                arrow.scale = GLKVector3Make(10.0f, 10.0f, 10.0f);
                 self.state = STATE_IDLING;
             }
             break;
@@ -171,11 +174,13 @@
             
             break;
         case STATE_DYING:
-            //TODO death animation
-
+            [self spin];
+            [self shrink];
+            if (self.scale.x < 0.1f)
+                self.state = STATE_DEAD;
             break;
         case STATE_DEAD:
-            self.enabled = false;
+            [self destroy];
             break;
         default:
             //do nothing
@@ -200,8 +205,13 @@
     {
         //lose health points
         ArrowObject * myArrow = (ArrowObject*)otherObject;
-        [self takeDamage:myArrow.damage];
-        AudioServicesPlaySystemSound(HitSfx);
+        if (!myArrow.isEnemy) {
+            [self takeDamage:myArrow.damage];
+            [self.enemyAudio stop];
+            self.enemyAudio = [[AVAudioPlayer alloc] initWithContentsOfURL:sfxHitPath error:nil];
+            self.enemyAudio.numberOfLoops = 0;
+            [self.enemyAudio play];
+        }
     }
 }
 
@@ -230,25 +240,41 @@
 {
     NSLog(@"Arrow Fired by enemy!");
     
-    GameObject *arrow = [[ArrowObject alloc] init];
+    ArrowObject *arrow = [[ArrowObject alloc] init];
     
     arrow.position = GLKVector3Make(self.position.x, self.position.y-50.0f, self.position.z);
     arrow.rotation = GLKVector3Make(arrow.rotation.x, arrow.rotation.y, arrow.rotation.z+M_PI);
+    arrow.isEnemy = true;
+    if (self.isBoss) {
+        arrow.scale = GLKVector3Make(20,20,20);
+        arrow.damage = 80;
+    }
+    else
+        arrow.scale = GLKVector3Make(10,10,10);
     
     //TODO: deal with speed/magnitude maybe?
     arrow.velocity = vector;
     
     [list addObject:arrow];
     
-    AudioServicesPlaySystemSound(FireballSfx);
+    [self.enemyAudio stop];
+    self.enemyAudio = [[AVAudioPlayer alloc] initWithContentsOfURL:sfxFireballPath error:nil];
+    self.enemyAudio.numberOfLoops = 0;
+    [self.enemyAudio play];
     
     return arrow;
     
 }
 
--(void)dealloc
+-(void)takeDamage:(float)damage
 {
-    AudioServicesDisposeSystemSoundID(FireballSfx);
+    self.health -= damage;
+    
+    if (self.health <= 0)
+    {
+        self.solid = false;
+        self.state = STATE_DYING;
+    }
 }
 
 @end

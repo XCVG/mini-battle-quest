@@ -86,7 +86,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="heb-PX-Eix" id="ygp-J3-DxQ">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -165,11 +165,67 @@
                         <outlet property="playerHealthBar" destination="57d-oP-IJ7" id="fK3-xZ-MSj"/>
                         <outlet property="scoreLabel" destination="6J7-wH-aem" id="BlK-GO-mll"/>
                         <outlet property="toggleWeaponButton" destination="27D-el-Xfe" id="8E0-Lk-8Q4"/>
+                        <segue destination="iX6-qH-d02" kind="show" identifier="GameToEndgame" id="iph-XT-sII"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1940" y="-431.33433283358323"/>
+        </scene>
+        <!--Endgame View Controller-->
+        <scene sceneID="wXx-qO-cuM">
+            <objects>
+                <viewController id="iX6-qH-d02" customClass="EndgameViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Z7F-Se-WnB"/>
+                        <viewControllerLayoutGuide type="bottom" id="N9O-F0-tit"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="HVt-WM-sx8">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mbq_endgame_bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ary-ae-5RI">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tF1-lC-jgI">
+                                <rect key="frame" x="16" y="571" width="343" height="76"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="76" id="bVA-ei-GCG"/>
+                                </constraints>
+                                <state key="normal" title="RETURN TO MAIN MENU" backgroundImage="mbq_button_wide_red.png"/>
+                                <connections>
+                                    <action selector="onReturnToMenuButton:" destination="iX6-qH-d02" eventType="touchUpInside" id="KhM-rF-VMQ"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NGS-rK-j9S">
+                                <rect key="frame" x="16" y="20" width="343" height="543"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="NGS-rK-j9S" firstAttribute="leading" secondItem="tF1-lC-jgI" secondAttribute="leading" id="0My-bC-seR"/>
+                            <constraint firstItem="Ary-ae-5RI" firstAttribute="bottom" secondItem="N9O-F0-tit" secondAttribute="top" id="24v-5U-LXL"/>
+                            <constraint firstAttribute="bottom" secondItem="tF1-lC-jgI" secondAttribute="bottom" constant="20" symbolic="YES" id="3jU-KH-JaA"/>
+                            <constraint firstItem="Ary-ae-5RI" firstAttribute="centerX" secondItem="NGS-rK-j9S" secondAttribute="centerX" id="4Vq-te-lUr"/>
+                            <constraint firstItem="NGS-rK-j9S" firstAttribute="trailing" secondItem="tF1-lC-jgI" secondAttribute="trailing" id="5nu-wk-O4h"/>
+                            <constraint firstAttribute="trailing" secondItem="Ary-ae-5RI" secondAttribute="trailing" id="6t0-Ci-Fod"/>
+                            <constraint firstItem="Ary-ae-5RI" firstAttribute="top" secondItem="Z7F-Se-WnB" secondAttribute="bottom" id="aTX-jb-7AV"/>
+                            <constraint firstItem="NGS-rK-j9S" firstAttribute="top" secondItem="HVt-WM-sx8" secondAttribute="top" constant="20" symbolic="YES" id="eFs-ZG-893"/>
+                            <constraint firstItem="Ary-ae-5RI" firstAttribute="leading" secondItem="HVt-WM-sx8" secondAttribute="leading" id="kMB-6A-jOY"/>
+                            <constraint firstItem="tF1-lC-jgI" firstAttribute="top" secondItem="NGS-rK-j9S" secondAttribute="bottom" constant="8" symbolic="YES" id="kqO-JM-M3d"/>
+                            <constraint firstItem="NGS-rK-j9S" firstAttribute="leading" secondItem="HVt-WM-sx8" secondAttribute="leadingMargin" id="o4D-ox-6Uk"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="endgameText" destination="NGS-rK-j9S" id="JCd-9t-1zV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Avq-uD-sJh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2781.5999999999999" y="-431.33433283358323"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4Fm-7T-KdQ">
@@ -193,6 +249,7 @@
     </scenes>
     <resources>
         <image name="mbq_button_wide_red.png" width="399" height="76"/>
+        <image name="mbq_endgame_bg.png" width="800" height="1422"/>
         <image name="mbq_home_bg_ws.png" width="401" height="712"/>
         <image name="mbq_icon_health.png" width="400" height="400"/>
         <image name="mbq_img_button_action_shield.png" width="600" height="200"/>

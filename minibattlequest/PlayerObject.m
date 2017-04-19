@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
 #import "PlayerObject.h"
 #import "ArrowObject.h"
 #import "WallObject.h"
@@ -19,12 +20,16 @@
 #define PLAYER_BOUNCE_FACTOR 0.5f
 #define PLAYER_BOUNCE_DELAY 1.0f
 #define PLAYER_ARROW_SPEED 1000.0f
+#define PLAYER_FIRE_RATE 1.5f
 
 @interface PlayerObject()
 {
     
     
 }
+
+@property (strong, nonatomic) AVAudioPlayer *playerAudio;
+
 @end
 
 @implementation PlayerObject
@@ -38,8 +43,9 @@
     
     float _elapsed; //elapsed; temporary for testing
     
-    SystemSoundID ShootArrowSfx;
-    SystemSoundID HitSfx;
+    NSURL *sfxShootArrowPath;
+    NSURL *sfxHitPath;
+    NSURL *sfxBlockPath;
 }
 
 //we should override these (are they virtual by default like Java or not like C++?)
@@ -61,13 +67,11 @@
     self.modelName = @"player";
     self.textureName = @"Player_Texture.png";
     
-    NSString *shootArrowSoundPath = [[NSBundle mainBundle] pathForResource:@"ShootArrow" ofType:@"mp3"];
-    NSURL *shootArrowSoundPathURL = [NSURL fileURLWithPath : shootArrowSoundPath];
-    NSString *hitSoundPath = [[NSBundle mainBundle] pathForResource:@"Hit" ofType:@"mp3"];
-    NSURL *hitSoundPathURL = [NSURL fileURLWithPath : hitSoundPath];
-    
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) shootArrowSoundPathURL, &ShootArrowSfx);
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef) hitSoundPathURL, &HitSfx);
+    sfxShootArrowPath = [[NSBundle mainBundle] URLForResource:@"ShootArrow" withExtension:@"mp3"];
+    sfxHitPath = [[NSBundle mainBundle] URLForResource:@"Hit" withExtension:@"mp3"];
+    sfxBlockPath = [[NSBundle mainBundle] URLForResource:@"Block" withExtension:@"mp3"];
+     
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error: nil];
     
     return self;
 }
@@ -190,7 +194,17 @@
         ArrowObject * myArrow = (ArrowObject*)otherObject;
         [self takeDamage:myArrow.damage];
         NSLog(@"Player Health: %f", self.health);
-        AudioServicesPlaySystemSound(HitSfx);
+        [self.playerAudio stop];
+        self.playerAudio = [[AVAudioPlayer alloc] initWithContentsOfURL:sfxHitPath error:nil];
+        self.playerAudio.numberOfLoops = 0;
+        [self.playerAudio play];
+    }
+    else if ([otherObject isKindOfClass:[ArrowObject class]] && !self.isUsingWeapon)
+    {
+        [self.playerAudio stop];
+        self.playerAudio = [[AVAudioPlayer alloc] initWithContentsOfURL:sfxBlockPath error:nil];
+        self.playerAudio.numberOfLoops = 0;
+        [self.playerAudio play];
     }
     
 }
@@ -215,7 +229,7 @@
 -(void)attackTarget
 {
     //for testing: fire an arrow every few seconds
-    if(_elapsed > 2.0f)
+    if(_elapsed > PLAYER_FIRE_RATE)
     {
         self.state = STATE_FIRING;
         
@@ -228,7 +242,7 @@
 {
     NSLog(@"Arrow Fired!");
     
-    GameObject *arrow = [[ArrowObject alloc] init];
+    ArrowObject *arrow = [[ArrowObject alloc] init];
     
     arrow.position = GLKVector3Make(self.position.x, self.position.y+50.0f, self.position.z);
 
@@ -237,7 +251,10 @@
     
     [list addObject:arrow];
     
-    AudioServicesPlaySystemSound(ShootArrowSfx);
+    [self.playerAudio stop];
+    self.playerAudio = [[AVAudioPlayer alloc] initWithContentsOfURL:sfxShootArrowPath error:nil];
+    self.playerAudio.numberOfLoops = 0;
+    [self.playerAudio play];
     
 }
 
@@ -304,11 +321,6 @@
     {
         self.state = STATE_IDLING;
     }
-}
-
--(void)dealloc
-{
-    AudioServicesDisposeSystemSoundID(ShootArrowSfx);
 }
 
 @end
